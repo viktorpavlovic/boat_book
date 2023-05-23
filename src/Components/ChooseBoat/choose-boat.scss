@@ -1,0 +1,13 @@
+.div-choose-boat{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.choose-boat {
+    display: flex;
+    justify-content: space-between;
+    img {
+      width: 33%;
+      cursor: pointer;
+    }
+  }
