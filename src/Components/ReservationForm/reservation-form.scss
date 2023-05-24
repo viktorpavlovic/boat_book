@@ -2,10 +2,59 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  color: #fff;
+  section {
+    width: 70%;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 8px ridge #03222e;
+    border-radius: 10px;
+    background: rgb(176, 227, 231);
+    background: linear-gradient(
+      90deg,
+      rgba(176, 227, 231, 1) 100%,
+      rgba(49, 190, 200, 1) 100%
+    );
+    color: black;
+    display: flex;
+    flex-direction: column;
+    span {
+      color: red;
+    }
+    h4 {
+      padding: 10px 0;
+    }
+    label {
+      display: flex;
+      justify-content: space-between;
+      background-color: #03222e;
+      color: #fff;
+      margin-top: 5px;
+      padding: 5px;
+      cursor: pointer;
+      input[type='radio'] {
+        accent-color:#03222e;
+    }
+    }
+  }
 }
 .form-field {
   padding: 2px;
 }
 .error-handle {
+  font-size: 12px;
   color: red;
+}
+.submit-btn{
+  margin-top: 10px;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 1) 50%,
+    rgba(31, 30, 142, 1) 100%
+  );
+  color: #fff;
+  padding: 5px;
+  cursor: pointer;
 }

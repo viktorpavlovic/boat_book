@@ -1,3 +1,9 @@
-.div-wrapper-reservation{
-    flex-grow: 1;
+.div-wrapper-reservation {
+  flex-grow: 1;
+  background: rgb(39, 111, 117);
+  background: linear-gradient(
+    90deg,
+    rgba(39, 111, 117, 1) 100%,
+    rgba(49, 190, 200, 1) 100%
+  );
 }

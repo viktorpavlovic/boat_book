@@ -49,94 +49,97 @@ const ReservationForm = () => {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        <Form>
+        <Form className="res-form">
           <ChooseBoat />
-          <h4>Choose Date</h4>
-          <Field type="date" name="date" />
-          <p className="error-handle">
-            <ErrorMessage name="date" />
-          </p>
-          <h4>Choose time for tour</h4>
-          <label>
-            Daytime
-            <Field type="radio" name="time" value="Daytime" />
-          </label>
-          <label>
-            Sunset
-            <Field type="radio" name="time" value="Sunset" />
-          </label>
-          <label>
-            Night
-            <Field type="radio" name="time" value="Night" />
-          </label>
-          <p className="error-handle">
-            <ErrorMessage name="time" />
-          </p>
-          <h4>Enter numbers of passengers</h4>
-          <h4>ADULTS</h4>
-          <Field as="select" name="adults">
-            <option value="">Select number of adults</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-          </Field>
-          <p className="error-handle">
-            <ErrorMessage name="adults" />
-          </p>
-          <h4>KIDS (0-7 YO)</h4>
-          <Field as="select" name="kids">
-            <option value="0">Select number of kids</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </Field>
+          <section>
+            <h4>Choose Date <span>*</span></h4>
+            <Field type="date" name="date" />
+            <p className="error-handle">
+              <ErrorMessage name="date" />
+            </p>
+            <h4>Choose time for tour <span>*</span> </h4>
+            <label>
+              Daytime
+              <Field type="radio" name="time" value="Daytime" />
+            </label>
+            <label>
+              Sunset
+              <Field type="radio" name="time" value="Sunset" />
+            </label>
+            <label>
+              Night
+              <Field type="radio" name="time" value="Night" />
+            </label>
+            <p className="error-handle">
+              <ErrorMessage name="time" />
+            </p>
+            <h4>Enter numbers of passengers:</h4>
+            <h4>ADULTS <span>*</span></h4>
+            <Field as="select" name="adults">
+              <option value="">Select number of adults</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+            </Field>
+            <p className="error-handle">
+              <ErrorMessage name="adults" />
+            </p>
+            <h4>KIDS (0-7 Y.O.)</h4>
+            <Field as="select" name="kids">
+              <option value="0">Select number of kids</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </Field>
 
-          <h4>INFANTS(7-12 YO)</h4>
-          <Field as="select" name="infants">
-            <option value="0">Select number of infants</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </Field>
+            <h4>INFANTS(7-12 Y.O.)</h4>
+            <Field as="select" name="infants">
+              <option value="0">Select number of infants</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </Field>
 
-          <h4>Enter your email</h4>
-          <Field
-            type="email"
-            name="email"
-            placeholder="Your email"
-            className="form-field"
-          />
-          <p className="error-handle">
-            <ErrorMessage name="email" />
-          </p>
-          <h4>Phone number</h4>
-          <Field
-            type="number"
-            name="phone_number"
-            placeholder="Your phone number"
-          />
-          <p className="error-handle">
-            <ErrorMessage name="phone_number" />
-          </p>
-          <Field
-            type="text"
-            name="gift_code"
-            placeholder="Enter your gift code"
-          />
-          <button className="sunmit-btn" type="submit">
-            Reserve
-          </button>
+            <h4>Enter your email <span>*</span></h4>
+            <Field
+              type="email"
+              name="email"
+              placeholder="Your email"
+              className="form-field"
+            />
+            <p className="error-handle">
+              <ErrorMessage name="email" />
+            </p>
+            <h4>Phone number <span>*</span></h4>
+            <Field
+              type="number"
+              name="phone_number"
+              placeholder="Your phone number"
+            />
+            <p className="error-handle">
+              <ErrorMessage name="phone_number" />
+            </p>
+            <h4>Gift Code</h4>
+            <Field
+              type="text"
+              name="gift_code"
+              placeholder="Enter your gift code"
+            />
+            <button className="submit-btn" type="submit">
+              Reserve
+            </button>
+          </section>
         </Form>
       </Formik>
     </div>

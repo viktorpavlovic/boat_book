@@ -39,7 +39,9 @@ const ChooseBoat = () => {
           alt="Nikola Tesla Boat"
         />
       </div>
-      <p>Selected Boat = {boat.boat}</p>
+      <p>
+        Selected Boat: <span>{boat.boat}</span>
+      </p>
     </div>
   );
 };

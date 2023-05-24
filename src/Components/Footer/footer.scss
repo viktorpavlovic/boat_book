@@ -1,8 +1,13 @@
-.div-footer{
-    background-color: grey;
-    color: #fff;
-    display: flex;
-    height: 10vh;
-    justify-content: center;
-    align-items: center;
+.div-footer {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 1) 50%,
+    rgba(31, 30, 142, 1) 100%
+  );
+  color: #fff;
+  display: flex;
+  height: 8vh;
+  justify-content: center;
+  align-items: center;
 }
