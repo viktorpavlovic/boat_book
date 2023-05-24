@@ -1,5 +1,4 @@
 import React from "react";
-
 import dayjs from "dayjs";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import ChooseBoat from "../ChooseBoat";
@@ -39,9 +38,7 @@ const ReservationForm = () => {
       .min(8, "too short")
       .max(10, "too long"),
   });
-  const handleSubmit = (values) => {
-    console.log("values", values);
-  };
+  const handleSubmit = (values) => {};
   return (
     <div className="div-reservationForm">
       <Formik
@@ -52,12 +49,16 @@ const ReservationForm = () => {
         <Form className="res-form">
           <ChooseBoat />
           <section>
-            <h4>Choose Date <span>*</span></h4>
+            <h4>
+              Choose Date <span>*</span>
+            </h4>
             <Field type="date" name="date" />
             <p className="error-handle">
               <ErrorMessage name="date" />
             </p>
-            <h4>Choose time for tour <span>*</span> </h4>
+            <h4>
+              Choose time for tour <span>*</span>{" "}
+            </h4>
             <label>
               Daytime
               <Field type="radio" name="time" value="Daytime" />
@@ -74,7 +75,9 @@ const ReservationForm = () => {
               <ErrorMessage name="time" />
             </p>
             <h4>Enter numbers of passengers:</h4>
-            <h4>ADULTS <span>*</span></h4>
+            <h4>
+              ADULTS <span>*</span>
+            </h4>
             <Field as="select" name="adults">
               <option value="">Select number of adults</option>
               <option value="1">1</option>
@@ -91,7 +94,7 @@ const ReservationForm = () => {
             <p className="error-handle">
               <ErrorMessage name="adults" />
             </p>
-            <h4>KIDS (0-7 Y.O.)</h4>
+            <h4>TODDLERS (0-7 Y.O.)</h4>
             <Field as="select" name="kids">
               <option value="0">Select number of kids</option>
               <option value="1">1</option>
@@ -101,7 +104,7 @@ const ReservationForm = () => {
               <option value="5">5</option>
             </Field>
 
-            <h4>INFANTS(7-12 Y.O.)</h4>
+            <h4>KIDS(7-12 Y.O.)</h4>
             <Field as="select" name="infants">
               <option value="0">Select number of infants</option>
               <option value="1">1</option>
@@ -111,7 +114,9 @@ const ReservationForm = () => {
               <option value="5">5</option>
             </Field>
 
-            <h4>Enter your email <span>*</span></h4>
+            <h4>
+              Enter your email <span>*</span>
+            </h4>
             <Field
               type="email"
               name="email"
@@ -121,7 +126,9 @@ const ReservationForm = () => {
             <p className="error-handle">
               <ErrorMessage name="email" />
             </p>
-            <h4>Phone number <span>*</span></h4>
+            <h4>
+              Phone number <span>*</span>
+            </h4>
             <Field
               type="number"
               name="phone_number"
