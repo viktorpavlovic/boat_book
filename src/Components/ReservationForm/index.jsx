@@ -1,4 +1,5 @@
 import React from "react";
+
 import dayjs from "dayjs";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import ChooseBoat from "../ChooseBoat";
@@ -7,20 +8,36 @@ import "./reservation-form.scss";
 
 const ReservationForm = () => {
   const bookDate = dayjs().add(1, "day").format("YYYY-MM-DD");
+  const phoneRegExp =
+    /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+
   const defaultValue = {
     date: "",
     time: "",
-    name: "",
     email: "",
+    adults: "",
+    kids: "",
+    infants: "",
+    phone_number: "",
+    gift_code: "",
   };
   const validationSchema = yup.object().shape({
-    date: yup.date().min(bookDate, "Date must be at least one day from today"),
+    date: yup
+      .date()
+      .required("Please insert a date")
+      .min(bookDate, "Date must be at least one day from today"),
     time: yup.string().required("Please select time for cruise"),
-    name: yup.string().required("Please enter your name"),
     email: yup
       .string()
       .required("Please enter your email")
       .email("Please enter valid email"),
+    adults: yup.string().required("Please insert number of adults"),
+    phone_number: yup
+      .string()
+      .required("Please enter phone")
+      .matches(phoneRegExp, "Phone number is not valid")
+      .min(8, "too short")
+      .max(10, "too long"),
   });
   const handleSubmit = (values) => {
     console.log("values", values);
@@ -55,16 +72,44 @@ const ReservationForm = () => {
           <p className="error-handle">
             <ErrorMessage name="time" />
           </p>
-          <h4>Enter your name</h4>
-          <Field
-            type="text"
-            name="name"
-            placeholder="Your name"
-            className="form-field"
-          />
+          <h4>Enter numbers of passengers</h4>
+          <h4>ADULTS</h4>
+          <Field as="select" name="adults">
+            <option value="">Select number of adults</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+          </Field>
           <p className="error-handle">
-            <ErrorMessage name="name" />
+            <ErrorMessage name="adults" />
           </p>
+          <h4>KIDS (0-7 YO)</h4>
+          <Field as="select" name="kids">
+            <option value="0">Select number of kids</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </Field>
+
+          <h4>INFANTS(7-12 YO)</h4>
+          <Field as="select" name="infants">
+            <option value="0">Select number of infants</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </Field>
+
           <h4>Enter your email</h4>
           <Field
             type="email"
@@ -75,6 +120,20 @@ const ReservationForm = () => {
           <p className="error-handle">
             <ErrorMessage name="email" />
           </p>
+          <h4>Phone number</h4>
+          <Field
+            type="number"
+            name="phone_number"
+            placeholder="Your phone number"
+          />
+          <p className="error-handle">
+            <ErrorMessage name="phone_number" />
+          </p>
+          <Field
+            type="text"
+            name="gift_code"
+            placeholder="Enter your gift code"
+          />
           <button className="sunmit-btn" type="submit">
             Reserve
           </button>
