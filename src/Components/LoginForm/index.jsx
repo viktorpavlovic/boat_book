@@ -1,27 +1,46 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { applicationContext } from "../../context";
+import auth from "../../firebase";
 import * as yup from "yup";
 import "./login-form.scss";
 
 const LoginForm = () => {
+  const { setAccessToken } = useContext(applicationContext);
+  const [existingUser, setExistingUser] = useState("");
   const navigate = useNavigate();
   const defaultLoginValue = {
-    username: "",
+    email: "",
     password: "",
   };
   const validationSchema = yup.object().shape({
-    username: yup
+    email: yup
       .string()
-      .required("Please choose your username")
-      .min(5, "Minimum 5 characters"),
+      .required("Please enter your email")
+      .email("Please enter valid email"),
     password: yup
       .string()
       .required("Please choose your password")
       .min(5, "Minimum 5 characters"),
   });
   const handleSubmit = (values) => {
-    navigate("/reservation");
+    createUserWithEmailAndPassword(auth, values?.email, values?.password)
+      .then((userCredential) => {
+        setAccessToken(userCredential.user.accessToken);
+        if (userCredential?.user?.accessToken) {
+          localStorage.setItem(
+            "accessToken",
+            JSON.stringify(userCredential?.user?.accessToken)
+          );
+        }
+        navigate("/reservation");
+      })
+      .catch(() => {
+        setExistingUser("Use another email");
+      });
+    console.log("values", values);
   };
 
   return (
@@ -34,9 +53,9 @@ const LoginForm = () => {
         <section>
           <Form>
             <h1>LogIn</h1>
-            <Field type="text" name="username" placeholder="Username" />
+            <Field type="text" name="email" placeholder="Email" />
             <p className="error-handle">
-              <ErrorMessage name="username" />
+              <ErrorMessage name="email" />
             </p>
             <Field type="password" name="password" placeholder="Password" />
             <p className="error-handle">
@@ -45,6 +64,7 @@ const LoginForm = () => {
             <button type="submit" className="submit-btn login">
               LogIn
             </button>
+            <p className="error-handle">{existingUser}</p>
           </Form>
         </section>
       </Formik>

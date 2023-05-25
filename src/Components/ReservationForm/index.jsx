@@ -33,12 +33,13 @@ const ReservationForm = () => {
     adults: yup.string().required("Please insert number of adults"),
     phone_number: yup
       .string()
-      .required("Please enter phone")
       .matches(phoneRegExp, "Phone number is not valid")
       .min(8, "too short")
       .max(10, "too long"),
   });
-  const handleSubmit = (values) => {};
+  const handleSubmit = (values) => {
+    console.log("values", values);
+  };
   return (
     <div className="div-reservationForm">
       <Formik
@@ -126,9 +127,7 @@ const ReservationForm = () => {
             <p className="error-handle">
               <ErrorMessage name="email" />
             </p>
-            <h4>
-              Phone number <span>*</span>
-            </h4>
+            <h4>Phone number</h4>
             <Field
               type="number"
               name="phone_number"
