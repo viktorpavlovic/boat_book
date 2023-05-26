@@ -1,15 +1,21 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { React, useContext } from "react";
+import { applicationContext } from "../../context";
 import "./wrapper-home.scss";
 
-const Wrapper = () => {
+const WrapperHome = () => {
+  const { accessToken, loggedIn, notLoggedIn } = useContext(applicationContext);
   return (
     <div className="div-wrapper-home">
-      <Link to="/login">
-        <button>LogIn</button>
-      </Link>
+      {
+        <button
+          className="submit-btn"
+          onClick={!!accessToken ? loggedIn : notLoggedIn}
+        >
+          BOOK NOW
+        </button>
+      }
     </div>
   );
 };
 
-export default Wrapper;
+export default WrapperHome;

@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { applicationContext } from "../../context";
@@ -8,9 +7,8 @@ import * as yup from "yup";
 import "./login-form.scss";
 
 const LoginForm = () => {
-  const { setAccessToken } = useContext(applicationContext);
+  const { setAccessToken, navigate } = useContext(applicationContext);
   const [existingUser, setExistingUser] = useState("");
-  const navigate = useNavigate();
   const defaultLoginValue = {
     email: "",
     password: "",
@@ -23,7 +21,7 @@ const LoginForm = () => {
     password: yup
       .string()
       .required("Please choose your password")
-      .min(5, "Minimum 5 characters"),
+      .min(6, "Minimum 6 characters"),
   });
   const handleSubmit = (values) => {
     createUserWithEmailAndPassword(auth, values?.email, values?.password)
