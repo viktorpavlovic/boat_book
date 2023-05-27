@@ -15,12 +15,13 @@
     text-decoration: none;
     color: #fff;
   }
-nav{
-  display: flex;
-  gap: 15px;
-}
+  nav {
+    display: flex;
+    gap: 15px;
+  }
   button {
-    background-color: #31bec8;
+    background-color: transparent;
+
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -29,12 +30,15 @@ nav{
     cursor: pointer;
   }
   .log-out {
-    background-color: #c83131;
+    background-color: #721717;
     color: #fff;
     border: none;
     border-radius: 5px;
     padding: 5px;
     width: 75px;
     cursor: pointer;
+  }
+  img{
+    width: 70px;
   }
 }

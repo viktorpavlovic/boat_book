@@ -35,10 +35,11 @@ const LoginForm = () => {
         }
         navigate("/reservation");
       })
-      .catch(() => {
+      .catch((e) => {
         setExistingUser("Use another email");
+        
       });
-    console.log("values", values);
+    
   };
 
   return (

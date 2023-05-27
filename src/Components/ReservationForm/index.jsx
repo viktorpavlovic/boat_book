@@ -37,9 +37,7 @@ const ReservationForm = () => {
       .min(8, "too short")
       .max(10, "too long"),
   });
-  const handleSubmit = (values) => {
-    console.log("values", values);
-  };
+  const handleSubmit = (values) => {};
   return (
     <div className="div-reservationForm">
       <Formik

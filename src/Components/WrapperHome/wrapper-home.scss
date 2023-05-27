@@ -1,3 +1,36 @@
-.div-wrapper-home{
-    flex-grow: 1;
+.div-wrapper-home {
+  flex-grow: 1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #fff;
+  background: rgb(39, 111, 117);
+  background: linear-gradient(
+    90deg,
+    rgb(46 40 94) 100%,
+    rgb(49, 190, 200) 100%
+  );
+  text-transform: uppercase;
+  .book {
+    margin: 0 auto;
+    display: block;
+    width: 80%;
+  }
+
+  h5 {
+    margin-top: 10px;
+  }
+  img {
+    width: 20px;
+    color: #fff;
+  }
+  .arrows {
+    margin-top: 5px;
+  }
+  a {
+    text-decoration: none;
+    font-size: 13px;
+    cursor: pointer;
+  }
 }

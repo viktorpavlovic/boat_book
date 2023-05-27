@@ -8,15 +8,10 @@
     margin: 0 auto;
     margin-bottom: 10px;
     padding: 10px;
-    border: 8px ridge #03222e;
     border-radius: 10px;
     background: rgb(176, 227, 231);
-    background: linear-gradient(
-      90deg,
-      rgba(176, 227, 231, 1) 100%,
-      rgba(49, 190, 200, 1) 100%
-    );
-    color: black;
+    background: linear-gradient(90deg, rgb(0 0 0) 100%, rgb(49, 190, 200) 100%);
+    color: #fff;
     display: flex;
     flex-direction: column;
     span {
@@ -28,14 +23,14 @@
     label {
       display: flex;
       justify-content: space-between;
-      background-color: #03222e;
-      color: #fff;
+      background-color: #fff;
+      color: #000000;
       margin-top: 5px;
       padding: 5px;
       cursor: pointer;
-      input[type='radio'] {
-        accent-color:#03222e;
-    }
+      input[type="radio"] {
+        accent-color: #03222e;
+      }
     }
   }
 }
@@ -46,7 +41,7 @@
   font-size: 12px;
   color: red;
 }
-.submit-btn{
+.submit-btn {
   margin-top: 10px;
   background: linear-gradient(
     90deg,
