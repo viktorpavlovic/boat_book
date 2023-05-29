@@ -1,12 +1,18 @@
-import React from "react";
+import { React, useContext } from "react";
 import { useState, useRef } from "react";
+import { applicationContext } from "../../context";
 import "./choose-boat.scss";
 
 const ChooseBoat = () => {
+  const { bookValues, setBookValues } = useContext(applicationContext);
   const boatRef = useRef(null);
   const [boat, setBoat] = useState({ boat: "" });
   const handleImageClick = (selectedBoat) => {
     setBoat({ boat: selectedBoat });
+    setBookValues({
+      ...bookValues,
+      boat: selectedBoat,
+    });
     boatRef.current.scrollIntoView({ behavior: "smooth" });
   };
   return (

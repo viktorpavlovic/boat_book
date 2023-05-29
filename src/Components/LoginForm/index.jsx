@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { applicationContext } from "../../context";
-import auth from "../../firebase";
+import { auth } from "../../firebase";
 import * as yup from "yup";
 import "./login-form.scss";
 

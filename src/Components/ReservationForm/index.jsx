@@ -1,11 +1,13 @@
-import React from "react";
+import { React, useContext } from "react";
 import dayjs from "dayjs";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import ChooseBoat from "../ChooseBoat";
+import { applicationContext } from "../../context";
 import * as yup from "yup";
 import "./reservation-form.scss";
 
 const ReservationForm = () => {
+  const { bookValues, setBookValues } = useContext(applicationContext);
   const bookDate = dayjs().add(1, "day").format("YYYY-MM-DD");
   const phoneRegExp =
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -14,11 +16,8 @@ const ReservationForm = () => {
     date: "",
     time: "",
     email: "",
-    adults: "",
-    kids: "",
-    infants: "",
+    num_of_passengers: "",
     phone_number: "",
-    gift_code: "",
   };
   const validationSchema = yup.object().shape({
     date: yup
@@ -30,14 +29,25 @@ const ReservationForm = () => {
       .string()
       .required("Please enter your email")
       .email("Please enter valid email"),
-    adults: yup.string().required("Please insert number of adults"),
+    num_of_passengers: yup
+      .number()
+      .required("Please enter a number of passengers"),
     phone_number: yup
       .string()
       .matches(phoneRegExp, "Phone number is not valid")
       .min(8, "too short")
       .max(10, "too long"),
   });
-  const handleSubmit = (values) => {};
+  const handleSubmit = (values) => {
+    setBookValues({
+      ...bookValues,
+      date: values.date,
+      time: values.time,
+      email: values.email,
+      num_of_passengers: values.num_of_passengers,
+      phone_number: values.phone_number,
+    });
+  };
   return (
     <div className="div-reservationForm">
       <Formik
@@ -73,46 +83,13 @@ const ReservationForm = () => {
             <p className="error-handle">
               <ErrorMessage name="time" />
             </p>
-            <h4>Enter numbers of passengers:</h4>
             <h4>
-              ADULTS <span>*</span>
+              Enter numbers of passengers: <span>*</span>
             </h4>
-            <Field as="select" name="adults">
-              <option value="">Select number of adults</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-              <option value="10">10</option>
-            </Field>
+            <Field type="number" name="num_of_passengers" />
             <p className="error-handle">
-              <ErrorMessage name="adults" />
+              <ErrorMessage name="num_of_passengers" />
             </p>
-            <h4>TODDLERS (0-7 Y.O.)</h4>
-            <Field as="select" name="kids">
-              <option value="0">Select number of kids</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </Field>
-
-            <h4>KIDS(7-12 Y.O.)</h4>
-            <Field as="select" name="infants">
-              <option value="0">Select number of infants</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </Field>
-
             <h4>
               Enter your email <span>*</span>
             </h4>
@@ -134,12 +111,6 @@ const ReservationForm = () => {
             <p className="error-handle">
               <ErrorMessage name="phone_number" />
             </p>
-            <h4>Gift Code</h4>
-            <Field
-              type="text"
-              name="gift_code"
-              placeholder="Enter your gift code"
-            />
             <button className="submit-btn" type="submit">
               Reserve
             </button>

@@ -1,6 +1,8 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import { ApplicationProvider } from "./context";
+import { db } from "./firebase";
+import { getDocs, collection } from "firebase/firestore";
 import HomePage from "./Pages/HomePage";
 import LoginPage from "./Pages/LoginPage";
 import ReservationPage from "./Pages/ReservationPage";
@@ -10,6 +12,28 @@ const App = () => {
   const [accessToken, setAccessToken] = useState(
     JSON.parse(localStorage.getItem("accessToken"))
   );
+  const [bookValues, setBookValues] = useState({
+    boat: "",
+    date: "",
+    time: "",
+    email: "",
+    num_of_passengers: "",
+    phone_number: "",
+  });
+  const [allDocs, setAllDocs] = useState([]);
+  useEffect(() => {
+    const fetchAllDocs = async () => {
+      const collectionRef = collection(db, "tours");
+      const querySnapshot = await getDocs(collectionRef);
+      const docsData = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        data: doc.data(),
+      }));
+      setAllDocs(docsData);
+    };
+    fetchAllDocs();
+  }, []);
+  console.log(allDocs);
 
   const navigate = useNavigate();
   const loggedIn = () => {
@@ -34,6 +58,8 @@ const App = () => {
           navigate,
           notLoggedIn,
           logOut,
+          setBookValues,
+          bookValues,
         }}
       >
         {accessToken ? (
