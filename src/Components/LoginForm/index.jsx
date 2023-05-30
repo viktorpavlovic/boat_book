@@ -1,14 +1,14 @@
 import React, { useContext, useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { applicationContext } from "../../context";
 import { auth } from "../../firebase";
 import * as yup from "yup";
 import "./login-form.scss";
 
 const LoginForm = () => {
-  const { setAccessToken, navigate } = useContext(applicationContext);
-  const [existingUser, setExistingUser] = useState("");
+  const { setAccessToken, setUserUid, navigate } = useContext(applicationContext);
+  const [wrongCredentials, setWrongCredentials] = useState("");
   const defaultLoginValue = {
     email: "",
     password: "",
@@ -23,10 +23,11 @@ const LoginForm = () => {
       .required("Please choose your password")
       .min(6, "Minimum 6 characters"),
   });
-  const handleSubmit = (values) => {
-    createUserWithEmailAndPassword(auth, values?.email, values?.password)
+  const signIn = (values) => {
+    signInWithEmailAndPassword(auth, values?.email, values?.password)
       .then((userCredential) => {
         setAccessToken(userCredential.user.accessToken);
+        setUserUid(userCredential.user.uid);
         if (userCredential?.user?.accessToken) {
           localStorage.setItem(
             "accessToken",
@@ -35,11 +36,10 @@ const LoginForm = () => {
         }
         navigate("/reservation");
       })
-      .catch((e) => {
-        setExistingUser("Use another email");
-        
+      .catch(() => {
+        setWrongCredentials("Please insert correct credentials");
       });
-    
+    // console.log(user);
   };
 
   return (
@@ -47,7 +47,7 @@ const LoginForm = () => {
       <Formik
         initialValues={defaultLoginValue}
         validationSchema={validationSchema}
-        onSubmit={handleSubmit}
+        onSubmit={signIn}
       >
         <section>
           <Form>
@@ -63,7 +63,7 @@ const LoginForm = () => {
             <button type="submit" className="submit-btn login">
               LogIn
             </button>
-            <p className="error-handle">{existingUser}</p>
+            <p className="error-handle">{wrongCredentials}</p>
           </Form>
         </section>
       </Formik>

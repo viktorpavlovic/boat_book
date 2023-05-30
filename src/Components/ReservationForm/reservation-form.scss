@@ -53,3 +53,15 @@
   padding: 5px;
   cursor: pointer;
 }
+.joke {
+  display: flex;
+  flex-direction: column;
+  padding: 0 !important;;
+  margin-top: 0 !important;;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 1) 50%,
+    rgb(0, 0, 0) 100%
+  );
+}

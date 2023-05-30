@@ -103,11 +103,21 @@ const ReservationForm = () => {
               <ErrorMessage name="email" />
             </p>
             <h4>Phone number</h4>
+            <label className="joke">
             <Field
               type="number"
               name="phone_number"
               placeholder="Your phone number"
+              
             />
+            <Field
+              type="range"
+              name="phone_number"
+              placeholder="Your phone number"
+              min="1" max="9999999999"
+              steps="1"
+            />
+            </label>
             <p className="error-handle">
               <ErrorMessage name="phone_number" />
             </p>

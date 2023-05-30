@@ -6,9 +6,11 @@ import { getDocs, collection } from "firebase/firestore";
 import HomePage from "./Pages/HomePage";
 import LoginPage from "./Pages/LoginPage";
 import ReservationPage from "./Pages/ReservationPage";
+import AdminPage from "./Pages/AdminPage";
 import "./app.scss";
 
 const App = () => {
+  const [userUid, setUserUid] = useState("");
   const [accessToken, setAccessToken] = useState(
     JSON.parse(localStorage.getItem("accessToken"))
   );
@@ -21,6 +23,7 @@ const App = () => {
     phone_number: "",
   });
   const [allDocs, setAllDocs] = useState([]);
+
   useEffect(() => {
     const fetchAllDocs = async () => {
       const collectionRef = collection(db, "tours");
@@ -31,9 +34,11 @@ const App = () => {
       }));
       setAllDocs(docsData);
     };
+
     fetchAllDocs();
   }, []);
-  console.log(allDocs);
+
+  // console.log(allDocs);
 
   const navigate = useNavigate();
   const loggedIn = () => {
@@ -54,6 +59,7 @@ const App = () => {
         value={{
           accessToken,
           setAccessToken,
+          setUserUid,
           loggedIn,
           navigate,
           notLoggedIn,
@@ -66,6 +72,7 @@ const App = () => {
           <Routes>
             <Route exact path="/" element={<HomePage />} />
             <Route path="/reservation" element={<ReservationPage />} />
+            <Route path="/admin_page" element={<AdminPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         ) : (
