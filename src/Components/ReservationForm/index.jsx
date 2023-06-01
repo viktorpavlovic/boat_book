@@ -4,6 +4,8 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import { applicationContext } from "../../context";
 import * as yup from "yup";
 import ChooseBoat from "../ChooseBoat";
+import { doc, updateDoc, arrayUnion } from "firebase/firestore";
+import { db } from "../../firebase";
 import "./reservation-form.scss";
 
 const ReservationForm = () => {
@@ -46,6 +48,13 @@ const ReservationForm = () => {
       email: values.email,
       num_of_passengers: values.num_of_passengers,
       phone_number: values.phone_number,
+    });
+    const boatRef = doc(db, "tours", "HIdxQHiKCtzCmtGwzd3p");
+    updateDoc(boatRef, {
+      reservations: arrayUnion({
+        email: values.email,
+        num_of_passengers: values.num_of_passengers,
+      }),
     });
   };
   return (

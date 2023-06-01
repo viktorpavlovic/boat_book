@@ -38,7 +38,7 @@ const App = () => {
     fetchAllDocs();
   }, []);
 
-  console.log(allDocs);
+  console.log(allDocs[0]?.id);
 
   const navigate = useNavigate();
   const loggedIn = () => {

@@ -32,8 +32,9 @@ const AdminReservationForm = () => {
       date: values.date,
       availableSeats: values.available_seats,
       time: values.time,
+      reservations: [],
     });
-    console.log(values);
+    // console.log(values);
   };
 
   return (
