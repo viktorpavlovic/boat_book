@@ -38,7 +38,7 @@ const AdminReservationForm = () => {
   };
 
   return (
-    <div className="div-reservationForm">
+    <div className="div-WrapperReservation">
       <h3>Create a tour:</h3>
       <Formik
         initialValues={defaultValue}

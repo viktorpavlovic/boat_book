@@ -3,6 +3,8 @@ import dayjs from "dayjs";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import ChooseBoat from "../ChooseBoat";
 import { applicationContext } from "../../context";
+import { doc, updateDoc, arrayUnion } from "firebase/firestore";
+import { db } from "../../firebase";
 import * as yup from "yup";
 import "./wrapper-reservation.scss";
 
@@ -39,6 +41,13 @@ const WrapperReservation = () => {
       num_of_passengers: values.num_of_passengers,
       phone_number: values.phone_number,
     });
+    const boatRef = doc(db, "tours", "HIdxQHiKCtzCmtGwzd3p");
+      updateDoc(boatRef, {
+        reservations: arrayUnion({
+          email: values.email,
+          num_of_passengers: values.num_of_passengers,
+        }),
+      });
   };
   return (
     <div className="div-WrapperReservation">
