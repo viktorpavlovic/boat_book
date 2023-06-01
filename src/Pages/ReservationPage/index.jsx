@@ -7,7 +7,7 @@ import "./reservation-page.scss";
 const ReservationPage = () => {
   return (
     <div className="div-reservation-page">
-      <Header content="LogOut" goToRoute={"/"} />
+      <Header />
       <WrapperReservation />
       <Footer />
     </div>

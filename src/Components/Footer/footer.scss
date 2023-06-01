@@ -10,4 +10,14 @@
   height: 8vh;
   justify-content: center;
   align-items: center;
+  a {
+    background-color: transparent;
+    color: white;
+    text-decoration: none;
+    margin-left: 5px;
+    &:hover{
+      color: yellow;
+      cursor: pointer;
+    }
+  }
 }

@@ -4,8 +4,15 @@ import "./footer.scss"
 const Footer = () => {
   return (
     <div className='div-footer'>
-      <h3>Rent a boat</h3>
-    </div>
+      <span>For more info about tours visit:</span>  <a
+        href="https://www.cruisebelgrade.com/"
+        target="_blank"
+        // className="submit-btn book" 
+        rel="noreferrer"
+      >
+        Cruise Belgrade
+      </a>   
+      </div>
   )
 }
 

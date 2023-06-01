@@ -4,7 +4,7 @@ import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
 import WrapperLogin from "../../Components/WrapperLogin";
 
-const LoginForm = () => {
+const LoginPage = () => {
   return (
     <div className="div-login-page">
       <Header />
@@ -14,4 +14,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default LoginPage;

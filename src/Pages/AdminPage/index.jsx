@@ -7,7 +7,7 @@ import "./admin-page.scss";
 const AdminPage = () => {
   return (
     <div className="div-admin-page">
-      <Header content="LogOut" goToRoute={"/"} />
+      <Header />
       <WrapperAdmin />
       <Footer />
     </div>
