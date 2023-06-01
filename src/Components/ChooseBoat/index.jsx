@@ -4,6 +4,7 @@ import { applicationContext } from "../../context";
 import "./choose-boat.scss";
 
 const ChooseBoat = () => {
+  
   const { bookValues, setBookValues } = useContext(applicationContext);
   const boatRef = useRef(null);
   const handleImageClick = (selectedBoat) => {

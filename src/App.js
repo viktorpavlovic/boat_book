@@ -39,7 +39,7 @@ const App = () => {
     fetchAllDocs();
   }, []);
 
-  // console.log(allDocs);
+  console.log(allDocs[0]?.id);
 
   const logOut = () => {
     setAccessToken("");
