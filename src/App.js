@@ -9,9 +9,9 @@ import AdminPage from "./Pages/AdminPage";
 import "./app.scss";
 
 const App = () => {
-  const [isAdmin,setIsAdmin] = useState(
+  const [isAdmin, setIsAdmin] = useState(
     JSON.parse(localStorage.getItem("admin"))
-  )
+  );
   const [accessToken, setAccessToken] = useState(
     JSON.parse(localStorage.getItem("accessToken"))
   );
@@ -35,17 +35,16 @@ const App = () => {
       }));
       setAllDocs(docsData);
     };
-
     fetchAllDocs();
   }, []);
 
-  console.log(allDocs[0]?.id);
+  // console.log(allDocs);
 
   const logOut = () => {
     setAccessToken("");
     localStorage.removeItem("accessToken");
     localStorage.removeItem("admin");
-    setIsAdmin(false)
+    setIsAdmin(false);
     setBookValues({
       ...bookValues,
       boat: "",
@@ -54,7 +53,8 @@ const App = () => {
       email: "",
       num_of_passengers: "",
       phone_number: "",
-    })
+      reservations: [],
+    });
   };
 
   return (
@@ -66,9 +66,10 @@ const App = () => {
           logOut,
           setBookValues,
           bookValues,
+          allDocs
         }}
       >
-        {accessToken ? 
+        {accessToken ? (
           isAdmin ? (
             <Routes>
               <Route exact path="/admin_page" element={<AdminPage />} />
@@ -77,13 +78,17 @@ const App = () => {
           ) : (
             <Routes>
               <Route path="/reservation" element={<ReservationPage />} />
-              <Route path="*" element={<Navigate to="/reservation" replace />} />
+              <Route
+                path="*"
+                element={<Navigate to="/reservation" replace />}
+              />
             </Routes>
-          ) : (
-            <Routes>
-              <Route exact path="/" element={<LoginPage />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
+          )
+        ) : (
+          <Routes>
+            <Route exact path="/" element={<LoginPage />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
         )}
       </ApplicationProvider>
     </div>

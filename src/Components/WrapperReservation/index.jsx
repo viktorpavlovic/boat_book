@@ -41,8 +41,9 @@ const WrapperReservation = () => {
       email: values.email,
       num_of_passengers: values.num_of_passengers,
       phone_number: values.phone_number,
+      reservations:values.reservations
     });
-    const boatRef = doc(db, "tours", "HIdxQHiKCtzCmtGwzd3p");
+    const boatRef = doc(db, "tours", "U7jJcI5LCJCWjpUHKbP2");
     updateDoc(boatRef, {
       reservations: arrayUnion({
         email: values.email,
