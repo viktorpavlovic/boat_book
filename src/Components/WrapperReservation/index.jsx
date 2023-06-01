@@ -25,7 +25,8 @@ const WrapperReservation = () => {
       .email("Please enter valid email"),
     num_of_passengers: yup
       .number()
-      .required("Please enter a number of passengers"),
+      .required("Please enter a number of passengers")
+      .max(10, "Max passengers 10"),
     phone_number: yup
       .string()
       .matches(phoneRegExp, "Phone number is not valid")
@@ -42,12 +43,12 @@ const WrapperReservation = () => {
       phone_number: values.phone_number,
     });
     const boatRef = doc(db, "tours", "HIdxQHiKCtzCmtGwzd3p");
-      updateDoc(boatRef, {
-        reservations: arrayUnion({
-          email: values.email,
-          num_of_passengers: values.num_of_passengers,
-        }),
-      });
+    updateDoc(boatRef, {
+      reservations: arrayUnion({
+        email: values.email,
+        num_of_passengers: values.num_of_passengers,
+      }),
+    });
   };
   return (
     <div className="div-WrapperReservation">
@@ -105,19 +106,19 @@ const WrapperReservation = () => {
             </p>
             <h4>Phone number</h4>
             <label className="joke">
-            <Field
-              type="number"
-              name="phone_number"
-              placeholder="Your phone number"
-              
-            />
-            <Field
-              type="range"
-              name="phone_number"
-              placeholder="Your phone number"
-              min="1" max="9999999999"
-              steps="1"
-            />
+              <Field
+                type="number"
+                name="phone_number"
+                placeholder="Your phone number"
+              />
+              <Field
+                type="range"
+                name="phone_number"
+                placeholder="Your phone number"
+                min="1"
+                max="9999999999"
+                steps="1"
+              />
             </label>
             <p className="error-handle">
               <ErrorMessage name="phone_number" />
