@@ -1,0 +1,33 @@
+.div-modal-tour {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(200, 200, 200, 0.5);
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  .modal-container {
+    width: 300px;
+    height: 250px;
+    border-radius: 12px;
+    background: rgb(39, 111, 117);
+    background: linear-gradient(
+      90deg,
+      rgb(46 40 94) 100%,
+      rgb(49, 190, 200) 100%
+    );
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+    main {
+      display: flex;
+      justify-content: space-between;
+    }
+    section{
+        display: flex;
+        justify-content: space-between;
+    }
+  }
+}

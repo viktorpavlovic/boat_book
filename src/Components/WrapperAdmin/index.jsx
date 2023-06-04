@@ -3,11 +3,11 @@ import AdminReservationForm from "../../Components/AdminReservationForm";
 import AdminTours from "../AdminTours";
 import "./wrapper-admin.scss";
 
-const WrapperAdmin = () => {
+const WrapperAdmin = ({ handleOpen }) => {
   return (
     <div className="div-wrapper-admin">
       <AdminReservationForm />
-      <AdminTours />
+      <AdminTours handleOpen={handleOpen} />
     </div>
   );
 };
