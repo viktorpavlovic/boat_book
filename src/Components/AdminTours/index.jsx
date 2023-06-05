@@ -3,10 +3,9 @@ import { applicationContext } from "../../context";
 import moment from "moment/moment";
 import "./admin-tours.scss";
 
-const AdminTours = () => {
+const AdminTours = ({ handleOpen }) => {
   const { allDocs } = useContext(applicationContext);
 
-  console.log(allDocs);
   return (
     <div className="div-admin-tours">
       <main>
@@ -15,7 +14,7 @@ const AdminTours = () => {
             <section>
               <p>{moment(e?.data?.date).format("LL")}</p>
               <p>{e.data.time}</p>
-              <button>Tour Info</button>
+              <button onClick={() => handleOpen(e)}>Tour Info</button>
             </section>
           </>
         ))}
