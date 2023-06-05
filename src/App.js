@@ -19,9 +19,8 @@ const App = () => {
     boat: "",
     date: "",
     time: "",
-    email: "",
-    num_of_passengers: "",
-    phone_number: "",
+    availableSeats: 0,
+    reservations: [],
   });
   const [allDocs, setAllDocs] = useState([]);
 
@@ -50,10 +49,6 @@ const App = () => {
       boat: "",
       date: "",
       time: "",
-      email: "",
-      num_of_passengers: "",
-      phone_number: "",
-      reservations: [],
     });
   };
 
