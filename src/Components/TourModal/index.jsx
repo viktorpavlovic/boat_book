@@ -6,6 +6,7 @@ const TourModal = ({ handleClose, clickedTour }) => {
     if (event.target === event.currentTarget) {
       handleClose();
     }
+    console.log(clickedTour)
   };
   return (
     <div className="div-modal-tour" onClick={handleOverlayClick}>
@@ -15,24 +16,22 @@ const TourModal = ({ handleClose, clickedTour }) => {
           <button onClick={handleClose}>X</button>
         </main>
         <section>
-          <div className="left">
-            <h5>Date of Tour:</h5>
-            <p>{clickedTour.data.date}</p>
+          <div className="seats-boat">
             <h5>Available Seats:</h5>
             <p>{clickedTour.data.availableSeats} seats</p>
             <h5>Name of Boat:</h5>
             <p>{clickedTour.data.boat} </p>
-            <h5>Time of tour</h5>
-            <p>{clickedTour.data.time}</p>
           </div>
-          <div className="right">
+          <div className="reservation-passengers">
+            <h4>Reservations:</h4>
             {clickedTour.data.reservations?.map((e) => (
               <>
-                <h5>Reservations:</h5>
-                <h6>Email of passenger</h6>
-                <p>{e.email}</p>
-                <h6>Number of Passengers</h6>
-                <p>{e.num_of_passengers}</p>
+              <div className="reservation-content">
+                <h5>Name of Passenger:</h5>
+                <p>{e.nameInfo}</p>
+                <h5>Number of Passengers:</h5>
+                <p>{e.numberOfPassengers}</p>
+                </div>
               </>
             ))}
           </div>

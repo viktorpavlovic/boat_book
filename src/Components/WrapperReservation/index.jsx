@@ -27,7 +27,7 @@ const WrapperReservation = () => {
     //   .required("Please insert a date")
     //   .min(bookDate, "Date must be at least one day from today"),
     // time: yup.string().required("Please select time for cruise"),
-    nameInfo: yup.string().required("Please enter your email"),
+    nameInfo: yup.string().required("Please enter your name"),
     numberOfPassengers: yup
       .number()
       .required("Please enter a number of passengers")
