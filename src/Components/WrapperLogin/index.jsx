@@ -10,7 +10,7 @@ import "./wrapper-login.scss";
 const WrapperLogin = () => {
   const navigate = useNavigate();
   const adminID = "E3fHycB6WsY85s2F4eENpUSOBoa2";
-  const { setAccessToken, setIsAdmin } =
+  const { setAccessToken, setIsAdmin,setUser } =
     useContext(applicationContext);
   const [wrongCredentials, setWrongCredentials] = useState("");
   const defaultLoginValue = {
@@ -35,6 +35,11 @@ const WrapperLogin = () => {
           localStorage.setItem(
             "accessToken",
             JSON.stringify(userCredential?.user?.accessToken)
+          );
+          setUser(values.email)
+          localStorage.setItem(
+            "user",
+            JSON.stringify(values.email)
           );
         }
         if (userCredential?.user?.uid === adminID) {

@@ -29,6 +29,9 @@
     h4 {
       padding: 10px 0;
     }
+    h6 {
+      padding: 5px 0;
+    }
 
     label {
       display: flex;
@@ -75,6 +78,21 @@
     rgb(0, 0, 0) 100%
   );
 }
-.react-datepicker__input-container{
-   text-align: center;
+.react-datepicker-wrapper,
+.react-datepicker__input-container,
+.react-datepicker__input-container input{
+  margin: 0 auto;
+}
+
+.time-picker{
+  list-style-type: none;
+}
+.time-picker-option{
+  margin: 5px 0;
+  text-transform: capitalize;
+  cursor: pointer;
+  &.disabled{
+    cursor: default;
+    color: rgb(202, 201, 201);
+  }
 }

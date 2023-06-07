@@ -43,7 +43,7 @@ const ChooseBoat = ({setAvailableDates}) => {
             ? "Turtle boat"
             : bookValues.boat === "key-boat"
             ? "Key Boat"
-            : bookValues.boat === "key-boat"
+            : bookValues.boat === "nikola-tesla-boat"
             ? "Nikola Tesla Boat"
             : ""}
         </span>

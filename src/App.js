@@ -12,6 +12,9 @@ const App = () => {
   const [isAdmin, setIsAdmin] = useState(
     JSON.parse(localStorage.getItem("admin"))
   );
+  const [user,setUser] = useState(
+    JSON.parse(localStorage.getItem("user"))
+  )
   const [accessToken, setAccessToken] = useState(
     JSON.parse(localStorage.getItem("accessToken"))
   );
@@ -61,7 +64,9 @@ const App = () => {
           logOut,
           setBookValues,
           bookValues,
-          allDocs
+          allDocs,
+          user,
+          setUser
         }}
       >
         {accessToken ? (
