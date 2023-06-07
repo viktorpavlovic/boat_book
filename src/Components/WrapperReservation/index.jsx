@@ -32,26 +32,6 @@ const WrapperReservation = () => {
   const [success, setSuccess] = useState(false);
   const phoneRegExp =
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
-<<<<<<< HEAD
-=======
-  const validationSchema = yup.object().shape({
-    // date: yup
-    //   .date()
-    //   .required("Please insert a date")
-    //   .min(bookDate, "Date must be at least one day from today"),
-    // time: yup.string().required("Please select time for cruise"),
-    nameInfo: yup.string().required("Please enter your name"),
-    numberOfPassengers: yup
-      .number()
-      .required("Please enter a number of passengers")
-      .max(10, "Max passengers 10"),
-    phoneNumber: yup
-      .string()
-      .matches(phoneRegExp, "Phone number is not valid")
-      .min(8, "too short")
-      .max(10, "too long"),
-  });
->>>>>>> c4c22509a38af7902da6c0566ceb0b2fd0830c1b
   const selectedBoat = allDocs?.filter((e) => e.data.boat === bookValues.boat);
   const selectedDate = selectedBoat?.filter(
     (e) => e.data.date === bookValues.date
