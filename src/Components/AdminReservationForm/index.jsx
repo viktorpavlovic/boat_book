@@ -1,5 +1,7 @@
 import React from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
+import { useContext } from "react";
+import { applicationContext } from "../../context";
 import * as yup from "yup";
 import dayjs from "dayjs";
 import { db } from "../../firebase";
@@ -7,6 +9,7 @@ import { addDoc, collection } from "firebase/firestore";
 import "./admin-reservation-form.scss";
 
 const AdminReservationForm = () => {
+  const { setFreshData,freshData } = useContext(applicationContext);
   const bookDate = dayjs().add(1, "day").format("YYYY-MM-DD");
   const defaultValue = {
     boat: "",
@@ -34,6 +37,7 @@ const AdminReservationForm = () => {
       time: values.time,
       reservations: [],
     });
+    setFreshData(!freshData)
     // console.log(values);
   };
 

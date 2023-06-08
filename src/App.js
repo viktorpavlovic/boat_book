@@ -9,6 +9,7 @@ import AdminPage from "./Pages/AdminPage";
 import "./app.scss";
 
 const App = () => {
+  const [freshData,setFreshData] = useState(false)
   const [isAdmin, setIsAdmin] = useState(
     JSON.parse(localStorage.getItem("admin"))
   );
@@ -38,7 +39,7 @@ const App = () => {
       setAllDocs(docsData);
     };
     fetchAllDocs();
-  }, []);
+  }, [freshData]);
 
   // console.log(allDocs);
 
@@ -66,7 +67,9 @@ const App = () => {
           bookValues,
           allDocs,
           user,
-          setUser
+          setUser,
+          setFreshData,
+          freshData
         }}
       >
         {accessToken ? (
