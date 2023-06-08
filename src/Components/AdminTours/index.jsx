@@ -14,7 +14,7 @@ const AdminTours = ({ handleOpen }) => {
   return (
     <div className="div-admin-tours">
       <main>
-        {allDocs?.map((e) => (
+        {allDocs?.sort((a,b)=>moment(a.data.date)-moment(b.data.date)).map((e) => (
             <section key={e.id}>
               <p>{moment(e?.data?.date).format("LL")}</p>
               <p>{e.data.time}</p>
