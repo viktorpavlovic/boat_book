@@ -6,7 +6,7 @@ import * as yup from "yup";
 import "./create-account.scss";
 
 const CreateAccount = () => {
-    const [message,setMessage]=useState("")
+  const [message, setMessage] = useState("");
   const defaultLoginValue = {
     email: "",
     password: "",
@@ -24,15 +24,14 @@ const CreateAccount = () => {
   const createAccount = (values) => {
     createUserWithEmailAndPassword(auth, values?.email, values?.password)
       .then(() => {
-       setMessage("Account succesfully created");
+        setMessage("Account succesfully created");
       })
       .catch(() => {
-        setMessage("User already exist")
+        setMessage("User already exist");
       });
   };
   return (
     <div className="div-create-account">
-     
       <Formik
         initialValues={defaultLoginValue}
         validationSchema={validationSchema}
@@ -52,8 +51,16 @@ const CreateAccount = () => {
             <button type="submit" className="submit-btn login">
               Create new
             </button>
-            <p className="error-handle">{message}</p>
           </Form>
+          <p
+            className={
+              message === "Account succesfully created"
+                ? "success-create"
+                : "error-handle"
+            }
+          >
+            {message}
+          </p>
         </section>
       </Formik>
     </div>
