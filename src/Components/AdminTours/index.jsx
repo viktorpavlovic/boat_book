@@ -10,13 +10,11 @@ const AdminTours = ({ handleOpen }) => {
     <div className="div-admin-tours">
       <main>
         {allDocs?.map((e) => (
-          <>
-            <section>
+            <section key={e.id}>
               <p>{moment(e?.data?.date).format("LL")}</p>
               <p>{e.data.time}</p>
               <button onClick={() => handleOpen(e)}>Tour Info</button>
             </section>
-          </>
         ))}
       </main>
     </div>

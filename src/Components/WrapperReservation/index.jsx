@@ -100,7 +100,6 @@ const WrapperReservation = () => {
       <ChooseBoat setAvailableDates={setAvailableDates} />
 
       <div className="datepickerWrapper">
-        {" "}
         <DatePicker
           selected={startDate}
           includeDates={availableDates}

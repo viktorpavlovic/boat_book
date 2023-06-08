@@ -10,32 +10,54 @@ const AdminReservationForm = () => {
   const bookDate = dayjs().add(1, "day").format("YYYY-MM-DD");
   const defaultValue = {
     boat: "",
-    date: "",
+    startDate: "",
+    endDate: "",
     available_seats: 0,
-    time: "",
+    time: [],
   };
   const validationSchema = yup.object().shape({
     boat: yup.string().required("Select a boat"),
-    date: yup
+    startDate: yup
       .date()
-      .required("Please insert a date")
+      .required("Please insert a start date")
       .min(bookDate, "Date must be at least one day from today"),
+    endDate: yup
+      .date()
+      .required("Please insert an end date")
+      .min(
+        yup.ref("startDate"),
+        "End date cannot be before start date"
+      ),
     available_seats: yup
       .number()
       .required("Enter available seats")
       .min(1, "One seat minimum"),
-    time: yup.string().required("Please select time for cruise"),
+    time: yup.array().min(1, 'Select at least one time of day option').of(yup.string().required()).required(),
   });
-  const handleAdd = async (values) => {
-    await addDoc(collection(db, "tours"), {
-      boat: values.boat,
-      date: values.date,
-      availableSeats: values.available_seats,
-      time: values.time,
-      reservations: [],
-    });
-    // console.log(values);
+  const getDatesBetween = (startDate, endDate) => {
+    let dates = [];
+    let currentDate = new Date(startDate);
+    let finalDate = new Date(endDate);
+    while (currentDate <= finalDate) {
+      dates.push(dayjs(currentDate).format("YYYY-MM-DD"));
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+    return dates;
   };
+  const handleAdd = (values) => {
+    const dateRange = getDatesBetween(values.startDate,values.endDate)
+    dateRange.forEach((singleDate)=>{
+      values.time.forEach((singleTime)=>{
+        addDoc(collection(db, "tours"), {
+          boat: values.boat,
+          date: singleDate,
+          availableSeats: values.available_seats,
+          time: singleTime,
+          reservations: [],
+        });
+      });
+    });
+    };
 
   return (
     <div className="div-admin-res">
@@ -63,23 +85,28 @@ const AdminReservationForm = () => {
             <p className="error-handle">
               <ErrorMessage name="boat" />
             </p>
-            <h4>Choose a date for tour</h4>
-            <Field type="date" name="date" />
+            <h4>Choose a start date for tour</h4>
+            <Field type="date" name="startDate" />
             <p className="error-handle">
-              <ErrorMessage name="date" />
+              <ErrorMessage name="startDate" />
+            </p>
+            <h4>Choose an end date for tour</h4>
+            <Field type="date" name="endDate" />
+            <p className="error-handle">
+              <ErrorMessage name="endDate" />
             </p>
             <h4>Choose time for tour</h4>
             <label>
               Daytime
-              <Field type="radio" name="time" value="daytime" />
+              <Field type="checkbox" name="time" value="daytime" />
             </label>
             <label>
               Sunset
-              <Field type="radio" name="time" value="sunset" />
+              <Field type="checkbox" name="time" value="sunset" />
             </label>
             <label>
               Night
-              <Field type="radio" name="time" value="night" />
+              <Field type="checkbox" name="time" value="night" />
             </label>
             <p className="error-handle">
               <ErrorMessage name="time" />
