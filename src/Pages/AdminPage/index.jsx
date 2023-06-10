@@ -15,7 +15,6 @@ const AdminPage = () => {
   const handleOpen = (tour) => {
     setOpenModal(true);
     setClickedTour(tour);
-    console.log(clickedTour)
   };
   const handleClose = () => {
     setOpenModal(false);
@@ -28,7 +27,7 @@ const AdminPage = () => {
       {openModal && (
         <TourModal handleClose={handleClose} clickedTour={clickedTour} />
       )}
-      <CreateAccount/>
+      <CreateAccount />
       <Footer />
     </div>
   );

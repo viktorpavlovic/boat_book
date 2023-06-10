@@ -1,10 +1,6 @@
 .div-WrapperReservation {
   flex-grow: 1;
-  background:  linear-gradient(
-    90deg,
-    rgb(46 40 94),
-    rgb(49, 190, 200)
-  );
+  background: linear-gradient(90deg, rgb(46 40 94), rgb(49, 190, 200));
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -80,19 +76,20 @@
 }
 .react-datepicker-wrapper,
 .react-datepicker__input-container,
-.react-datepicker__input-container input{
+.react-datepicker__input-container input {
   margin: 0 auto;
 }
 
-.time-picker{
+.time-picker {
   list-style-type: none;
 }
-.time-picker-option{
+.time-picker-option {
   margin: 5px 0;
   text-transform: capitalize;
   cursor: pointer;
-  &.disabled{
+  &.disabled {
     cursor: default;
     color: rgb(202, 201, 201);
+    text-decoration: line-through;
   }
 }

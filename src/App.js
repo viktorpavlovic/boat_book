@@ -4,18 +4,17 @@ import { ApplicationProvider } from "./context";
 import { db } from "./firebase";
 import { getDocs, collection } from "firebase/firestore";
 import LoginPage from "./Pages/LoginPage";
+import NoInternetConnection from "./Components/NoInternet";
 import ReservationPage from "./Pages/ReservationPage";
 import AdminPage from "./Pages/AdminPage";
 import "./app.scss";
 
 const App = () => {
-  const [freshData,setFreshData] = useState(false)
+  const [freshData, setFreshData] = useState(false);
   const [isAdmin, setIsAdmin] = useState(
     JSON.parse(localStorage.getItem("admin"))
   );
-  const [user,setUser] = useState(
-    JSON.parse(localStorage.getItem("user"))
-  )
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
   const [accessToken, setAccessToken] = useState(
     JSON.parse(localStorage.getItem("accessToken"))
   );
@@ -41,8 +40,6 @@ const App = () => {
     fetchAllDocs();
   }, [freshData]);
 
-  // console.log(allDocs);
-
   const logOut = () => {
     setAccessToken("");
     localStorage.removeItem("accessToken");
@@ -58,42 +55,47 @@ const App = () => {
 
   return (
     <div className="div-app">
-      <ApplicationProvider
-        value={{
-          setAccessToken,
-          setIsAdmin,
-          logOut,
-          setBookValues,
-          bookValues,
-          allDocs,
-          user,
-          setUser,
-          setFreshData,
-          freshData
-        }}
-      >
-        {accessToken ? (
-          isAdmin ? (
-            <Routes>
-              <Route exact path="/admin_page" element={<AdminPage />} />
-              <Route path="*" element={<Navigate to="/admin_page" replace />} />
-            </Routes>
+      <NoInternetConnection>
+        <ApplicationProvider
+          value={{
+            setAccessToken,
+            setIsAdmin,
+            logOut,
+            setBookValues,
+            bookValues,
+            allDocs,
+            user,
+            setUser,
+            setFreshData,
+            freshData,
+          }}
+        >
+          {accessToken ? (
+            isAdmin ? (
+              <Routes>
+                <Route exact path="/admin_page" element={<AdminPage />} />
+                <Route
+                  path="*"
+                  element={<Navigate to="/admin_page" replace />}
+                />
+              </Routes>
+            ) : (
+              <Routes>
+                <Route path="/reservation" element={<ReservationPage />} />
+                <Route
+                  path="*"
+                  element={<Navigate to="/reservation" replace />}
+                />
+              </Routes>
+            )
           ) : (
             <Routes>
-              <Route path="/reservation" element={<ReservationPage />} />
-              <Route
-                path="*"
-                element={<Navigate to="/reservation" replace />}
-              />
+              <Route exact path="/" element={<LoginPage />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
-          )
-        ) : (
-          <Routes>
-            <Route exact path="/" element={<LoginPage />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        )}
-      </ApplicationProvider>
+          )}
+        </ApplicationProvider>
+      </NoInternetConnection>
     </div>
   );
 };

@@ -26,6 +26,7 @@ const WrapperReservation = () => {
     date: "",
     passengers: "",
   });
+
   const [availableDates, setAvailableDates] = useState([]);
   const [startDate, setStartDate] = useState(new Date());
   const availableTimes = ["daytime", "sunset", "night"];
@@ -98,7 +99,6 @@ const WrapperReservation = () => {
   return (
     <div className="div-WrapperReservation">
       <ChooseBoat setAvailableDates={setAvailableDates} />
-
       <div className="datepickerWrapper">
         <DatePicker
           selected={startDate}

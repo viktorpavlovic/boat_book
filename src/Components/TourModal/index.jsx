@@ -1,13 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
+import { db } from "../../firebase";
+import { doc, updateDoc } from "firebase/firestore";
 import "./tour-modal.scss";
 
 const TourModal = ({ handleClose, clickedTour }) => {
+  const [deleteRes, setDeleteRes] = useState("");
   const handleOverlayClick = (event) => {
     if (event.target === event.currentTarget) {
       handleClose();
     }
-    
   };
+  const handleDelete = async () => {
+    console.log(deleteRes);
+    const docRef = doc(db, "tours", clickedTour?.id);
+    await updateDoc(docRef, {});
+  };
+
   return (
     <div className="div-modal-tour" onClick={handleOverlayClick}>
       <div className="modal-container">
@@ -24,16 +32,21 @@ const TourModal = ({ handleClose, clickedTour }) => {
           </div>
           <div className="reservation-passengers">
             <h4>Reservations:</h4>
-            {clickedTour.data.reservations?.map((e) => (
-              <>
-                <div className="reservation-content">
-                  <h5>Name of Passenger:</h5>
-                  <p>{e.nameInfo}</p>
-                  <h5>Number of Passengers:</h5>
-                  <p>{e.numberOfPassengers}</p>
-                </div>
-                  <button>Delete</button>
-              </>
+            {clickedTour.data.reservations?.map((e, i) => (
+              <div key={i} className="reservation-content">
+                <h5>Name:</h5>
+                <p>{e.nameInfo}</p>
+                <h5>Number of Passengers:</h5>
+                <p>{e.numberOfPassengers}</p>
+                <button
+                  onClick={() => {
+                    setDeleteRes(e?.nameInfo);
+                    handleDelete();
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
             ))}
           </div>
         </section>
