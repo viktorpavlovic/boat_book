@@ -73,25 +73,25 @@ const App = () => {
           {accessToken ? (
             isAdmin ? (
               <Routes>
-                <Route exact path="/admin_page" element={<AdminPage />} />
+                <Route exact path="/boat_book/admin_page" element={<AdminPage />} />
                 <Route
                   path="*"
-                  element={<Navigate to="/admin_page" replace />}
+                  element={<Navigate to="/boat_book/admin_page" replace />}
                 />
               </Routes>
             ) : (
               <Routes>
-                <Route path="/reservation" element={<ReservationPage />} />
+                <Route path="/boat_book/reservation" element={<ReservationPage />} />
                 <Route
                   path="*"
-                  element={<Navigate to="/reservation" replace />}
+                  element={<Navigate to="/boat_book/reservation" replace />}
                 />
               </Routes>
             )
           ) : (
             <Routes>
-              <Route exact path="/" element={<LoginPage />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
+              <Route exact path="/boat_book" element={<LoginPage />} />
+              <Route path="*" element={<Navigate to="/boat_book" replace />} />
             </Routes>
           )}
         </ApplicationProvider>
