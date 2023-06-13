@@ -1,19 +1,54 @@
+:root {--height:50px}
+
+.past-toggle-div{
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  button {
+    border: none;
+    padding: 5px;
+    color: rgb(46 40 94);
+    background-color: rgb(49 190 200);
+    &.selected{
+      background-color: white;
+      box-shadow: 0 0 10px 0 white;
+      color: rgb(46 40 94);
+    }
+  }
+}
 .div-admin-tours {
   color: #fff;
   main {
+    margin-inline: 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    max-height: calc((var(--height) + 10px)*5);
+    // display: flex;
+    // flex-direction: column;
+    // gap: 10px;
+    overflow: scroll;
+    section:first-of-type{
+      margin-top: 0;
+    }
     section {
       width: 100%;
+      min-height: var(--height);
       font-size: 14px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       text-transform: uppercase;
       padding: 5px 20px;
-      margin-top: 15px;
-      background: linear-gradient(90deg, rgb(46 40 94), rgb(49, 190, 200));
+      margin: 5px 10px;
+      gap: 5px;
+      // background: linear-gradient(90deg, rgb(46 40 94), rgb(49, 190, 200));
+      background-color: rgb(49 190 200);
+      color: rgb(46 40 94);
+      p {
+        font-size: 0.9em;
+      }
       button {
         padding: 5px;
         background-color: rgb(46 40 94);
