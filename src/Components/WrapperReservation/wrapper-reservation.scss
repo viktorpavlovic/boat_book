@@ -83,13 +83,20 @@
 .time-picker {
   list-style-type: none;
 }
+
 .time-picker-option {
   margin: 5px 0;
   text-transform: capitalize;
   cursor: pointer;
+  &.selected {
+    background-color: yellow;
+    color: black;
+    font-weight: bold;
+  }
   &.disabled {
     cursor: default;
     color: rgb(202, 201, 201);
     text-decoration: line-through;
   }
 }
+

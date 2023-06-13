@@ -21,7 +21,7 @@ const NoInternetConnection = (props) => {
   } else {
     return (
       <div className="no-internet-div">
-        <h1>No Interner Connection. Please check your connection.</h1>
+        <h1>No Internet Connection. Please check your connection.</h1>
       </div>
     );
   }

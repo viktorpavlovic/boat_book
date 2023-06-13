@@ -26,7 +26,7 @@ const WrapperReservation = () => {
     date: "",
     passengers: "",
   });
-
+  const [selectedTime, setSelectedTime] = useState(null);
   const [availableDates, setAvailableDates] = useState([]);
   const [startDate, setStartDate] = useState(new Date());
   const availableTimes = ["daytime", "sunset", "night"];
@@ -112,16 +112,15 @@ const WrapperReservation = () => {
           }}
         />
       </div>
-
       <ul className="time-picker" ref={formRef}>
         {availableTimes.map((item) => (
           <li
             key={item}
-            className={
-              selectedDate.some((e) => e.data.time === item)
-                ? "time-picker-option"
-                : "time-picker-option disabled"
-            }
+            className={`time-picker-option ${
+              selectedTime === item ? "selected" : ""
+            } ${
+              !selectedDate.some((e) => e.data.time === item) ? "disabled" : ""
+            }`}
             onClick={
               selectedDate.some((e) => e.data.time === item)
                 ? () => {
@@ -132,11 +131,13 @@ const WrapperReservation = () => {
                     setTimeout(() => {
                       formRef.current.scrollIntoView({ behavior: "smooth" });
                     }, 0);
+                    setSelectedTime(item);
                   }
                 : (e) => e.preventDefault()
             }
           >
             {item}
+            {selectedTime === item && <span className="selected-span">*</span>}
           </li>
         ))}
       </ul>

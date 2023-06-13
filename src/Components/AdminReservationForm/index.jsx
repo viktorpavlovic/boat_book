@@ -9,15 +9,25 @@ import { addDoc, collection } from "firebase/firestore";
 import "./admin-reservation-form.scss";
 
 const AdminReservationForm = () => {
-  const { setFreshData,freshData } = useContext(applicationContext);
+  const { setFreshData, freshData } = useContext(applicationContext);
+  const plusCount = (setFieldValue, values) => {
+    setFieldValue("available_seats", values.available_seats + 5);
+  };
+
+  const minusCount = (setFieldValue, values) => {
+    if (values.available_seats > 0) {
+      setFieldValue("available_seats", values.available_seats - 5);
+    }
+  };
   const bookDate = dayjs().add(1, "day").format("YYYY-MM-DD");
   const defaultValue = {
     boat: "",
     startDate: "",
     endDate: "",
-    available_seats: 0,
+    available_seats: 50,
     time: [],
   };
+
   const validationSchema = yup.object().shape({
     boat: yup.string().required("Select a boat"),
     startDate: yup
@@ -27,15 +37,16 @@ const AdminReservationForm = () => {
     endDate: yup
       .date()
       .required("Please insert an end date")
-      .min(
-        yup.ref("startDate"),
-        "End date cannot be before start date"
-      ),
+      .min(yup.ref("startDate"), "End date cannot be before start date"),
     available_seats: yup
       .number()
       .required("Enter available seats")
       .min(1, "One seat minimum"),
-    time: yup.array().min(1, 'Select at least one time of day option').of(yup.string().required()).required(),
+    time: yup
+      .array()
+      .min(1, "Select at least one time of day option")
+      .of(yup.string().required())
+      .required(),
   });
   const getDatesBetween = (startDate, endDate) => {
     let dates = [];
@@ -48,9 +59,9 @@ const AdminReservationForm = () => {
     return dates;
   };
   const handleAdd = (values) => {
-    const dateRange = getDatesBetween(values.startDate,values.endDate)
-    dateRange.forEach((singleDate)=>{
-      values.time.forEach((singleTime)=>{
+    const dateRange = getDatesBetween(values.startDate, values.endDate);
+    dateRange.forEach((singleDate) => {
+      values.time.forEach((singleTime) => {
         addDoc(collection(db, "tours"), {
           boat: values.boat,
           date: singleDate,
@@ -60,8 +71,8 @@ const AdminReservationForm = () => {
         });
       });
     });
-    setFreshData(!freshData)
-    };
+    setFreshData(!freshData);
+  };
 
   return (
     <div className="div-admin-res">
@@ -71,61 +82,81 @@ const AdminReservationForm = () => {
         validationSchema={validationSchema}
         onSubmit={handleAdd}
       >
-        <Form>
-          <section className="admin-res">
-            <h4>Boat for tour:</h4>
-            <label>
-              Turtle Boat
-              <Field type="radio" name="boat" value="turtle-boat" />
-            </label>
-            <label>
-              Key Boat
-              <Field type="radio" name="boat" value="key-boat" />
-            </label>
-            <label>
-              Nikola Tesla Boat
-              <Field type="radio" name="boat" value="nikola-tesla-boat" />
-            </label>
-            <p className="error-handle">
-              <ErrorMessage name="boat" />
-            </p>
-            <h4>Choose a start date for tour</h4>
-            <Field type="date" name="startDate" />
-            <p className="error-handle">
-              <ErrorMessage name="startDate" />
-            </p>
-            <h4>Choose an end date for tour</h4>
-            <Field type="date" name="endDate" />
-            <p className="error-handle">
-              <ErrorMessage name="endDate" />
-            </p>
-            <h4>Choose time for tour</h4>
-            <label>
-              Daytime
-              <Field type="checkbox" name="time" value="daytime" />
-            </label>
-            <label>
-              Sunset
-              <Field type="checkbox" name="time" value="sunset" />
-            </label>
-            <label>
-              Night
-              <Field type="checkbox" name="time" value="night" />
-            </label>
-            <p className="error-handle">
-              <ErrorMessage name="time" />
-            </p>
-            <h4>Enter available seats:</h4>
-            <Field type="number" name="available_seats" />
-            <p className="error-handle">
-              <ErrorMessage name="available_seats" />
-            </p>
+        {({ values, setFieldValue }) => (
+          <Form>
+            <section className="admin-res">
+              <h4>Boat for tour:</h4>
+              <label>
+                Turtle Boat
+                <Field type="radio" name="boat" value="turtle-boat" />
+              </label>
+              <label>
+                Key Boat
+                <Field type="radio" name="boat" value="key-boat" />
+              </label>
+              <label>
+                Nikola Tesla Boat
+                <Field type="radio" name="boat" value="nikola-tesla-boat" />
+              </label>
+              <p className="error-handle">
+                <ErrorMessage name="boat" />
+              </p>
+              <h4>Choose a start date for tour</h4>
+              <Field type="date" name="startDate" />
+              <p className="error-handle">
+                <ErrorMessage name="startDate" />
+              </p>
+              <h4>Choose an end date for tour</h4>
+              <Field type="date" name="endDate" />
+              <p className="error-handle">
+                <ErrorMessage name="endDate" />
+              </p>
+              <h4>Choose time for tour</h4>
+              <label>
+                Daytime
+                <Field type="checkbox" name="time" value="daytime" />
+              </label>
+              <label>
+                Sunset
+                <Field type="checkbox" name="time" value="sunset" />
+              </label>
+              <label>
+                Night
+                <Field type="checkbox" name="time" value="night" />
+              </label>
+              <p className="error-handle">
+                <ErrorMessage name="time" />
+              </p>
+              <h4>Enter available seats:</h4>
+              <Field
+                type="number"
+                name="available_seats"
+                value={values.available_seats}
+              />
+              <div className="plus-minus">
+                <button
+                  type="button"
+                  onClick={() => plusCount(setFieldValue, values)}
+                >
+                  +
+                </button>
+                <button
+                  type="button"
+                  onClick={() => minusCount(setFieldValue, values)}
+                >
+                  -
+                </button>
+              </div>
+              <p className="error-handle">
+                <ErrorMessage name="available_seats" />
+              </p>
 
-            <button className="submit-btn" type="submit">
-              Create tour
-            </button>
-          </section>
-        </Form>
+              <button className="submit-btn" type="submit">
+                Create tour
+              </button>
+            </section>
+          </Form>
+        )}
       </Formik>
     </div>
   );
