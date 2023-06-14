@@ -7,6 +7,9 @@ import dayjs from "dayjs";
 import { db } from "../../firebase";
 import { addDoc, collection } from "firebase/firestore";
 import "./admin-reservation-form.scss";
+import DatePickerField from "../DatePickerField";
+
+
 
 const AdminReservationForm = () => {
   const { setFreshData, freshData } = useContext(applicationContext);
@@ -19,25 +22,20 @@ const AdminReservationForm = () => {
       setFieldValue("available_seats", values.available_seats - 5);
     }
   };
-  const bookDate = dayjs().add(1, "day").format("YYYY-MM-DD");
   const defaultValue = {
     boat: "",
     startDate: "",
     endDate: "",
+    date:'',
     available_seats: 50,
     time: [],
   };
 
   const validationSchema = yup.object().shape({
     boat: yup.string().required("Select a boat"),
-    startDate: yup
-      .date()
-      .required("Please insert a start date")
-      .min(bookDate, "Date must be at least one day from today"),
-    endDate: yup
-      .date()
-      .required("Please insert an end date")
-      .min(yup.ref("startDate"), "End date cannot be before start date"),
+    date: yup
+      .array()
+      .required("Please insert a date"),
     available_seats: yup
       .number()
       .required("Enter available seats")
@@ -48,18 +46,16 @@ const AdminReservationForm = () => {
       .of(yup.string().required())
       .required(),
   });
-  const getDatesBetween = (startDate, endDate) => {
+  const getDates = (datesArray) => {
     let dates = [];
-    let currentDate = new Date(startDate);
-    let finalDate = new Date(endDate);
-    while (currentDate <= finalDate) {
-      dates.push(dayjs(currentDate).format("YYYY-MM-DD"));
-      currentDate.setDate(currentDate.getDate() + 1);
-    }
+    datesArray.forEach((date)=>{
+      dates.push(dayjs(date).format("YYYY-MM-DD"));
+    })
+    
     return dates;
   };
   const handleAdd = (values) => {
-    const dateRange = getDatesBetween(values.startDate, values.endDate);
+    const dateRange = getDates(values.date)
     dateRange.forEach((singleDate) => {
       values.time.forEach((singleTime) => {
         addDoc(collection(db, "tours"), {
@@ -77,6 +73,7 @@ const AdminReservationForm = () => {
   return (
     <div className="div-admin-res">
       <h3>Create a tour:</h3>
+      
       <Formik
         initialValues={defaultValue}
         validationSchema={validationSchema}
@@ -101,15 +98,14 @@ const AdminReservationForm = () => {
               <p className="error-handle">
                 <ErrorMessage name="boat" />
               </p>
-              <h4>Choose a start date for tour</h4>
-              <Field type="date" name="startDate" />
+              <h4>Select Date/Dates</h4>
+              <DatePickerField
+                name='date'
+                value={values.date}
+                onChange={setFieldValue}
+              />
               <p className="error-handle">
-                <ErrorMessage name="startDate" />
-              </p>
-              <h4>Choose an end date for tour</h4>
-              <Field type="date" name="endDate" />
-              <p className="error-handle">
-                <ErrorMessage name="endDate" />
+                <ErrorMessage name="date" />
               </p>
               <h4>Choose time for tour</h4>
               <label>

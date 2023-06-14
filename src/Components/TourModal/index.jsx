@@ -1,21 +1,28 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
+import { applicationContext } from "../../context";
 import { db } from "../../firebase";
 import { doc, updateDoc } from "firebase/firestore";
 import "./tour-modal.scss";
 
-const TourModal = ({ handleClose, clickedTour }) => {
-  const [deleteRes, setDeleteRes] = useState("");
+const TourModal = ({ handleClose, clickedTour, setClickedTour }) => {
+  const { freshData, setFreshData, allDocs } = useContext(applicationContext);
   const handleOverlayClick = (event) => {
     if (event.target === event.currentTarget) {
       handleClose();
     }
   };
-  const handleDelete = async () => {
-    console.log(deleteRes);
-    const docRef = doc(db, "tours", clickedTour?.id);
-    await updateDoc(docRef, {});
+  const selectedTour = allDocs.filter((tour) => tour.id === clickedTour.id)[0];
+  const handleDelete = async (resID, seats) => {
+    const docRef = doc(db, "tours", selectedTour?.id);
+    const updatedReservations = selectedTour?.data.reservations.filter(
+      (reservation) => reservation.id !== resID
+    );
+    await updateDoc(docRef, {
+      availableSeats: selectedTour.data.availableSeats + seats,
+      reservations: updatedReservations,
+    });
+    setFreshData(!freshData);
   };
-
   return (
     <div className="div-modal-tour" onClick={handleOverlayClick}>
       <div className="modal-container">
@@ -26,23 +33,20 @@ const TourModal = ({ handleClose, clickedTour }) => {
         <section>
           <div className="seats-boat">
             <h5>Available Seats:</h5>
-            <p>{clickedTour.data.availableSeats} seats</p>
+            <p>{selectedTour.data.availableSeats} seats</p>
             <h5>Name of Boat:</h5>
-            <p>{clickedTour.data.boat} </p>
+            <p>{selectedTour.data.boat} </p>
           </div>
           <div className="reservation-passengers">
             <h4>Reservations:</h4>
-            {clickedTour.data.reservations?.map((e, i) => (
+            {selectedTour.data.reservations?.map((e, i) => (
               <div key={i} className="reservation-content">
                 <h5>Name:</h5>
                 <p>{e.nameInfo}</p>
                 <h5>Number of Passengers:</h5>
                 <p>{e.numberOfPassengers}</p>
                 <button
-                  onClick={() => {
-                    setDeleteRes(e?.nameInfo);
-                    handleDelete();
-                  }}
+                  onClick={() => handleDelete(e.id, e.numberOfPassengers)}
                 >
                   Delete
                 </button>

@@ -12,9 +12,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const WrapperReservation = () => {
-  const { bookValues, setBookValues, allDocs, user } =
+  const { bookValues, setBookValues, allDocs, user, freshData,setFreshData } =
     useContext(applicationContext);
   const reservationInfo = {
+    id: '',
     nameInfo: "",
     numberOfPassengers: "",
     children: "",
@@ -67,11 +68,10 @@ const WrapperReservation = () => {
     });
   const handleSubmit = (values, { resetForm }) => {
     const tourRef = doc(db, "tours", selectedTour[0].id);
-    const availableSeats =
-      selectedTour[0].data.availableSeats - values.numberOfPassengers;
     updateDoc(tourRef, {
-      availableSeats: availableSeats,
+      availableSeats: selectedTour[0].data.availableSeats - values.numberOfPassengers,
       reservations: arrayUnion({
+        id: Math.floor(Math.random()*1000000000),
         userEmail: user,
         numberOfPassengers: values.numberOfPassengers,
         children: values.children,
@@ -95,7 +95,9 @@ const WrapperReservation = () => {
     setStartDate(new Date());
     resetForm();
     setSuccess(true);
+    setFreshData(!freshData)
   };
+  console.log(selectedTour[0]?.data?.availableSeats);
   return (
     <div className="div-WrapperReservation">
       <ChooseBoat setAvailableDates={setAvailableDates} />

@@ -25,7 +25,7 @@ const AdminPage = () => {
       <Header />
       <WrapperAdmin handleOpen={handleOpen} />
       {openModal && (
-        <TourModal handleClose={handleClose} clickedTour={clickedTour} />
+        <TourModal handleClose={handleClose} clickedTour={clickedTour} setClickedTour={setClickedTour}/>
       )}
       <CreateAccount />
       <Footer />
