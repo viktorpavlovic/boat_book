@@ -12,13 +12,13 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const WrapperReservation = () => {
-  const { bookValues, setBookValues, allDocs, user, freshData,setFreshData } =
+  const { bookValues, setBookValues, allDocs, user, freshData, setFreshData } =
     useContext(applicationContext);
   const reservationInfo = {
-    id: '',
+    id: "",
     nameInfo: "",
-    numberOfPassengers: "",
-    children: "",
+    numberOfPassengers: 0,
+    children: 0,
     phoneNumber: "",
     isPaid: true,
   };
@@ -42,6 +42,21 @@ const WrapperReservation = () => {
     (e) => e.data.time === bookValues.time
   );
   const formRef = useRef(null);
+  const plusPassengerCount = (setFieldValue, values) => {
+    setFieldValue("numberOfPassengers", values.numberOfPassengers + 1);
+  };
+  const plusChildrenCount = (setFieldValue, values) => {
+    setFieldValue("children", values.children + 1);
+  };
+  const minusChildrenCount = (setFieldValue, values) => {
+    setFieldValue("children", values.children - 1);
+  };
+
+  const minusPassengerCount = (setFieldValue, values) => {
+    if (values.numberOfPassengers > 0) {
+      setFieldValue("numberOfPassengers", values.numberOfPassengers - 1);
+    }
+  };
   const validationSchema = (tour) =>
     yup.object().shape({
       nameInfo: yup.string().required("Please enter your name"),
@@ -69,9 +84,10 @@ const WrapperReservation = () => {
   const handleSubmit = (values, { resetForm }) => {
     const tourRef = doc(db, "tours", selectedTour[0].id);
     updateDoc(tourRef, {
-      availableSeats: selectedTour[0].data.availableSeats - values.numberOfPassengers,
+      availableSeats:
+        selectedTour[0].data.availableSeats - values.numberOfPassengers,
       reservations: arrayUnion({
-        id: Math.floor(Math.random()*1000000000),
+        id: Math.floor(Math.random() * 1000000000),
         userEmail: user,
         numberOfPassengers: values.numberOfPassengers,
         children: values.children,
@@ -95,13 +111,17 @@ const WrapperReservation = () => {
     setStartDate(new Date());
     resetForm();
     setSuccess(true);
-    setFreshData(!freshData)
+    setFreshData(!freshData);
+    setSelectedTime(null);
   };
   console.log(selectedTour[0]?.data?.availableSeats);
   return (
     <div className="div-WrapperReservation">
       <ChooseBoat setAvailableDates={setAvailableDates} />
       <div className="datepickerWrapper">
+        <h4 className="tour-title">
+          Select a date to continue <span>*</span>
+        </h4>
         <DatePicker
           selected={startDate}
           includeDates={availableDates}
@@ -114,12 +134,15 @@ const WrapperReservation = () => {
           }}
         />
       </div>
+      <h4 className="tour-title">
+        Select a tour to continue <span>*</span>
+      </h4>
       <ul className="time-picker" ref={formRef}>
         {availableTimes.map((item) => (
           <li
             key={item}
             className={`time-picker-option ${
-              selectedTime === item ? "selected" : ""
+              selectedTime === item ? "selected" : "notSelected"
             } ${
               !selectedDate.some((e) => e.data.time === item) ? "disabled" : ""
             }`}
@@ -149,84 +172,114 @@ const WrapperReservation = () => {
           validationSchema={() => validationSchema(selectedTour[0])}
           onSubmit={handleSubmit}
         >
-          <Form className="res-form">
-            <section>
-              <h4>
-                Enter number of passengers: <span>*</span>
-              </h4>
-              <Field
-                type="number"
-                name="numberOfPassengers"
-                placeholder="Total passengers"
-              />
-              <p className="error-handle">
-                <ErrorMessage name="numberOfPassengers" />
-              </p>
-              <h6>Children:</h6>
-              <Field
-                type="number"
-                name="children"
-                placeholder="Any children?"
-              />
-              <p className="error-handle">
-                <ErrorMessage name="children" />
-              </p>
-              <h4>
-                Enter your name <span>*</span>
-              </h4>
-              <Field
-                type="text"
-                name="nameInfo"
-                placeholder="Your name"
-                className="form-field"
-              />
-              <p className="error-handle">
-                <ErrorMessage name="nameInfo" />
-              </p>
-              <h4>Phone number</h4>
-              <label className="joke">
+          {({ values, setFieldValue }) => (
+            <Form className="res-form">
+              <section>
+                <h4>
+                  Enter number of passengers: <span>*</span>
+                </h4>
                 <Field
                   type="number"
-                  name="phoneNumber"
-                  placeholder="Your phone number"
+                  name="numberOfPassengers"
+                  placeholder="Total passengers"
                 />
+                <div className="plus-minus">
+                  <button
+                    type="button"
+                    onClick={() => plusPassengerCount(setFieldValue, values)}
+                  >
+                    +
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => minusPassengerCount(setFieldValue, values)}
+                  >
+                    -
+                  </button>
+                </div>
+                <p className="error-handle">
+                  <ErrorMessage name="numberOfPassengers" />
+                </p>
+                <h6>Children:</h6>
                 <Field
-                  type="range"
-                  name="phoneNumber"
-                  min="1"
-                  max="9999999999"
-                  steps="1"
+                  type="number"
+                  name="children"
+                  placeholder="Any children?"
                 />
-              </label>
-              <p className="error-handle">
-                <ErrorMessage name="phoneNumber" />
-              </p>
-              <Field component="div" name="isPaid">
-                <label htmlFor="radioOne">
-                  Paid
-                  <input
-                    type="radio"
-                    id="radioOne"
-                    defaultChecked="radioOne"
-                    name="isPaid"
-                    value="true"
+                <div className="plus-minus">
+                  <button
+                    type="button"
+                    onClick={() => plusChildrenCount(setFieldValue, values)}
+                  >
+                    +
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => minusChildrenCount(setFieldValue, values)}
+                  >
+                    -
+                  </button>
+                </div>
+                <p className="error-handle">
+                  <ErrorMessage name="children" />
+                </p>
+                <h4>
+                  Enter your name <span>*</span>
+                </h4>
+                <Field
+                  type="text"
+                  name="nameInfo"
+                  placeholder="Your name"
+                  className="form-field"
+                />
+                <p className="error-handle">
+                  <ErrorMessage name="nameInfo" />
+                </p>
+                <h4>Phone number</h4>
+                <label className="joke">
+                  <Field
+                    type="number"
+                    name="phoneNumber"
+                    placeholder="Your phone number"
+                  />
+                  <Field
+                    type="range"
+                    name="phoneNumber"
+                    min="1"
+                    max="9999999999"
+                    steps="1"
                   />
                 </label>
-                <label htmlFor="radioTwo">
-                  Not Paid
-                  <input
-                    type="radio"
-                    id="radioTwo"
-                    name="isPaid"
-                    value="false"
-                  />
-                </label>
-              </Field>
-              <button className="submit-btn" type="submit">
-                Reserve
-              </button>
-            </section>
-          </Form>
+                <p className="error-handle">
+                  <ErrorMessage name="phoneNumber" />
+                </p>
+                <Field component="div" name="isPaid">
+                  <label htmlFor="radioOne">
+                    Paid
+                    <input
+                      type="radio"
+                      id="radioOne"
+                      defaultChecked="radioOne"
+                      name="isPaid"
+                      value="true"
+                    />
+                  </label>
+                  <label htmlFor="radioTwo">
+                    Not Paid
+                    <input
+                      type="radio"
+                      id="radioTwo"
+                      name="isPaid"
+                      value="false"
+                    />
+                  </label>
+                </Field>
+                <button className="submit-btn" type="submit">
+                  Reserve
+                </button>
+              </section>
+            </Form>
+          )}
         </Formik>
       )}
       {success && (

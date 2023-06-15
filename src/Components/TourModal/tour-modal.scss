@@ -7,7 +7,7 @@
   justify-content: center;
   align-items: center;
   color: #fff;
-  button{
+  button {
     width: 100%;
   }
   .modal-container {
@@ -71,6 +71,13 @@
           }
           p {
             padding-top: 5px;
+          }
+          button {
+            margin-top: 5px;
+            background-color: #721717;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 5px;
           }
         }
       }

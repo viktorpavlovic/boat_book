@@ -6,8 +6,8 @@ import * as yup from "yup";
 import dayjs from "dayjs";
 import { db } from "../../firebase";
 import { addDoc, collection } from "firebase/firestore";
+// import DatePickerField from "../DatePickerField";
 import "./admin-reservation-form.scss";
-import DatePickerField from "../DatePickerField";
 
 
 
@@ -99,11 +99,11 @@ const AdminReservationForm = () => {
                 <ErrorMessage name="boat" />
               </p>
               <h4>Select Date/Dates</h4>
-              <DatePickerField
+              {/* <DatePickerField
                 name='date'
                 value={values.date}
                 onChange={setFieldValue}
-              />
+              /> */}
               <p className="error-handle">
                 <ErrorMessage name="date" />
               </p>

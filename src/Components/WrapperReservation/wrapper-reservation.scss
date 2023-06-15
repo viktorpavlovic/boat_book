@@ -8,6 +8,13 @@
   h3 {
     padding: 10px 0;
   }
+  .tour-title {
+    padding: 10px 0;
+    span {
+      color: red;
+    }
+  }
+
   section {
     width: 70%;
     margin: 0 auto;
@@ -86,11 +93,13 @@
 
 .time-picker-option {
   margin: 5px 0;
+  padding: 10px;
+  text-align: center;
   text-transform: capitalize;
   cursor: pointer;
   &.selected {
-    background-color: yellow;
-    color: black;
+    background-color: rgb(49 190 200);
+    color: rgb(46 40 94);
     font-weight: bold;
   }
   &.disabled {
@@ -98,5 +107,8 @@
     color: rgb(202, 201, 201);
     text-decoration: line-through;
   }
+  &.notSelected {
+    background-color: black;
+    font-weight: normal;
+  }
 }
-
