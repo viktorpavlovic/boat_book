@@ -81,10 +81,23 @@
     rgb(0, 0, 0) 100%
   );
 }
-.react-datepicker-wrapper,
-.react-datepicker__input-container,
-.react-datepicker__input-container input {
-  margin: 0 auto;
+
+.dateWrapper{
+  overflow: hidden;
+  width: 100%;
+  padding-inline: 20%;
+  div{
+    padding: 7px;
+    overflow-x: scroll;
+    white-space: nowrap;
+    button {
+    margin-inline: 2px;
+    padding: 1px 2px;
+    background-color: rgb(46 40 94);
+    color: rgb(49, 190, 200);
+    border: none;
+  }
+}
 }
 
 .time-picker {

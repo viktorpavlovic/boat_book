@@ -7,7 +7,7 @@ const ChooseBoat = ({setAvailableDates}) => {
   const { bookValues, setBookValues,allDocs } = useContext(applicationContext);
   const boatRef = useRef(null);
   const handleImageClick = (selectedBoat) => {
-    const dates = allDocs?.filter((e) => e.data.boat === selectedBoat).map(e=>new Date(e.data.date))
+    const dates = allDocs?.filter((e) => e.data.boat === selectedBoat).map((e)=>e.data.date);
     setAvailableDates(dates)
     setBookValues({
       ...bookValues,

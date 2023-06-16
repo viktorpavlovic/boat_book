@@ -8,8 +8,7 @@ import { doc, updateDoc, arrayUnion } from "firebase/firestore";
 import { db } from "../../firebase";
 import * as yup from "yup";
 import "./../WrapperReservation/wrapper-reservation.scss";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import moment from "moment";
 
 const WrapperReservation = () => {
   const { bookValues, setBookValues, allDocs, user, freshData, setFreshData } =
@@ -29,7 +28,6 @@ const WrapperReservation = () => {
   });
   const [selectedTime, setSelectedTime] = useState(null);
   const [availableDates, setAvailableDates] = useState([]);
-  const [startDate, setStartDate] = useState(new Date());
   const availableTimes = ["daytime", "sunset", "night"];
   const [success, setSuccess] = useState(false);
   const phoneRegExp =
@@ -108,31 +106,31 @@ const WrapperReservation = () => {
       date: "",
       time: "",
     });
-    setStartDate(new Date());
     resetForm();
     setSuccess(true);
     setFreshData(!freshData);
     setSelectedTime(null);
   };
-  console.log(selectedTour[0]?.data?.availableSeats);
   return (
     <div className="div-WrapperReservation">
       <ChooseBoat setAvailableDates={setAvailableDates} />
-      <div className="datepickerWrapper">
         <h4 className="tour-title">
           Select a date to continue <span>*</span>
         </h4>
-        <DatePicker
-          selected={startDate}
-          includeDates={availableDates}
-          onChange={(date) => {
-            setStartDate(date);
-            setBookValues({
-              ...bookValues,
-              date: dayjs(date).format("YYYY-MM-DD"),
-            });
-          }}
-        />
+      <div className="dateWrapper">
+        <div className="dateWrapperScroll">
+        {
+        availableDates
+        .sort((a,b)=>moment(a) - moment(b))
+        .filter((date, index, dates)=> dates.indexOf(date)===index)
+        .map((date, i)=>{return <button key={i} onClick={()=>setBookValues({
+          ...bookValues,
+          date: date,
+          time: ''
+        })
+        }>
+          {dayjs(new Date(date)).format("DD-MM")}</button>})}
+        </div>
       </div>
       <h4 className="tour-title">
         Select a tour to continue <span>*</span>
