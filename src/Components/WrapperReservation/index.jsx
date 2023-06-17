@@ -18,6 +18,7 @@ const WrapperReservation = () => {
     nameInfo: "",
     numberOfPassengers: 0,
     children: 0,
+    preetens: 0,
     phoneNumber: "",
     isPaid: true,
   };
@@ -27,6 +28,7 @@ const WrapperReservation = () => {
     passengers: "",
   });
   const [selectedTime, setSelectedTime] = useState(null);
+  const [selectedTourDate, setSelectedTourDate] = useState(null);
   const [availableDates, setAvailableDates] = useState([]);
   const availableTimes = ["daytime", "sunset", "night"];
   const [success, setSuccess] = useState(false);
@@ -47,7 +49,9 @@ const WrapperReservation = () => {
     setFieldValue("children", values.children + 1);
   };
   const minusChildrenCount = (setFieldValue, values) => {
-    setFieldValue("children", values.children - 1);
+    if (values.numberOfPassengers > 0) {
+      setFieldValue("children", values.children - 1);
+    }
   };
 
   const minusPassengerCount = (setFieldValue, values) => {
@@ -62,6 +66,7 @@ const WrapperReservation = () => {
         .number()
         .required("Please enter a number of passengers")
         .max(10, "Max passengers 10")
+        .min(1,"Min one passenger")
         .test(
           "not-enough-seats",
           "There's not that many seats available",
@@ -73,22 +78,32 @@ const WrapperReservation = () => {
           yup.ref("numberOfPassengers"),
           "This cannot be higher than the number of passengers"
         ),
+
       phoneNumber: yup
         .string()
         .matches(phoneRegExp, "Phone number is not valid")
         .min(8, "too short")
         .max(10, "too long"),
+      preetens: yup
+        .number()
+        .test(
+          "not-enough-seats",
+          "There's not that many seats available",
+          (passengers) => tour.data.availableSeats >= passengers
+        ),
     });
   const handleSubmit = (values, { resetForm }) => {
     const tourRef = doc(db, "tours", selectedTour[0].id);
     updateDoc(tourRef, {
       availableSeats:
-        selectedTour[0].data.availableSeats - values.numberOfPassengers,
+        selectedTour[0].data.availableSeats -
+        (values.numberOfPassengers + values.preetens),
       reservations: arrayUnion({
         id: Math.floor(Math.random() * 1000000000),
         userEmail: user,
         numberOfPassengers: values.numberOfPassengers,
         children: values.children,
+        preetens: values.preetens,
         nameInfo: values.nameInfo,
         phoneNumber: values.phoneNumber,
         isPaid: true,
@@ -110,26 +125,39 @@ const WrapperReservation = () => {
     setSuccess(true);
     setFreshData(!freshData);
     setSelectedTime(null);
+    setSelectedTourDate(null)
   };
+  
   return (
     <div className="div-WrapperReservation">
       <ChooseBoat setAvailableDates={setAvailableDates} />
-        <h4 className="tour-title">
-          Select a date to continue <span>*</span>
-        </h4>
+      <h4 className="tour-title">
+        Select a date to continue <span>*</span>
+      </h4>
       <div className="dateWrapper">
         <div className="dateWrapperScroll">
-        {
-        availableDates
-        .sort((a,b)=>moment(a) - moment(b))
-        .filter((date, index, dates)=> dates.indexOf(date)===index)
-        .map((date, i)=>{return <button key={i} onClick={()=>setBookValues({
-          ...bookValues,
-          date: date,
-          time: ''
-        })
-        }>
-          {dayjs(new Date(date)).format("DD-MM")}</button>})}
+          {availableDates
+            .sort((a, b) => moment(a) - moment(b))
+            .filter((date, index, dates) => dates.indexOf(date) === index)
+            .map((date, i) => {
+              return (
+                <button
+                  className={selectedTourDate === date ? "selected" : ""}
+                  key={i}
+                  onClick={() => {
+                    setBookValues({
+                      ...bookValues,
+                      date: date,
+                      time: "",
+                    });
+                    setSelectedTourDate(date);
+                    setSelectedTime(null)
+                  }}
+                >
+                  {dayjs(new Date(date)).format("DD-MM")}
+                </button>
+              );
+            })}
         </div>
       </div>
       <h4 className="tour-title">
@@ -198,7 +226,7 @@ const WrapperReservation = () => {
                 <p className="error-handle">
                   <ErrorMessage name="numberOfPassengers" />
                 </p>
-                <h6>Children:</h6>
+                <h6>Kids 0-7 years free:</h6>
                 <Field
                   type="number"
                   name="children"
@@ -220,6 +248,15 @@ const WrapperReservation = () => {
                 </div>
                 <p className="error-handle">
                   <ErrorMessage name="children" />
+                </p>
+                <h6>Kids 7-12 50% of </h6>
+                <Field
+                  type="number"
+                  name="preetens"
+                  placeholder="Any children?"
+                />
+                <p className="error-handle">
+                  <ErrorMessage name="preetens" />
                 </p>
                 <h4>
                   Enter your name <span>*</span>

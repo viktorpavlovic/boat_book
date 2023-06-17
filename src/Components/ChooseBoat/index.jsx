@@ -3,12 +3,14 @@ import { useRef } from "react";
 import { applicationContext } from "../../context";
 import "./choose-boat.scss";
 
-const ChooseBoat = ({setAvailableDates}) => {
-  const { bookValues, setBookValues,allDocs } = useContext(applicationContext);
+const ChooseBoat = ({ setAvailableDates }) => {
+  const { bookValues, setBookValues, allDocs } = useContext(applicationContext);
   const boatRef = useRef(null);
   const handleImageClick = (selectedBoat) => {
-    const dates = allDocs?.filter((e) => e.data.boat === selectedBoat).map((e)=>e.data.date);
-    setAvailableDates(dates)
+    const dates = allDocs
+      ?.filter((e) => e.data.boat === selectedBoat)
+      .map((e) => e.data.date);
+    setAvailableDates(dates);
     setBookValues({
       ...bookValues,
       boat: selectedBoat,
