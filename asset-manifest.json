@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/http//viktorpavlovic.github.io/static/css/main.9c190bd4.css",
-    "main.js": "/http//viktorpavlovic.github.io/static/js/main.4a011253.js",
-    "index.html": "/http//viktorpavlovic.github.io/index.html",
-    "main.9c190bd4.css.map": "/http//viktorpavlovic.github.io/static/css/main.9c190bd4.css.map",
-    "main.4a011253.js.map": "/http//viktorpavlovic.github.io/static/js/main.4a011253.js.map"
+    "main.css": "/https//viktorpavlovic.github.io/boat_book/static/css/main.689825fe.css",
+    "main.js": "/https//viktorpavlovic.github.io/boat_book/static/js/main.d9980873.js",
+    "index.html": "/https//viktorpavlovic.github.io/boat_book/index.html",
+    "main.689825fe.css.map": "/https//viktorpavlovic.github.io/boat_book/static/css/main.689825fe.css.map",
+    "main.d9980873.js.map": "/https//viktorpavlovic.github.io/boat_book/static/js/main.d9980873.js.map"
   },
   "entrypoints": [
-    "static/css/main.9c190bd4.css",
-    "static/js/main.4a011253.js"
+    "static/css/main.689825fe.css",
+    "static/js/main.d9980873.js"
   ]
 }
