@@ -18,7 +18,7 @@ const WrapperReservation = () => {
     nameInfo: "",
     numberOfPassengers: 0,
     children: 0,
-    preetens: 0,
+    preteens: 0,
     phoneNumber: "",
     isPaid: true,
   };
@@ -32,6 +32,7 @@ const WrapperReservation = () => {
   const [availableDates, setAvailableDates] = useState([]);
   const availableTimes = ["daytime", "sunset", "night"];
   const [success, setSuccess] = useState(false);
+  const today = new Date()
   const phoneRegExp =
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
   const selectedBoat = allDocs?.filter((e) => e.data.boat === bookValues.boat);
@@ -84,7 +85,7 @@ const WrapperReservation = () => {
         .matches(phoneRegExp, "Phone number is not valid")
         .min(8, "too short")
         .max(10, "too long"),
-      preetens: yup
+      preteens: yup
         .number()
         .test(
           "not-enough-seats",
@@ -97,13 +98,13 @@ const WrapperReservation = () => {
     updateDoc(tourRef, {
       availableSeats:
         selectedTour[0].data.availableSeats -
-        (values.numberOfPassengers + values.preetens),
+        (values.numberOfPassengers + values.preteens),
       reservations: arrayUnion({
         id: Math.floor(Math.random() * 1000000000),
         userEmail: user,
         numberOfPassengers: values.numberOfPassengers,
         children: values.children,
-        preetens: values.preetens,
+        preteens: values.preteens,
         nameInfo: values.nameInfo,
         phoneNumber: values.phoneNumber,
         isPaid: true,
@@ -138,6 +139,7 @@ const WrapperReservation = () => {
         <div className="dateWrapperScroll">
           {availableDates
             .sort((a, b) => moment(a) - moment(b))
+            .filter((date)=>moment(date)>moment(today))
             .filter((date, index, dates) => dates.indexOf(date) === index)
             .map((date, i) => {
               return (
@@ -252,11 +254,11 @@ const WrapperReservation = () => {
                 <h6>Kids 7-12 50% of </h6>
                 <Field
                   type="number"
-                  name="preetens"
+                  name="preteens"
                   placeholder="Any children?"
                 />
                 <p className="error-handle">
-                  <ErrorMessage name="preetens" />
+                  <ErrorMessage name="preteens" />
                 </p>
                 <h4>
                   Enter your name <span>*</span>
