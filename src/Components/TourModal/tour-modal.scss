@@ -60,18 +60,21 @@
 
         .reservation-content {
           display: flex;
+          flex-direction: column;
           justify-content: space-between;
-          align-items: center;
-          flex-wrap: wrap;
           margin-top: 10px;
           border: 2px solid #fff;
           padding: 5px;
+          div {
+            padding-top: 5px;            
+          }
+          div :first-of-type{
+            padding: 0;
+          }
           h5 {
             padding-top: 5px;
           }
-          p {
-            padding-top: 5px;
-          }
+          
           button {
             margin-top: 5px;
             background-color: #721717;

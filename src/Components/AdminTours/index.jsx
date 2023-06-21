@@ -7,12 +7,21 @@ import "./admin-tours.scss";
 
 const AdminTours = ({ handleOpen }) => {
   const { allDocs, freshData, setFreshData } = useContext(applicationContext);
+  const boats = ["Turtle Boat", "Key Boat", "Nikola Tesla Boat"];
+  const [selectedBoat, setSelectedBoat] = useState(boats[0]);
   const [pastTours, setPastTours] = useState(false);
   const handleDelete = async (e) => {
     await deleteDoc(doc(db, "tours", e.id));
     setFreshData(!freshData);
   };
   const filteredDocs = allDocs
+    .filter((e) =>
+      selectedBoat === boats[0]
+        ? e.data.boat === "turtle-boat"
+        : selectedBoat === boats[1]
+        ? e.data.boat === "key-boat"
+        : e.data.boat === "nikola-tesla-boat"
+    )
     .sort((a, b) =>
       pastTours
         ? moment(b.data.date) - moment(a.data.date)
@@ -25,6 +34,17 @@ const AdminTours = ({ handleOpen }) => {
     );
   return (
     <div className="div-admin-tours">
+      <div className="boat-toggle-div">
+        {boats.map((boat, i) => (
+          <button
+            key={i}
+            className={boat === selectedBoat ? "selected" : ""}
+            onClick={() => setSelectedBoat(boats[i])}
+          >
+            {boat}
+          </button>
+        ))}
+      </div>
       <div className="past-toggle-div">
         <button
           className={pastTours ? "selected" : ""}
@@ -40,7 +60,7 @@ const AdminTours = ({ handleOpen }) => {
         </button>
       </div>
       <main>
-        {filteredDocs.map((e) => (
+        {filteredDocs[0] ? filteredDocs.map((e) => (
           <section key={e.id}>
             <p>{moment(e?.data?.date).format("LL")}</p>
             <p>{e.data.time}</p>
@@ -49,7 +69,7 @@ const AdminTours = ({ handleOpen }) => {
               Delete
             </button>
           </section>
-        ))}
+        )) : <p>No tours found!</p>}
       </main>
     </div>
   );

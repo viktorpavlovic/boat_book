@@ -4,7 +4,7 @@ import { db } from "../../firebase";
 import { doc, updateDoc } from "firebase/firestore";
 import "./tour-modal.scss";
 
-const TourModal = ({ handleClose, clickedTour, setClickedTour }) => {
+const TourModal = ({ handleClose, clickedTour }) => {
   const { freshData, setFreshData, allDocs } = useContext(applicationContext);
   const handleOverlayClick = (event) => {
     if (event.target === event.currentTarget) {
@@ -23,6 +23,8 @@ const TourModal = ({ handleClose, clickedTour, setClickedTour }) => {
     });
     setFreshData(!freshData);
   };
+  const children = selectedTour.data.reservations.reduce((a,b)=> a + b.children, 0)
+  console.log(children);
   return (
     <div className="div-modal-tour" onClick={handleOverlayClick}>
       <div className="modal-container">
@@ -34,6 +36,10 @@ const TourModal = ({ handleClose, clickedTour, setClickedTour }) => {
           <div className="seats-boat">
             <h5>Available Seats:</h5>
             <p>{selectedTour.data.availableSeats} seats</p>
+            <h5>Children:</h5>
+            <p>{
+            
+            } children</p>
             <h5>Name of Boat:</h5>
             <p>{selectedTour.data.boat} </p>
           </div>
@@ -41,12 +47,24 @@ const TourModal = ({ handleClose, clickedTour, setClickedTour }) => {
             <h4>Reservations:</h4>
             {selectedTour.data.reservations?.map((e, i) => (
               <div key={i} className="reservation-content">
+                <div>
                 <h5>Name:</h5>
                 <p>{e.nameInfo}</p>
-                <h5>Number of Passengers:</h5>
+                </div>
+                <div>
+                <h5>Number of adults:</h5>
                 <p>{e.numberOfPassengers}</p>
+                </div>
+                <div>
+                <h5>Preteens:</h5>
+                <p>{e.preteens}</p>
+                </div>
+                <div>
+                <h5>Small children:</h5>
+                <p>{e.children}</p>
+                </div>
                 <button
-                  onClick={() => handleDelete(e.id, e.numberOfPassengers)}
+                  onClick={() => handleDelete(e.id, (e.numberOfPassengers+e.preteens))}
                 >
                   Delete
                 </button>

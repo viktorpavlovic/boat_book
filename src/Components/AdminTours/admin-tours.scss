@@ -1,6 +1,7 @@
 :root {--height:50px}
 
-.past-toggle-div{
+
+.boat-toggle-div, .past-toggle-div{
   margin: 10px;
   display: flex;
   justify-content: center;
@@ -35,7 +36,7 @@
     section {
       width: 100%;
       min-height: var(--height);
-      font-size: 14px;
+      font-size: 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;

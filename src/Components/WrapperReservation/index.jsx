@@ -46,6 +46,11 @@ const WrapperReservation = () => {
   const plusPassengerCount = (setFieldValue, values) => {
     setFieldValue("numberOfPassengers", values.numberOfPassengers + 1);
   };
+  const minusPassengerCount = (setFieldValue, values) => {
+    if (values.numberOfPassengers > 0) {
+      setFieldValue("numberOfPassengers", values.numberOfPassengers - 1);
+    }
+  };
   const plusChildrenCount = (setFieldValue, values) => {
     setFieldValue("children", values.children + 1);
   };
@@ -54,10 +59,13 @@ const WrapperReservation = () => {
       setFieldValue("children", values.children - 1);
     }
   };
-
-  const minusPassengerCount = (setFieldValue, values) => {
-    if (values.numberOfPassengers > 0) {
-      setFieldValue("numberOfPassengers", values.numberOfPassengers - 1);
+  
+  const plusPreteenCount = (setFieldValue, values) => {
+    setFieldValue("preteens", values.preteens + 1);
+  };
+  const minusPreteenCount = (setFieldValue, values) => {
+    if (values.preteens > 0) {
+      setFieldValue("preteens", values.preteens - 1);
     }
   };
   const validationSchema = (tour) =>
@@ -73,31 +81,32 @@ const WrapperReservation = () => {
           "There's not that many seats available",
           (passengers) => tour.data.availableSeats >= passengers
         ),
+      preteens: yup
+        .number()
+        .max(10, "Max passengers 10")
+        .test(
+          "not-enough-seats",
+          "There's not that many seats available",
+          (passengers) => tour.data.availableSeats >= passengers
+        ),
       children: yup
         .number()
-        .max(
-          yup.ref("numberOfPassengers"),
-          "This cannot be higher than the number of passengers"
-        ),
+        .max(10, "Max passengers 10"),
 
       phoneNumber: yup
         .string()
         .matches(phoneRegExp, "Phone number is not valid")
         .min(8, "too short")
         .max(10, "too long"),
-      preteens: yup
-        .number()
-        .test(
-          "not-enough-seats",
-          "There's not that many seats available",
-          (passengers) => tour.data.availableSeats >= passengers
-        ),
     });
   const handleSubmit = (values, { resetForm }) => {
-    const tourRef = doc(db, "tours", selectedTour[0].id);
+    const tour = selectedDate?.filter(
+      (e) => e.data.time === bookValues.time
+    );
+    const tourRef = doc(db, "tours", tour[0].id);
     updateDoc(tourRef, {
       availableSeats:
-        selectedTour[0].data.availableSeats -
+        tour[0].data.availableSeats -
         (values.numberOfPassengers + values.preteens),
       reservations: arrayUnion({
         id: Math.floor(Math.random() * 1000000000),
@@ -228,6 +237,28 @@ const WrapperReservation = () => {
                 <p className="error-handle">
                   <ErrorMessage name="numberOfPassengers" />
                 </p>
+                <h6>Kids 7-12 50% of </h6>
+                <Field
+                  type="number"
+                  name="preteens"
+                />
+                <div className="plus-minus">
+                  <button
+                    type="button"
+                    onClick={() => plusPreteenCount(setFieldValue, values)}
+                  >
+                    +
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => minusPreteenCount(setFieldValue, values)}
+                  >
+                    -
+                  </button>
+                </div>
+                <p className="error-handle">
+                  <ErrorMessage name="preteens" />
+                </p>
                 <h6>Kids 0-7 years free:</h6>
                 <Field
                   type="number"
@@ -250,15 +281,6 @@ const WrapperReservation = () => {
                 </div>
                 <p className="error-handle">
                   <ErrorMessage name="children" />
-                </p>
-                <h6>Kids 7-12 50% of </h6>
-                <Field
-                  type="number"
-                  name="preteens"
-                  placeholder="Any children?"
-                />
-                <p className="error-handle">
-                  <ErrorMessage name="preteens" />
                 </p>
                 <h4>
                   Enter your name <span>*</span>
