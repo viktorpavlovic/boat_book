@@ -30,9 +30,15 @@ const WrapperReservation = () => {
   const [selectedTime, setSelectedTime] = useState(null);
   const [selectedTourDate, setSelectedTourDate] = useState(null);
   const [availableDates, setAvailableDates] = useState([]);
+  const today = new Date()
+  const weekFromNow = new Date()
+  weekFromNow.setDate(today.getDate()+7)
+  const filteredDates = availableDates[0] ? availableDates
+  .sort((a, b) => moment(a) - moment(b))
+  .filter((date)=>moment(date)>moment(today))
+  .filter((date, index, dates) => dates.indexOf(date) === index) : []
   const availableTimes = ["daytime", "sunset", "night"];
   const [success, setSuccess] = useState(false);
-  const today = new Date()
   const phoneRegExp =
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
   const selectedBoat = allDocs?.filter((e) => e.data.boat === bookValues.boat);
@@ -146,11 +152,14 @@ const WrapperReservation = () => {
       </h4>
       <div className="dateWrapper">
         <div className="dateWrapperScroll">
-          {availableDates
-            .sort((a, b) => moment(a) - moment(b))
-            .filter((date)=>moment(date)>moment(today))
-            .filter((date, index, dates) => dates.indexOf(date) === index)
-            .map((date, i) => {
+          {(!filteredDates[0] ? null :
+           new Date(filteredDates[0]).getTime() > weekFromNow.getTime())
+             ?<>
+           <p>There are no tours for this</p>
+           <p>boat during this week.</p>
+           </>
+            : 
+            filteredDates.map((date, i) => {
               return (
                 <button
                   className={selectedTourDate === date ? "selected" : ""}
@@ -167,7 +176,7 @@ const WrapperReservation = () => {
                 >
                   {dayjs(new Date(date)).format("DD-MM")}
                 </button>
-              );
+              )
             })}
         </div>
       </div>

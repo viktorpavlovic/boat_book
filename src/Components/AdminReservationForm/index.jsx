@@ -9,19 +9,8 @@ import { addDoc, collection } from "firebase/firestore";
 import DatePickerField from "../DatePickerField";
 import "./admin-reservation-form.scss";
 
-
-
 const AdminReservationForm = () => {
   const { setFreshData, freshData } = useContext(applicationContext);
-  const plusCount = (setFieldValue, values) => {
-    setFieldValue("available_seats", values.available_seats + 5);
-  };
-
-  const minusCount = (setFieldValue, values) => {
-    if (values.available_seats > 0) {
-      setFieldValue("available_seats", values.available_seats - 5);
-    }
-  };
   const defaultValue = {
     boat: "",
     startDate: "",
@@ -61,7 +50,7 @@ const AdminReservationForm = () => {
         addDoc(collection(db, "tours"), {
           boat: values.boat,
           date: singleDate,
-          availableSeats: values.available_seats,
+          availableSeats: values.boat === "key-boat" ? 120 : values.boat === "turtle-boat" ? 45 : 38,
           time: singleTime,
           reservations: [],
         });
@@ -123,30 +112,6 @@ const AdminReservationForm = () => {
               <p className="error-handle">
                 <ErrorMessage name="time" />
               </p>
-              <h4>Enter available seats:</h4>
-              <Field
-                type="number"
-                name="available_seats"
-                value={values.available_seats}
-              />
-              <div className="plus-minus">
-                <button
-                  type="button"
-                  onClick={() => plusCount(setFieldValue, values)}
-                >
-                  +
-                </button>
-                <button
-                  type="button"
-                  onClick={() => minusCount(setFieldValue, values)}
-                >
-                  -
-                </button>
-              </div>
-              <p className="error-handle">
-                <ErrorMessage name="available_seats" />
-              </p>
-
               <button className="submit-btn" type="submit">
                 Create tour
               </button>
