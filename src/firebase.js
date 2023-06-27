@@ -3,18 +3,18 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
-
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAewjHz1Gsibv-0hd5R01nXf29Eg-BgSXw",
-  authDomain: "login-boat.firebaseapp.com",
-  projectId: "login-boat",
-  storageBucket: "login-boat.appspot.com",
-  messagingSenderId: "64257702771",
-  appId: "1:64257702771:web:1b669ab1cf3c3439cd2306",
+  apiKey: "AIzaSyCQ6yLtjvfWnyxXZIOvvqywrIbkNsidKTs",
+  authDomain: "boat-book.firebaseapp.com",
+  projectId: "boat-book",
+  storageBucket: "boat-book.appspot.com",
+  messagingSenderId: "155129759750",
+  appId: "1:155129759750:web:6ee90aef4a9bcf110adb87",
+  measurementId: "G-080PLEX1R6",
 };
 
 // Initialize Firebase
