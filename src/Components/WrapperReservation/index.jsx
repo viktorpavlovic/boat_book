@@ -15,7 +15,7 @@ const WrapperReservation = () => {
     useContext(applicationContext);
   const reservationInfo = {
     id: "",
-    nameInfo: "",
+    roomNumber: 0,
     numberOfPassengers: 0,
     children: 0,
     preteens: 0,
@@ -30,13 +30,15 @@ const WrapperReservation = () => {
   const [selectedTime, setSelectedTime] = useState(null);
   const [selectedTourDate, setSelectedTourDate] = useState(null);
   const [availableDates, setAvailableDates] = useState([]);
-  const today = new Date()
-  const weekFromNow = new Date()
-  weekFromNow.setDate(today.getDate()+7)
-  const filteredDates = availableDates[0] ? availableDates
-  .sort((a, b) => moment(a) - moment(b))
-  .filter((date)=>moment(date)>moment(today))
-  .filter((date, index, dates) => dates.indexOf(date) === index) : []
+  const today = new Date();
+  const weekFromNow = new Date();
+  weekFromNow.setDate(today.getDate() + 7);
+  const filteredDates = availableDates[0]
+    ? availableDates
+        .sort((a, b) => moment(a) - moment(b))
+        .filter((date) => moment(date) > moment(today))
+        .filter((date, index, dates) => dates.indexOf(date) === index)
+    : [];
   const availableTimes = ["daytime", "sunset", "night"];
   const [success, setSuccess] = useState(false);
   const phoneRegExp =
@@ -65,7 +67,7 @@ const WrapperReservation = () => {
       setFieldValue("children", values.children - 1);
     }
   };
-  
+
   const plusPreteenCount = (setFieldValue, values) => {
     setFieldValue("preteens", values.preteens + 1);
   };
@@ -76,12 +78,15 @@ const WrapperReservation = () => {
   };
   const validationSchema = (tour) =>
     yup.object().shape({
-      nameInfo: yup.string().required("Please enter your name"),
+      roomNumber: yup
+        .number()
+        .required("Please enter your room number")
+        .min(1, "Number of room must be positive"),
       numberOfPassengers: yup
         .number()
         .required("Please enter a number of passengers")
         .max(10, "Max passengers 10")
-        .min(1,"Min one passenger")
+        .min(1, "Min one passenger")
         .test(
           "not-enough-seats",
           "There's not that many seats available",
@@ -95,9 +100,7 @@ const WrapperReservation = () => {
           "There's not that many seats available",
           (passengers) => tour.data.availableSeats >= passengers
         ),
-      children: yup
-        .number()
-        .max(10, "Max passengers 10"),
+      children: yup.number().max(10, "Max passengers 10"),
 
       phoneNumber: yup
         .string()
@@ -106,9 +109,7 @@ const WrapperReservation = () => {
         .max(10, "too long"),
     });
   const handleSubmit = (values, { resetForm }) => {
-    const tour = selectedDate?.filter(
-      (e) => e.data.time === bookValues.time
-    );
+    const tour = selectedDate?.filter((e) => e.data.time === bookValues.time);
     const tourRef = doc(db, "tours", tour[0].id);
     updateDoc(tourRef, {
       availableSeats:
@@ -120,9 +121,9 @@ const WrapperReservation = () => {
         numberOfPassengers: values.numberOfPassengers,
         children: values.children,
         preteens: values.preteens,
-        nameInfo: values.nameInfo,
+        roomNumber: values.roomNumber,
         phoneNumber: values.phoneNumber,
-        isPaid: true,
+        isPaid: values.isPaid,
       }),
     });
     setTicketInfo({
@@ -141,9 +142,9 @@ const WrapperReservation = () => {
     setSuccess(true);
     setFreshData(!freshData);
     setSelectedTime(null);
-    setSelectedTourDate(null)
+    setSelectedTourDate(null);
   };
-  
+
   return (
     <div className="div-WrapperReservation">
       <ChooseBoat setAvailableDates={setAvailableDates} />
@@ -152,13 +153,16 @@ const WrapperReservation = () => {
       </h4>
       <div className="dateWrapper">
         <div className="dateWrapperScroll">
-          {(!filteredDates[0] ? null :
-           new Date(filteredDates[0]).getTime() > weekFromNow.getTime())
-             ?<>
-           <p>There are no tours for this</p>
-           <p>boat during this week.</p>
-           </>
-            : 
+          {(
+            !filteredDates[0]
+              ? null
+              : new Date(filteredDates[0]).getTime() > weekFromNow.getTime()
+          ) ? (
+            <>
+              <p>There are no tours for this</p>
+              <p>boat during this week.</p>
+            </>
+          ) : (
             filteredDates.map((date, i) => {
               return (
                 <button
@@ -171,13 +175,14 @@ const WrapperReservation = () => {
                       time: "",
                     });
                     setSelectedTourDate(date);
-                    setSelectedTime(null)
+                    setSelectedTime(null);
                   }}
                 >
                   {dayjs(new Date(date)).format("DD-MM")}
                 </button>
-              )
-            })}
+              );
+            })
+          )}
         </div>
       </div>
       <h4 className="tour-title">
@@ -247,10 +252,7 @@ const WrapperReservation = () => {
                   <ErrorMessage name="numberOfPassengers" />
                 </p>
                 <h6>Kids 7-12 50% of </h6>
-                <Field
-                  type="number"
-                  name="preteens"
-                />
+                <Field type="number" name="preteens" />
                 <div className="plus-minus">
                   <button
                     type="button"
@@ -292,16 +294,16 @@ const WrapperReservation = () => {
                   <ErrorMessage name="children" />
                 </p>
                 <h4>
-                  Enter your name <span>*</span>
+                  Enter your room number <span>*</span>
                 </h4>
                 <Field
                   type="text"
-                  name="nameInfo"
-                  placeholder="Your name"
+                  name="roomNumber"
+                  placeholder="Number of room"
                   className="form-field"
                 />
                 <p className="error-handle">
-                  <ErrorMessage name="nameInfo" />
+                  <ErrorMessage name="roomNumber" />
                 </p>
                 <h4>Phone number</h4>
                 <label className="joke">

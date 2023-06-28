@@ -15,16 +15,17 @@ const AdminReservationForm = () => {
     boat: "",
     startDate: "",
     endDate: "",
-    date:'',
+    date: "",
     available_seats: 50,
     time: [],
+    sunset_clock: "18:00",
+    daytime_clock: "16:00",
+    night_clock: "20:00",
   };
 
   const validationSchema = yup.object().shape({
     boat: yup.string().required("Select a boat"),
-    date: yup
-      .array()
-      .required("Please insert a date"),
+    date: yup.array().required("Please insert a date"),
     available_seats: yup
       .number()
       .required("Enter available seats")
@@ -37,21 +38,39 @@ const AdminReservationForm = () => {
   });
   const getDates = (datesArray) => {
     let dates = [];
-    datesArray.forEach((date)=>{
+    datesArray.forEach((date) => {
       dates.push(dayjs(date).format("YYYY-MM-DD"));
-    })
-    
+    });
+
     return dates;
   };
   const handleAdd = (values) => {
-    const dateRange = getDates(values.date)
+    const dateRange = getDates(values.date);
     dateRange.forEach((singleDate) => {
       values.time.forEach((singleTime) => {
         addDoc(collection(db, "tours"), {
           boat: values.boat,
           date: singleDate,
-          availableSeats: values.boat === "key-boat" ? 120 : values.boat === "turtle-boat" ? 45 : 38,
+          availableSeats:
+            values.boat === "key-boat"
+              ? 120
+              : values.boat === "turtle-boat"
+              ? 45
+              : 38,
           time: singleTime,
+          daytime_clock:
+            singleTime === "daytime"
+              ? values.daytime_clock
+              : "this is not daytime tour",
+          sunset_clock:
+            singleTime === "sunset"
+              ? values.sunset_clock
+              : "this is not sunset tour",
+          night_clock:
+            singleTime === "night"
+              ? values.night_clock
+              : "this is not night tour",
+
           reservations: [],
         });
       });
@@ -62,7 +81,7 @@ const AdminReservationForm = () => {
   return (
     <div className="div-admin-res">
       <h3>Create a tour:</h3>
-      
+
       <Formik
         initialValues={defaultValue}
         validationSchema={validationSchema}
@@ -89,7 +108,7 @@ const AdminReservationForm = () => {
               </p>
               <h4>Select Date/Dates</h4>
               <DatePickerField
-                name='date'
+                name="date"
                 value={values.date}
                 onChange={setFieldValue}
               />
@@ -101,14 +120,57 @@ const AdminReservationForm = () => {
                 Daytime
                 <Field type="checkbox" name="time" value="daytime" />
               </label>
+              <div className="clock-inputs">
+                <label>
+                  15:30h
+                  <Field type="radio" name="daytime_clock" value="15:30h " />
+                </label>
+                <label>
+                  16:00h
+                  <Field type="radio" name="daytime_clock" value="16:00h" />
+                </label>
+                <label>
+                  16:30h
+                  <Field type="radio" name="daytime_clock" value="16:30h" />
+                </label>
+              </div>
+
               <label>
                 Sunset
                 <Field type="checkbox" name="time" value="sunset" />
               </label>
+              <div className="clock-inputs">
+                <label>
+                  17:30h
+                  <Field type="radio" name="sunset_clock" value="17:30h " />
+                </label>
+                <label>
+                  18:00h
+                  <Field type="radio" name="sunset_clock" value="18:00h" />
+                </label>
+                <label>
+                  18:30h
+                  <Field type="radio" name="sunset_clock" value="18:30h" />
+                </label>
+              </div>
               <label>
                 Night
                 <Field type="checkbox" name="time" value="night" />
               </label>
+              <div className="clock-inputs">
+                <label>
+                  19:30h
+                  <Field type="radio" name="night_clock" value="19:30h" />
+                </label>
+                <label>
+                  20:00h
+                  <Field type="radio" name="night_clock" value="20:00h" />
+                </label>
+                <label>
+                  20:30h
+                  <Field type="radio" name="night_clock" value="20:30h" />
+                </label>
+              </div>
               <p className="error-handle">
                 <ErrorMessage name="time" />
               </p>
