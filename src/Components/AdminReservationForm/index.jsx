@@ -1,4 +1,4 @@
-import React from "react";
+import { useRef, React } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { useContext } from "react";
 import { applicationContext } from "../../context";
@@ -11,6 +11,7 @@ import "./admin-reservation-form.scss";
 
 const AdminReservationForm = () => {
   const { setFreshData, freshData } = useContext(applicationContext);
+  const tourRef = useRef(null);
   const defaultValue = {
     boat: "",
     startDate: "",
@@ -44,7 +45,7 @@ const AdminReservationForm = () => {
 
     return dates;
   };
-  const handleAdd = (values) => {
+  const handleAdd = (values, { resetForm }) => {
     const dateRange = getDates(values.date);
     dateRange.forEach((singleDate) => {
       values.time.forEach((singleTime) => {
@@ -52,7 +53,7 @@ const AdminReservationForm = () => {
           boat: values.boat,
           date: singleDate,
           availableSeats:
-            values.boat === "key-boat"
+            values.boat === "key-boat" || "open-bus"
               ? 120
               : values.boat === "turtle-boat"
               ? 45
@@ -75,7 +76,9 @@ const AdminReservationForm = () => {
         });
       });
     });
+    tourRef.current.scrollIntoView({ behavior: "smooth" });
     setFreshData(!freshData);
+    resetForm();
   };
 
   return (
@@ -102,6 +105,10 @@ const AdminReservationForm = () => {
               <label>
                 Nikola Tesla Boat
                 <Field type="radio" name="boat" value="nikola-tesla-boat" />
+              </label>
+              <label>
+                Open Bus
+                <Field type="radio" name="boat" value="open-bus" />
               </label>
               <p className="error-handle">
                 <ErrorMessage name="boat" />
@@ -174,7 +181,7 @@ const AdminReservationForm = () => {
               <p className="error-handle">
                 <ErrorMessage name="time" />
               </p>
-              <button className="submit-btn" type="submit">
+              <button className="submit-btn" type="submit" ref={tourRef}>
                 Create tour
               </button>
             </section>

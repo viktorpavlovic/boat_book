@@ -39,6 +39,7 @@ const WrapperReservation = () => {
         .filter((date) => moment(date) > moment(today))
         .filter((date, index, dates) => dates.indexOf(date) === index)
     : [];
+
   const availableTimes = ["daytime", "sunset", "night"];
   const [success, setSuccess] = useState(false);
   const phoneRegExp =
@@ -178,7 +179,7 @@ const WrapperReservation = () => {
                     setSelectedTime(null);
                   }}
                 >
-                  {dayjs(new Date(date)).format("DD-MM")}
+                  {dayjs(new Date(date)).format("dddd DD-MM")}
                 </button>
               );
             })

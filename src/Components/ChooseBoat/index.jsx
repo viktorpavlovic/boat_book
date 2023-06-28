@@ -1,6 +1,7 @@
 import { React, useContext } from "react";
 import { useRef } from "react";
 import { applicationContext } from "../../context";
+import busImg from "../../assets/open-bus.jpg";
 import "./choose-boat.scss";
 
 const ChooseBoat = ({ setAvailableDates }) => {
@@ -36,18 +37,20 @@ const ChooseBoat = ({ setAvailableDates }) => {
           src="https://www.cruisebelgrade.com/ws/resized-images/25ae30aae97849689bde343a5b5e8b12/6ad65232-9270-4799-b443-ead6a7a92d9f.webp"
           alt="Nikola Tesla Boat"
         />
+        <img
+          onClick={() => handleImageClick("open-bus")}
+          src={busImg}
+          alt="Nikola Tesla Boat"
+        />
       </div>
 
       <p>
         Selected Boat:{" "}
         <span ref={boatRef}>
-          {bookValues.boat === "turtle-boat"
-            ? "Turtle boat"
-            : bookValues.boat === "key-boat"
-            ? "Key Boat"
-            : bookValues.boat === "nikola-tesla-boat"
-            ? "Nikola Tesla Boat"
-            : ""}
+          {(bookValues.boat === "turtle-boat" && "Turtle Boat") ||
+            (bookValues.boat === "key-boat" && "Key Boat") ||
+            (bookValues.boat === "nikola-tesla-boat" && "Nikola Tesla Boat") ||
+            (bookValues.boat === "open-bus" && "Open Bus")}
         </span>
       </p>
     </div>
