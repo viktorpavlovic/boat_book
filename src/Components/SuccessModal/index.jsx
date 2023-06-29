@@ -15,8 +15,8 @@ import Roboto from "typeface-roboto"
 
 const SuccessModal = ({ setSuccess, ticketInfo }) => {
   
-  Font.register({family:'Roboto', format:'truetype', src: Roboto
-})
+//   Font.register({family:'Roboto', format:'truetype', src: Roboto
+// })
   const styles = StyleSheet.create({
     page: {
       width: '78%',
@@ -52,7 +52,7 @@ const SuccessModal = ({ setSuccess, ticketInfo }) => {
         fontSize: '9px'
       },
       tourTitle:{
-        fontFamily: 'Roboto',
+        // fontFamily: 'Roboto',
         textTransform: 'uppercase',
         textDecoration: 'underline',
         paddingBottom: '10px',
@@ -69,7 +69,7 @@ const SuccessModal = ({ setSuccess, ticketInfo }) => {
         fontSize: '9px'
       },
       passengersTitleSmall:{
-        fontFamily: 'Roboto',
+        // fontFamily: 'Roboto',
         paddingBottom: '10px',
         textTransform:'uppercase',
         fontSize: '12px'        

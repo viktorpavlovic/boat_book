@@ -66,7 +66,7 @@ const WrapperReservation = () => {
     setFieldValue("children", values.children + 1);
   };
   const minusChildrenCount = (setFieldValue, values) => {
-    if (values.numberOfPassengers > 0) {
+    if (values.children > 0) {
       setFieldValue("children", values.children - 1);
     }
   };
@@ -84,7 +84,7 @@ const WrapperReservation = () => {
       roomNumber: yup
         .number()
         .required("Please enter your room number")
-        .min(1, "Number of room must be positive"),
+        .min(1, "Room number must be positive"),
       numberOfPassengers: yup
         .number()
         .required("Please enter a number of passengers")
@@ -98,12 +98,16 @@ const WrapperReservation = () => {
       preteens: yup
         .number()
         .max(10, "Max passengers 10")
+        .min(0, "Can't be less than zero")
         .test(
           "not-enough-seats",
           "There's not that many seats available",
           (passengers) => tour.data.availableSeats >= passengers
         ),
-      children: yup.number().max(10, "Max passengers 10"),
+      children: yup
+        .number()
+        .max(10, "Max passengers 10")
+        .min(0, "Can't be less than zero"),
 
       phoneNumber: yup
         .string()
@@ -114,7 +118,7 @@ const WrapperReservation = () => {
   const handleSubmit = (values, { resetForm }) => {
     const tour = selectedDate?.filter((e) => e.data.time === bookValues.time);
     const tourRef = doc(db, "tours", tour[0].id);
-    const random = Math.floor(Math.random() * 1000000000)
+    const random = Math.floor(Math.random() * 1000000000);
     setTicketInfo({
       ...ticketInfo,
       boat: bookValues.boat,
@@ -124,11 +128,11 @@ const WrapperReservation = () => {
       children: values.children,
       preteens: values.preteens,
     });
-    console.log(ticketInfoHandler(ticketInfo, values))
+    console.log(ticketInfoHandler(ticketInfo, values));
     updateDoc(tourRef, {
       availableSeats:
         tour[0].data.availableSeats -
-        (values.numberOfPassengers + values.preteens+ values.children),
+        (values.numberOfPassengers + values.preteens + values.children),
       reservations: arrayUnion({
         id: random,
         userEmail: user,

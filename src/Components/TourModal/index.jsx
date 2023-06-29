@@ -77,7 +77,7 @@ const TourModal = ({ handleClose, clickedTour }) => {
                 </div>
                 <button
                   onClick={() =>
-                    handleDelete(e.id, e.numberOfPassengers + e.preteens)
+                    handleDelete(e.id, e.numberOfPassengers + e.preteens+ e.children)
                   }
                 >
                   Delete
