@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/boat_book/static/css/main.6871d17a.css",
-    "main.js": "/boat_book/static/js/main.88a45eb5.js",
+    "main.js": "/boat_book/static/js/main.e88ce17a.js",
     "static/media/open-bus.jpg": "/boat_book/static/media/open-bus.16b0408a38d2d97f9313.jpg",
     "static/media/ticket.jpg": "/boat_book/static/media/ticket.4a6eb4422d6b3e15041d.jpg",
     "index.html": "/boat_book/index.html",
     "main.6871d17a.css.map": "/boat_book/static/css/main.6871d17a.css.map",
-    "main.88a45eb5.js.map": "/boat_book/static/js/main.88a45eb5.js.map"
+    "main.e88ce17a.js.map": "/boat_book/static/js/main.e88ce17a.js.map"
   },
   "entrypoints": [
     "static/css/main.6871d17a.css",
-    "static/js/main.88a45eb5.js"
+    "static/js/main.e88ce17a.js"
   ]
 }
