@@ -9,6 +9,8 @@ import { db } from "../../firebase";
 import * as yup from "yup";
 import "./../WrapperReservation/wrapper-reservation.scss";
 import moment from "moment";
+import { ticketInfoHandler } from "../../store/ticket-context";
+// trebace kontekst ako hocemo da dodajemo gluposti za pdf
 
 const WrapperReservation = () => {
   const { bookValues, setBookValues, allDocs, user, freshData, setFreshData } =
@@ -110,26 +112,31 @@ const WrapperReservation = () => {
       (e) => e.data.time === bookValues.time
     );
     const tourRef = doc(db, "tours", tour[0].id);
+    const random = Math.floor(Math.random() * 1000000000)
+    setTicketInfo({
+      ...ticketInfo,
+      boat: bookValues.boat,
+      date: bookValues.date,
+      numberOfPassengers: values.numberOfPassengers,
+      roomNumber: values.nameInfo,
+      children: values.children,
+      preteens: values.preteens,
+    });
+    console.log(ticketInfoHandler(ticketInfo, values))
     updateDoc(tourRef, {
       availableSeats:
         tour[0].data.availableSeats -
-        (values.numberOfPassengers + values.preteens),
+        (values.numberOfPassengers + values.preteens+ values.children),
       reservations: arrayUnion({
-        id: Math.floor(Math.random() * 1000000000),
+        id: random,
         userEmail: user,
         numberOfPassengers: values.numberOfPassengers,
         children: values.children,
         preteens: values.preteens,
         nameInfo: values.nameInfo,
         phoneNumber: values.phoneNumber,
-        isPaid: true,
+        isPaid: values.isPaid,
       }),
-    });
-    setTicketInfo({
-      ...ticketInfo,
-      boat: bookValues.boat,
-      date: bookValues.date,
-      numberOfPassengers: values.numberOfPassengers,
     });
     setBookValues({
       ...bookValues,
