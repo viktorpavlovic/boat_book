@@ -23,7 +23,10 @@ const TourModal = ({ handleClose, clickedTour }) => {
     });
     setFreshData(!freshData);
   };
-  const children = selectedTour.data.reservations.reduce((a,b)=> a + b.children, 0)
+  const children = selectedTour.data.reservations.reduce(
+    (a, b) => a + b.children,
+    0
+  );
   console.log(children);
   return (
     <div className="div-modal-tour" onClick={handleOverlayClick}>
@@ -36,10 +39,7 @@ const TourModal = ({ handleClose, clickedTour }) => {
           <div className="seats-boat">
             <h5>Available Seats:</h5>
             <p>{selectedTour.data.availableSeats} seats</p>
-            <h5>Children:</h5>
-            <p>{
-            
-            } children</p>
+
             <h5>Name of Boat:</h5>
             <p>{selectedTour.data.boat} </p>
           </div>
@@ -47,24 +47,38 @@ const TourModal = ({ handleClose, clickedTour }) => {
             <h4>Reservations:</h4>
             {selectedTour.data.reservations?.map((e, i) => (
               <div key={i} className="reservation-content">
-                <div>
-                <h5>Name:</h5>
-                <p>{e.nameInfo}</p>
+                <div className="user-email">
+                  <h5>Seller email:</h5>
+                  <p>{e.userEmail}</p>
                 </div>
-                <div>
-                <h5>Number of adults:</h5>
-                <p>{e.numberOfPassengers}</p>
+                <div className="modal-content">
+                  <h5>Reservation room:</h5>
+                  <p>{e.roomNumber}</p>
                 </div>
-                <div>
-                <h5>Preteens:</h5>
-                <p>{e.preteens}</p>
+                <div className="modal-content">
+                  <h5>Number of adults:</h5>
+                  <p>{e.numberOfPassengers}</p>
                 </div>
-                <div>
-                <h5>Small children:</h5>
-                <p>{e.children}</p>
+                <div className="modal-content">
+                  <h5>Preteens:</h5>
+                  <p>{e.preteens}</p>
+                </div>
+                <div className="modal-content">
+                  <h5>Small children:</h5>
+                  <p>{e.children}</p>
+                </div>
+                <div className="modal-content">
+                  <h5>Is Paid:</h5>
+                  <p>{e.isPaid === true ? "paid" : "not paid"}</p>
+                </div>
+                <div className="modal-content">
+                  <h5>Phone number:</h5>
+                  <p>{e.phoneNumber}</p>
                 </div>
                 <button
-                  onClick={() => handleDelete(e.id, (e.numberOfPassengers+e.preteens))}
+                  onClick={() =>
+                    handleDelete(e.id, e.numberOfPassengers + e.preteens)
+                  }
                 >
                   Delete
                 </button>

@@ -7,7 +7,7 @@ import "./admin-tours.scss";
 
 const AdminTours = ({ handleOpen }) => {
   const { allDocs, freshData, setFreshData } = useContext(applicationContext);
-  const boats = ["Turtle Boat", "Key Boat", "Nikola Tesla Boat"];
+  const boats = ["Turtle Boat", "Key Boat", "Nikola Tesla Boat", "Open Bus"];
   const [selectedBoat, setSelectedBoat] = useState(boats[0]);
   const [pastTours, setPastTours] = useState(false);
   const handleDelete = async (e) => {
@@ -15,12 +15,17 @@ const AdminTours = ({ handleOpen }) => {
     setFreshData(!freshData);
   };
   const filteredDocs = allDocs
-    .filter((e) =>
-      selectedBoat === boats[0]
-        ? e.data.boat === "turtle-boat"
-        : selectedBoat === boats[1]
-        ? e.data.boat === "key-boat"
-        : e.data.boat === "nikola-tesla-boat"
+    .filter(
+      (e) =>
+        (selectedBoat === boats[0] && e?.data?.boat === "turtle-boat") ||
+        (selectedBoat === boats[1] && e?.data?.boat === "key-boat") ||
+        (selectedBoat === boats[2] && e?.data?.boat === "nikola-tesla-boat") ||
+        (selectedBoat === boats[3] && e?.data?.boat === "open-bus")
+      // selectedBoat === boats[0]
+      //   ? e.data.boat === "turtle-boat"
+      //   : selectedBoat === boats[1]
+      //   ? e.data.boat === "key-boat"
+      //   : e.data.boat === "nikola-tesla-boat"
     )
     .sort((a, b) =>
       pastTours
@@ -60,16 +65,20 @@ const AdminTours = ({ handleOpen }) => {
         </button>
       </div>
       <main>
-        {filteredDocs[0] ? filteredDocs.map((e) => (
-          <section key={e.id}>
-            <p>{moment(e?.data?.date).format("LL")}</p>
-            <p>{e.data.time}</p>
-            <button onClick={() => handleOpen(e)}>Tour Info</button>
-            <button className="del" onClick={() => handleDelete(e)}>
-              Delete
-            </button>
-          </section>
-        )) : <p>No tours found!</p>}
+        {filteredDocs[0] ? (
+          filteredDocs.map((e) => (
+            <section key={e.id}>
+              <p>{moment(e?.data?.date).format("LL")}</p>
+              <p>{e.data.time}</p>
+              <button onClick={() => handleOpen(e)}>Tour Info</button>
+              <button className="del" onClick={() => handleDelete(e)}>
+                Delete
+              </button>
+            </section>
+          ))
+        ) : (
+          <p>No tours found!</p>
+        )}
       </main>
     </div>
   );

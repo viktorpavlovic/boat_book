@@ -1,10 +1,6 @@
 .div-admin-res {
   height: 100%;
-  background:  linear-gradient(
-    90deg,
-    rgb(46 40 94),
-    rgb(49, 190, 200)
-  );
+  background: linear-gradient(90deg, rgb(46 40 94), rgb(49, 190, 200));
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -73,13 +69,26 @@
     rgba(0, 0, 0, 1) 0%,
     rgba(0, 0, 0, 1) 50%,
     rgb(0, 0, 0) 100%
-  );}
-.plus-minus{
+  );
+}
+.plus-minus {
   display: flex;
   justify-content: space-around;
   margin-top: 5px;
-  button{
+  button {
     width: 30px;
     font-size: 20px;
+  }
+}
+
+.clock-inputs {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  gap: 10px;
+
+  label {
+    background-color: #000000;
+    color: #fff;
   }
 }
