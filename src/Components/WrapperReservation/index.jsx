@@ -163,9 +163,9 @@ const WrapperReservation = () => {
       <div className="dateWrapper">
         <div className="dateWrapperScroll">
           {(
-            !filteredDates[0]
+            !bookValues.boat
               ? null
-              : new Date(filteredDates[0]).getTime() > weekFromNow.getTime()
+              : !filteredDates[0] || new Date(filteredDates[0]).getTime() > weekFromNow.getTime()
           ) ? (
             <>
               <p>There are no tours for this</p>
