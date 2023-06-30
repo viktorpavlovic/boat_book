@@ -13,8 +13,15 @@ import { ticketInfoHandler } from "../../store/ticket-context";
 // trebace kontekst ako hocemo da dodajemo gluposti za pdf
 
 const WrapperReservation = () => {
-  const { bookValues, setBookValues, allDocs, user, freshData, setFreshData } =
-    useContext(applicationContext);
+  const {
+    bookValues,
+    setBookValues,
+    allDocs,
+    user,
+    freshData,
+    setFreshData,
+    rides,
+  } = useContext(applicationContext);
   const reservationInfo = {
     id: "",
     roomNumber: 0,
@@ -111,10 +118,10 @@ const WrapperReservation = () => {
         .max(10, "too long"),
     });
   const handleSubmit = (values, { resetForm }) => {
-    const tour = selectedTour
+    const tour = selectedTour;
     const tourRef = doc(db, "tours", tour[0].id);
     const random = Math.floor(Math.random() * 1000000000);
-    // let PRICE = bookValues.boat === 'turtle-boat' ? 
+    // let PRICE = bookValues.boat === 'turtle-boat' ?
     setTicketInfo({
       ...ticketInfo,
       boat: bookValues.boat,
@@ -138,7 +145,7 @@ const WrapperReservation = () => {
         roomNumber: values.roomNumber,
         phoneNumber: values.phoneNumber,
         isPaid: values.isPaid,
-        // ticketPrice: values.numberOfPassengers*PRICE+values.preteens*PRICE/2 
+        // ticketPrice: values.numberOfPassengers*PRICE+values.preteens*PRICE/2
       }),
     });
     setBookValues({
@@ -172,7 +179,7 @@ const WrapperReservation = () => {
             </>
           ) : (
             filteredDates.map((date, i) => {
-              const hour = new Date(date).getHours()
+              const hour = new Date(date).getHours();
               return (
                 <div
                   className={selectedTourDate === date ? "selected" : ""}
@@ -191,8 +198,17 @@ const WrapperReservation = () => {
                 >
                   {console.log(hour)}
                   <p
-                  style={{color: hour >= 19 && hour < 22 ? 'orange' : hour >= 22 || hour < 4 ? 'purple' : 'yellow' }}
-                  >{dayjs(new Date(date)).format("ddd DD-MM HH:mm")}</p>
+                    style={{
+                      color:
+                        hour >= 19 && hour < 22
+                          ? "orange"
+                          : hour >= 22 || hour < 4
+                          ? "purple"
+                          : "yellow",
+                    }}
+                  >
+                    {dayjs(new Date(date)).format("ddd DD-MM HH:mm")}
+                  </p>
                 </div>
               );
             })

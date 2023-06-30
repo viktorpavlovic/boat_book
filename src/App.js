@@ -26,6 +26,7 @@ const App = () => {
     reservations: [],
   });
   const [allDocs, setAllDocs] = useState([]);
+  const [rides, setAllRides] = useState([]);
 
   useEffect(() => {
     const fetchAllDocs = async () => {
@@ -39,6 +40,19 @@ const App = () => {
     };
     fetchAllDocs();
   }, [freshData]);
+
+  useEffect(() => {
+    const fetchAllRides = async () => {
+      const collectionRef = collection(db, "rides");
+      const querySnapshot = await getDocs(collectionRef);
+      const ridesData = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        data: doc.data(),
+      }));
+      setAllRides(ridesData);
+    };
+    fetchAllRides();
+  }, []);
 
   const logOut = () => {
     setAccessToken("");
@@ -68,6 +82,7 @@ const App = () => {
             setUser,
             setFreshData,
             freshData,
+            rides,
           }}
         >
           {accessToken ? (

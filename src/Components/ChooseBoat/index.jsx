@@ -5,7 +5,7 @@ import busImg from "../../assets/open-bus.jpg";
 import "./choose-boat.scss";
 
 const ChooseBoat = ({ setAvailableDates }) => {
-  const { bookValues, setBookValues, allDocs } = useContext(applicationContext);
+  const { bookValues, setBookValues, allDocs, rides } = useContext(applicationContext);
   const boatRef = useRef(null);
   const handleImageClick = (selectedBoat) => {
     const dates = allDocs
@@ -18,6 +18,7 @@ const ChooseBoat = ({ setAvailableDates }) => {
     });
     boatRef.current.scrollIntoView({ behavior: "smooth" });
   };
+  console.log(rides)
   return (
     <div className="div-choose-boat">
       <h4>Click on the boat to make reservation now</h4>
@@ -40,7 +41,7 @@ const ChooseBoat = ({ setAvailableDates }) => {
         <img
           onClick={() => handleImageClick("open-bus")}
           src={busImg}
-          alt="Nikola Tesla Boat"
+          alt="Open Bus"
         />
       </div>
 

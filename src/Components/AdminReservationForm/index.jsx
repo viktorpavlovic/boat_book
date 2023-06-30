@@ -10,7 +10,7 @@ import DatePickerField from "../DatePickerField";
 import "./admin-reservation-form.scss";
 
 const AdminReservationForm = () => {
-  const { setFreshData, freshData } = useContext(applicationContext);
+  const { setFreshData, freshData,rides } = useContext(applicationContext);
   const tourRef = useRef(null);
   const defaultValue = {
     boat: "",
