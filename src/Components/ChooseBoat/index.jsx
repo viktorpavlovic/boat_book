@@ -4,21 +4,20 @@ import { applicationContext } from "../../context";
 import busImg from "../../assets/open-bus.jpg";
 import "./choose-boat.scss";
 
-const ChooseBoat = ({ setAvailableDates }) => {
-  const { bookValues, setBookValues, allDocs, rides } = useContext(applicationContext);
+const ChooseBoat = ({ setAvailableDates, setSelectedRide, selectedRide,setSelectedDate }) => {
+  const { allDocs, rides } = useContext(applicationContext);
   const boatRef = useRef(null);
   const handleImageClick = (selectedBoat) => {
     const dates = allDocs
       ?.filter((e) => e.data.boat === selectedBoat)
       .map((e) => e.data.date);
     setAvailableDates(dates);
-    setBookValues({
-      ...bookValues,
-      boat: selectedBoat,
-    });
-    boatRef.current.scrollIntoView({ behavior: "smooth" });
+    setSelectedDate(null)
+    setSelectedRide(()=>rides.find((e)=>selectedBoat === e.data.name))
+    setTimeout(() => {
+      boatRef.current.scrollIntoView({ behavior: "smooth" });
+    }, 0);
   };
-  console.log(rides)
   return (
     <div className="div-choose-boat">
       <h4>Click on the boat to make reservation now</h4>
@@ -46,12 +45,12 @@ const ChooseBoat = ({ setAvailableDates }) => {
       </div>
 
       <p>
-        Selected Boat:{" "}
+        Selected Boat:
         <span ref={boatRef}>
-          {(bookValues.boat === "turtle-boat" && "Turtle Boat") ||
-            (bookValues.boat === "key-boat" && "Key Boat") ||
-            (bookValues.boat === "nikola-tesla-boat" && "Nikola Tesla Boat") ||
-            (bookValues.boat === "open-bus" && "Open Bus")}
+          {(selectedRide?.data.name === "turtle-boat" && "Turtle Boat") ||
+            (selectedRide?.data.name === "key-boat" && "Key Boat") ||
+            (selectedRide?.data.name === "nikola-tesla-boat" && "Nikola Tesla Boat") ||
+            (selectedRide?.data.name === "open-bus" && "Open Bus")}
         </span>
       </p>
     </div>

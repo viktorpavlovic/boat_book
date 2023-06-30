@@ -9,18 +9,15 @@ import { db } from "../../firebase";
 import * as yup from "yup";
 import "./../WrapperReservation/wrapper-reservation.scss";
 import moment from "moment";
-import { ticketInfoHandler } from "../../store/ticket-context";
+// import { ticketInfoHandler } from "../../store/ticket-context";
 // trebace kontekst ako hocemo da dodajemo gluposti za pdf
 
 const WrapperReservation = () => {
   const {
-    bookValues,
-    setBookValues,
     allDocs,
     user,
     freshData,
     setFreshData,
-    rides,
   } = useContext(applicationContext);
   const reservationInfo = {
     id: "",
@@ -37,12 +34,13 @@ const WrapperReservation = () => {
     passengers: "",
   });
   const dateFormat = "YYYY-M-D H:m";
-  const [selectedTourDate, setSelectedTourDate] = useState(null);
   const [availableDates, setAvailableDates] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(null)
+  const [selectedRide, setSelectedRide] = useState(null)
   const today = new Date();
   const weekFromNow = new Date();
   weekFromNow.setDate(today.getDate() + 7);
-  const filteredDates = availableDates[0]
+  const filteredDates = availableDates.length
     ? availableDates
         .sort((a, b) => moment(a, dateFormat) - moment(b, dateFormat))
         .filter((date) => moment(date, dateFormat) > moment(today, dateFormat))
@@ -51,10 +49,10 @@ const WrapperReservation = () => {
   const [success, setSuccess] = useState(false);
   const phoneRegExp =
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
-  const selectedBoat = allDocs?.filter((e) => e.data.boat === bookValues.boat);
+  const selectedBoat = allDocs?.filter((e) => e.data.boat === selectedRide?.data.name);
 
-  const selectedTour = selectedBoat?.filter(
-    (e) => e.data.date === bookValues.date
+  const selectedTour = selectedBoat?.find(
+    (e) => e.data.date === selectedDate
   );
   const formRef = useRef(null);
   const plusPassengerCount = (setFieldValue, values) => {
@@ -120,22 +118,20 @@ const WrapperReservation = () => {
     });
   const handleSubmit = (values, { resetForm }) => {
     const tour = selectedTour;
-    const tourRef = doc(db, "tours", tour[0].id);
+    const tourRef = doc(db, "tours", tour.id);
     const random = Math.floor(Math.random() * 1000000000);
-    // let PRICE = bookValues.boat === 'turtle-boat' ?
     setTicketInfo({
       ...ticketInfo,
-      boat: bookValues.boat,
-      date: bookValues.date,
+      boat: selectedRide.data.name,
+      date: selectedDate,
       numberOfPassengers: values.numberOfPassengers,
       roomNumber: values.roomNumber,
       children: values.children,
       preteens: values.preteens,
     });
-    console.log(ticketInfoHandler(ticketInfo, values));
     updateDoc(tourRef, {
       availableSeats:
-        tour[0].data.availableSeats -
+        tour.data.availableSeats -
         (values.numberOfPassengers + values.preteens + values.children),
       reservations: arrayUnion({
         id: random,
@@ -149,30 +145,26 @@ const WrapperReservation = () => {
         // ticketPrice: values.numberOfPassengers*PRICE+values.preteens*PRICE/2
       }),
     });
-    setBookValues({
-      ...bookValues,
-      boat: "",
-      date: "",
-      time: "",
-    });
+    setSelectedRide(null)
     resetForm();
     setSuccess(true);
     setFreshData(!freshData);
-    setSelectedTourDate(null);
+    setSelectedDate(null);
   };
-
   return (
     <div className="div-WrapperReservation">
-      <ChooseBoat setAvailableDates={setAvailableDates} />
+      <ChooseBoat setAvailableDates={setAvailableDates} selectedRide={selectedRide} setSelectedRide={setSelectedRide}
+      setSelectedDate={setSelectedDate}
+      />
       <h4 className="tour-title">
         Select a tour to continue <span>*</span>
       </h4>
       <div className="dateWrapper">
         <div className="dateWrapperScroll">
           {(
-            !bookValues.boat
+            !selectedRide
               ? null
-              : !filteredDates[0] || new Date(filteredDates[0]).getTime() > weekFromNow.getTime()
+              : filteredDates.length === 0 || new Date(filteredDates[0]).getTime() > weekFromNow.getTime()
           ) ? (
             <>
               <p>There are no tours for this</p>
@@ -183,15 +175,11 @@ const WrapperReservation = () => {
               const hour = new Date(date).getHours();
               return (
                 <div
-                  className={selectedTourDate === date ? "tour selected" : "tour"}
+                  className={selectedDate === date ? "tour selected" : "tour"}
                   key={i}
                   ref={formRef}
                   onClick={() => {
-                    setBookValues({
-                      ...bookValues,
-                      date: date,
-                    });
-                    setSelectedTourDate(date);
+                    setSelectedDate(date);
                     setTimeout(() => {
                       formRef.current.scrollIntoView({ behavior: "smooth" });
                     }, 0);
@@ -206,10 +194,10 @@ const WrapperReservation = () => {
           )}
         </div>
       </div>
-      {selectedTour[0] && (
+      {selectedTour && (
         <Formik
           initialValues={reservationInfo}
-          validationSchema={() => validationSchema(selectedTour[0])}
+          validationSchema={() => validationSchema(selectedTour)}
           onSubmit={handleSubmit}
         >
           {({ values, setFieldValue }) => (

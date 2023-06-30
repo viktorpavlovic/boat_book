@@ -18,13 +18,6 @@ const App = () => {
   const [accessToken, setAccessToken] = useState(
     JSON.parse(localStorage.getItem("accessToken"))
   );
-  const [bookValues, setBookValues] = useState({
-    boat: "",
-    date: "",
-    time: "",
-    availableSeats: 0,
-    reservations: [],
-  });
   const [allDocs, setAllDocs] = useState([]);
   const [rides, setAllRides] = useState([]);
 
@@ -59,12 +52,6 @@ const App = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("admin");
     setIsAdmin(false);
-    setBookValues({
-      ...bookValues,
-      boat: "",
-      date: "",
-      time: "",
-    });
   };
 
   return (
@@ -75,8 +62,6 @@ const App = () => {
             setAccessToken,
             setIsAdmin,
             logOut,
-            setBookValues,
-            bookValues,
             allDocs,
             user,
             setUser,
