@@ -82,57 +82,33 @@
   );
 }
 
-.dateWrapper{
+.dateWrapper {
   overflow: hidden;
   width: 100%;
   padding-inline: 20%;
-  div{
+  > div {
+    margin: 0 auto;
     padding: 7px;
     overflow-x: scroll;
     white-space: nowrap;
-    button {
-    margin-inline: 2px;
-    padding: 1px 2px;
-    text-transform: uppercase;
-    background-color: rgb(46 40 94);
-    color: rgb(49, 190, 200);
-    border: none;
-  }
-  .selected{
-    background-color: rgb(49 190 200);
-    color: rgb(46 40 94);
-    font-weight: bold;
-    
-  }
-  p{
-    text-align: center;
-    font-size: 0.8em;
-  }
-}
-}
-
-.time-picker {
-  list-style-type: none;
-}
-
-.time-picker-option {
-  margin: 5px 0;
-  padding: 10px;
-  text-align: center;
-  text-transform: capitalize;
-  cursor: pointer;
-  &.selected {
-    background-color: rgb(49 190 200);
-    color: rgb(46 40 94);
-    font-weight: bold;
-  }
-  &.disabled {
-    cursor: default;
-    color: rgb(202, 201, 201);
-    text-decoration: line-through;
-  }
-  &.notSelected {
-    background-color: black;
-    font-weight: normal;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    div {
+      width: 80%;
+      margin-block: 2px;
+      // padding: 1px 2px;
+      text-transform: uppercase;
+      border: 1px solid;
+      color: #000000;
+    }
+    .selected {
+      font-weight: bold;
+      color: #fff;
+    }
+    p {
+      text-align: center;
+      font-size: 1.2em;
+    }
   }
 }

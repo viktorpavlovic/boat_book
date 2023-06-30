@@ -29,6 +29,7 @@ const WrapperReservation = () => {
     date: "",
     passengers: "",
   });
+  const dateFormat = "YYYY-M-D H:m";
   const [selectedTourDate, setSelectedTourDate] = useState(null);
   const [availableDates, setAvailableDates] = useState([]);
   const today = new Date();
@@ -36,8 +37,8 @@ const WrapperReservation = () => {
   weekFromNow.setDate(today.getDate() + 7);
   const filteredDates = availableDates[0]
     ? availableDates
-        .sort((a, b) => moment(a) - moment(b))
-        .filter((date) => moment(date) > moment(today))
+        .sort((a, b) => moment(a, dateFormat) - moment(b, dateFormat))
+        .filter((date) => moment(date, dateFormat) > moment(today, dateFormat))
         .filter((date, index, dates) => dates.indexOf(date) === index)
     : [];
   const [success, setSuccess] = useState(false);
@@ -157,7 +158,7 @@ const WrapperReservation = () => {
     <div className="div-WrapperReservation">
       <ChooseBoat setAvailableDates={setAvailableDates} />
       <h4 className="tour-title">
-        Select a date to continue <span>*</span>
+        Select a tour to continue <span>*</span>
       </h4>
       <div className="dateWrapper">
         <div className="dateWrapperScroll">
@@ -175,7 +176,7 @@ const WrapperReservation = () => {
               const hour = new Date(date).getHours()
               return (
                 <div
-                  className={selectedTourDate === date ? "selected" : ""}
+                  className={selectedTourDate === date ? "tour selected" : "tour"}
                   key={i}
                   ref={formRef}
                   onClick={() => {
@@ -189,9 +190,8 @@ const WrapperReservation = () => {
                     }, 0);
                   }}
                 >
-                  {console.log(hour)}
                   <p
-                  style={{color: hour >= 19 && hour < 22 ? 'orange' : hour >= 22 || hour < 4 ? 'purple' : 'yellow' }}
+                  style={{backgroundColor: hour >= 19 && hour < 22 ? 'orange' : hour >= 22 || hour < 4 ? 'purple' : 'yellow' }}
                   >{dayjs(new Date(date)).format("ddd DD-MM HH:mm")}</p>
                 </div>
               );
@@ -199,9 +199,6 @@ const WrapperReservation = () => {
           )}
         </div>
       </div>
-      <h4 className="tour-title">
-        Select a tour to continue <span>*</span>
-      </h4>
       {selectedTour[0] && (
         <Formik
           initialValues={reservationInfo}
