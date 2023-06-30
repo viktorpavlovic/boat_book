@@ -308,7 +308,7 @@ const WrapperReservation = () => {
                 <p>{values.numberOfPassengers*prices.adults+values.preteens*prices.preteens+values.children*prices.children} din.</p>
                 <Field component="div" name="isPaid">
                   <label htmlFor="radioOne">
-                    Paid
+                    Paid in cash
                     <input
                       type="radio"
                       id="radioOne"
