@@ -54,6 +54,11 @@ const WrapperReservation = () => {
   const selectedTour = selectedBoat?.find(
     (e) => e.data.date === selectedDate
   );
+  const prices = {
+    adults: selectedRide.data.prices.adults,
+    preteens: selectedRide.data.prices.preteens,
+    children: selectedRide.data.prices.children,
+  }
   const formRef = useRef(null);
   const plusPassengerCount = (setFieldValue, values) => {
     setFieldValue("numberOfPassengers", values.numberOfPassengers + 1);
@@ -142,7 +147,7 @@ const WrapperReservation = () => {
         roomNumber: values.roomNumber,
         phoneNumber: values.phoneNumber,
         isPaid: values.isPaid,
-        // ticketPrice: values.numberOfPassengers*PRICE+values.preteens*PRICE/2
+        ticketPrice: values.numberOfPassengers*prices.adults+values.preteens*prices.preteens+values.children*prices.children
       }),
     });
     setSelectedRide(null)
@@ -300,6 +305,7 @@ const WrapperReservation = () => {
                 <p className="error-handle">
                   <ErrorMessage name="phoneNumber" />
                 </p>
+                
                 <Field component="div" name="isPaid">
                   <label htmlFor="radioOne">
                     Paid
