@@ -18,6 +18,8 @@ const AdminReservationForm = () => {
     endDate: "",
     date: "",
     available_seats: 50,
+    hours: 0,
+    minutes: 0,
     // sunset_clock: "18:00",
     // daytime_clock: "16:00",
     // night_clock: "20:00",
