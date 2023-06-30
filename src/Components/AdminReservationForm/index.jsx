@@ -10,7 +10,7 @@ import DatePickerField from "../DatePickerField";
 import "./admin-reservation-form.scss";
 
 const AdminReservationForm = () => {
-  const { setFreshData, freshData,rides } = useContext(applicationContext);
+  const { setFreshData, freshData, rides } = useContext(applicationContext);
   const tourRef = useRef(null);
   const defaultValue = {
     boat: "",
@@ -26,36 +26,32 @@ const AdminReservationForm = () => {
   };
   const plusHoursCount = (setFieldValue, values) => {
     if (values.hours === 23) {
-      setFieldValue("hours", values.hours = 0);
-    }
-    else {
-      setFieldValue("hours", values.hours+1 )
+      setFieldValue("hours", (values.hours = 0));
+    } else {
+      setFieldValue("hours", values.hours + 1);
     }
   };
   const minusHoursCount = (setFieldValue, values) => {
     if (values.hours === 0) {
-      setFieldValue("hours", values.hours = 23);
-    }
-    else {
-      setFieldValue("hours", values.hours-1 )
+      setFieldValue("hours", (values.hours = 23));
+    } else {
+      setFieldValue("hours", values.hours - 1);
     }
   };
   const plusMinutesCount = (setFieldValue, values) => {
     if (values.minutes >= 45) {
-      setFieldValue("minutes", values.minutes = 0);
-    }
-    else {
-      setFieldValue("minutes", values.minutes+15)
+      setFieldValue("minutes", (values.minutes = 0));
+    } else {
+      setFieldValue("minutes", values.minutes + 15);
     }
   };
   const minusMinutesCount = (setFieldValue, values) => {
     if (values.minutes <= 15) {
-      setFieldValue("minutes", values.minutes = 45);
+      setFieldValue("minutes", (values.minutes = 45));
+    } else {
+      setFieldValue("minutes", values.minutes - 15);
     }
-    else {
-      setFieldValue("minutes", values.minutes-15 )
-    }
-}
+  };
 
   const validationSchema = yup.object().shape({
     boat: yup.string().required("Select a boat"),
@@ -64,53 +60,43 @@ const AdminReservationForm = () => {
       .number()
       .required("Enter available seats")
       .min(1, "One seat minimum"),
-    hours: yup
-      .number()
-      .max(23, 'dont be a moron')
-      .min(0),
-    minutes: yup
-      .number()
-      .max(59, 'dont be a moron')
-      .min(0)
-      // .min(1, "Select at least one time of day option")
-      // .of(yup.string().required())
-      // .required(),
+    hours: yup.number().max(23, "dont be a moron").min(0),
+    minutes: yup.number().max(59, "dont be a moron").min(0),
+    // .min(1, "Select at least one time of day option")
+    // .of(yup.string().required())
+    // .required(),
   });
   const getDates = (datesArray) => {
     let dates = [];
     datesArray.forEach((date) => {
       dates.push(dayjs(date).format("YYYY-MM-DD"));
     });
-
     return dates;
   };
+  
   const handleAdd = (values, { resetForm }) => {
     const dateRange = getDates(values.date);
+    const selectedRide = rides.find((e) => e.data.name === values.boat);
     dateRange.forEach((singleDate) => {
-        addDoc(collection(db, "tours"), {
-          boat: values.boat,
-          date: `${singleDate} ${values.hours}:${values.minutes}`,
-          availableSeats:
-            values.boat === "key-boat" || "open-bus"
-              ? 120
-              : values.boat === "turtle-boat"
-              ? 45
-              : 38,
-          // daytime_clock:
-          //   singleTime === "daytime"
-          //     ? values.daytime_clock
-          //     : "this is not daytime tour",
-          // sunset_clock:
-          //   singleTime === "sunset"
-          //     ? values.sunset_clock
-          //     : "this is not sunset tour",
-          // night_clock:
-          //   singleTime === "night"
-          //     ? values.night_clock
-          //     : "this is not night tour",
+      addDoc(collection(db, "tours"), {
+        boat: values.boat,
+        date: `${singleDate} ${values.hours}:${values.minutes}`,
+        availableSeats: selectedRide.data.totalSeats,
+        // daytime_clock:
+        //   singleTime === "daytime"
+        //     ? values.daytime_clock
+        //     : "this is not daytime tour",
+        // sunset_clock:
+        //   singleTime === "sunset"
+        //     ? values.sunset_clock
+        //     : "this is not sunset tour",
+        // night_clock:
+        //   singleTime === "night"
+        //     ? values.night_clock
+        //     : "this is not night tour",
 
-          reservations: [],
-        });
+        reservations: [],
+      });
     });
     tourRef.current.scrollIntoView({ behavior: "smooth" });
     setFreshData(!freshData);
@@ -121,7 +107,6 @@ const AdminReservationForm = () => {
   // for(let i =0; i<24;i++){
   //   hours.push(i)
   // }
-  
 
   return (
     <div className="div-admin-res">
@@ -136,25 +121,17 @@ const AdminReservationForm = () => {
           <Form>
             <section className="admin-res">
               <h4>Boat for tour:</h4>
-              <label>
-                Turtle Boat
-                <Field type="radio" name="boat" value="turtle-boat" />
-              </label>
-              <label>
-                Key Boat
-                <Field type="radio" name="boat" value="key-boat" />
-              </label>
-              <label>
-                Nikola Tesla Boat
-                <Field type="radio" name="boat" value="nikola-tesla-boat" />
-              </label>
-              <label>
-                Open Bus
-                <Field type="radio" name="boat" value="open-bus" />
-              </label>
-              <p className="error-handle">
-                <ErrorMessage name="boat" />
-              </p>
+              {rides.map((data, i) => (
+                <label key={i}>
+                  <p>{data.data.name}</p>
+                  <Field
+                    type="radio"
+                    name="boat"
+                    value={data.data.name}
+                    key={i}
+                  />
+                </label>
+              ))}
               <h4>Select Date/Dates</h4>
               <DatePickerField
                 name="date"
@@ -167,7 +144,7 @@ const AdminReservationForm = () => {
               <h4>Choose time for tour</h4>
               <div className="time-picker-div">
                 <div>
-                <button
+                  <button
                     type="button"
                     onClick={() => plusHoursCount(setFieldValue, values)}
                   >
@@ -178,7 +155,7 @@ const AdminReservationForm = () => {
                     onClick={() => minusHoursCount(setFieldValue, values)}
                   >
                     -
-                    </button>
+                  </button>
                 </div>
                 {/* <select name="hours" id="hours" >
                   {hours.map((e)=> <option value={e}>
@@ -190,7 +167,7 @@ const AdminReservationForm = () => {
                 <p>:</p>
                 <Field type="number" name="minutes" placeholder="00" />
                 <div>
-                <button
+                  <button
                     type="button"
                     onClick={() => plusMinutesCount(setFieldValue, values)}
                   >
@@ -201,13 +178,13 @@ const AdminReservationForm = () => {
                     onClick={() => minusMinutesCount(setFieldValue, values)}
                   >
                     -
-                    </button>
+                  </button>
                 </div>
               </div>
-                    <p className="error-handle">
+              <p className="error-handle">
                 <ErrorMessage name="hours" />
               </p>
-                    <p className="error-handle">
+              <p className="error-handle">
                 <ErrorMessage name="minutes" />
               </p>
               {/* <label>
