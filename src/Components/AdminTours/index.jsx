@@ -3,11 +3,13 @@ import { applicationContext } from "../../context";
 import { doc, deleteDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import moment from "moment/moment";
+import dayjs from "dayjs";
 import "./admin-tours.scss";
 
 const AdminTours = ({ handleOpen }) => {
   const { allDocs, freshData, setFreshData } = useContext(applicationContext);
   const boats = ["Turtle Boat", "Key Boat", "Nikola Tesla Boat", "Open Bus"];
+  const dateFormat = "YYYY-M-D H:m";
   const [selectedBoat, setSelectedBoat] = useState(boats[0]);
   const [pastTours, setPastTours] = useState(false);
   const handleDelete = async (e) => {
@@ -29,13 +31,13 @@ const AdminTours = ({ handleOpen }) => {
     )
     .sort((a, b) =>
       pastTours
-        ? moment(b.data.date) - moment(a.data.date)
-        : moment(a.data.date) - moment(b.data.date)
+        ? moment(b.data.date, dateFormat) - moment(a.data.date, dateFormat)
+        : moment(a.data.date, dateFormat) - moment(b.data.date, dateFormat)
     )
     .filter((e) =>
       pastTours
-        ? moment(e.data.date) < moment(new Date())
-        : moment(e.data.date) >= moment(new Date())
+        ? moment(e.data.date, dateFormat) < moment(new Date())
+        : moment(e.data.date, dateFormat) >= moment(new Date())
     );
   return (
     <div className="div-admin-tours">
@@ -68,8 +70,8 @@ const AdminTours = ({ handleOpen }) => {
         {filteredDocs[0] ? (
           filteredDocs.map((e) => (
             <section key={e.id}>
-              <p>{moment(e?.data?.date).format("LL")}</p>
-              <p>{e.data.time}</p>
+              <p>{dayjs(e?.data?.date).format("ddd DD-MM hh:mm")}</p>
+              {/* <p>{e.data.time}</p> */}
               <button onClick={() => handleOpen(e)}>Tour Info</button>
               <button className="del" onClick={() => handleDelete(e)}>
                 Delete
