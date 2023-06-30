@@ -29,7 +29,6 @@ const WrapperReservation = () => {
     date: "",
     passengers: "",
   });
-  const [selectedTime, setSelectedTime] = useState(null);
   const [selectedTourDate, setSelectedTourDate] = useState(null);
   const [availableDates, setAvailableDates] = useState([]);
   const today = new Date();
@@ -41,17 +40,13 @@ const WrapperReservation = () => {
         .filter((date) => moment(date) > moment(today))
         .filter((date, index, dates) => dates.indexOf(date) === index)
     : [];
-
-  const availableTimes = ["daytime", "sunset", "night"];
   const [success, setSuccess] = useState(false);
   const phoneRegExp =
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
   const selectedBoat = allDocs?.filter((e) => e.data.boat === bookValues.boat);
-  const selectedDate = selectedBoat?.filter(
+
+  const selectedTour = selectedBoat?.filter(
     (e) => e.data.date === bookValues.date
-  );
-  const selectedTour = selectedDate?.filter(
-    (e) => e.data.time === bookValues.time
   );
   const formRef = useRef(null);
   const plusPassengerCount = (setFieldValue, values) => {
@@ -116,15 +111,16 @@ const WrapperReservation = () => {
         .max(10, "too long"),
     });
   const handleSubmit = (values, { resetForm }) => {
-    const tour = selectedDate?.filter((e) => e.data.time === bookValues.time);
+    const tour = selectedTour
     const tourRef = doc(db, "tours", tour[0].id);
     const random = Math.floor(Math.random() * 1000000000);
+    // let PRICE = bookValues.boat === 'turtle-boat' ? 
     setTicketInfo({
       ...ticketInfo,
       boat: bookValues.boat,
       date: bookValues.date,
       numberOfPassengers: values.numberOfPassengers,
-      roomNumber: values.nameInfo,
+      roomNumber: values.roomNumber,
       children: values.children,
       preteens: values.preteens,
     });
@@ -142,6 +138,7 @@ const WrapperReservation = () => {
         roomNumber: values.roomNumber,
         phoneNumber: values.phoneNumber,
         isPaid: values.isPaid,
+        // ticketPrice: values.numberOfPassengers*PRICE+values.preteens*PRICE/2 
       }),
     });
     setBookValues({
@@ -153,7 +150,6 @@ const WrapperReservation = () => {
     resetForm();
     setSuccess(true);
     setFreshData(!freshData);
-    setSelectedTime(null);
     setSelectedTourDate(null);
   };
 
@@ -176,22 +172,28 @@ const WrapperReservation = () => {
             </>
           ) : (
             filteredDates.map((date, i) => {
+              const hour = new Date(date).getHours()
               return (
-                <button
+                <div
                   className={selectedTourDate === date ? "selected" : ""}
                   key={i}
+                  ref={formRef}
                   onClick={() => {
                     setBookValues({
                       ...bookValues,
                       date: date,
-                      time: "",
                     });
                     setSelectedTourDate(date);
-                    setSelectedTime(null);
+                    setTimeout(() => {
+                      formRef.current.scrollIntoView({ behavior: "smooth" });
+                    }, 0);
                   }}
                 >
-                  {dayjs(new Date(date)).format("dddd DD-MM")}
-                </button>
+                  {console.log(hour)}
+                  <p
+                  style={{color: hour >= 19 && hour < 22 ? 'orange' : hour >= 22 || hour < 4 ? 'purple' : 'yellow' }}
+                  >{dayjs(new Date(date)).format("ddd DD-MM HH:mm")}</p>
+                </div>
               );
             })
           )}
@@ -200,35 +202,6 @@ const WrapperReservation = () => {
       <h4 className="tour-title">
         Select a tour to continue <span>*</span>
       </h4>
-      <ul className="time-picker" ref={formRef}>
-        {availableTimes.map((item) => (
-          <li
-            key={item}
-            className={`time-picker-option ${
-              selectedTime === item ? "selected" : "notSelected"
-            } ${
-              !selectedDate.some((e) => e.data.time === item) ? "disabled" : ""
-            }`}
-            onClick={
-              selectedDate.some((e) => e.data.time === item)
-                ? () => {
-                    setBookValues({
-                      ...bookValues,
-                      time: item,
-                    });
-                    setTimeout(() => {
-                      formRef.current.scrollIntoView({ behavior: "smooth" });
-                    }, 0);
-                    setSelectedTime(item);
-                  }
-                : (e) => e.preventDefault()
-            }
-          >
-            {item}
-            {selectedTime === item && <span className="selected-span">*</span>}
-          </li>
-        ))}
-      </ul>
       {selectedTour[0] && (
         <Formik
           initialValues={reservationInfo}

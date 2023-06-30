@@ -81,6 +81,27 @@
   }
 }
 
+.time-picker-div{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  div{
+    display: flex;
+    flex-direction: column;
+    button{
+      padding: 2px 5px;
+      margin-bottom: 2px;
+    }
+  }
+  p{
+    color: white;
+  }
+  input{
+    text-align: center;
+    width: 25px;
+    font-size: 16px;
+  }
+}
 .clock-inputs {
   display: flex;
   justify-content: space-between;

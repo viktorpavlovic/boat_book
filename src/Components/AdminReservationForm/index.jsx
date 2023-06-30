@@ -18,11 +18,42 @@ const AdminReservationForm = () => {
     endDate: "",
     date: "",
     available_seats: 50,
-    time: [],
-    sunset_clock: "18:00",
-    daytime_clock: "16:00",
-    night_clock: "20:00",
+    // sunset_clock: "18:00",
+    // daytime_clock: "16:00",
+    // night_clock: "20:00",
   };
+  const plusHoursCount = (setFieldValue, values) => {
+    if (values.hours === 23) {
+      setFieldValue("hours", values.hours = 0);
+    }
+    else {
+      setFieldValue("hours", values.hours+1 )
+    }
+  };
+  const minusHoursCount = (setFieldValue, values) => {
+    if (values.hours === 0) {
+      setFieldValue("hours", values.hours = 23);
+    }
+    else {
+      setFieldValue("hours", values.hours-1 )
+    }
+  };
+  const plusMinutesCount = (setFieldValue, values) => {
+    if (values.minutes >= 45) {
+      setFieldValue("minutes", values.minutes = 0);
+    }
+    else {
+      setFieldValue("minutes", values.minutes+15)
+    }
+  };
+  const minusMinutesCount = (setFieldValue, values) => {
+    if (values.minutes <= 15) {
+      setFieldValue("minutes", values.minutes = 45);
+    }
+    else {
+      setFieldValue("minutes", values.minutes-15 )
+    }
+}
 
   const validationSchema = yup.object().shape({
     boat: yup.string().required("Select a boat"),
@@ -31,11 +62,17 @@ const AdminReservationForm = () => {
       .number()
       .required("Enter available seats")
       .min(1, "One seat minimum"),
-    time: yup
-      .array()
-      .min(1, "Select at least one time of day option")
-      .of(yup.string().required())
-      .required(),
+    hours: yup
+      .number()
+      .max(23, 'dont be a moron')
+      .min(0),
+    minutes: yup
+      .number()
+      .max(59, 'dont be a moron')
+      .min(0)
+      // .min(1, "Select at least one time of day option")
+      // .of(yup.string().required())
+      // .required(),
   });
   const getDates = (datesArray) => {
     let dates = [];
@@ -48,38 +85,41 @@ const AdminReservationForm = () => {
   const handleAdd = (values, { resetForm }) => {
     const dateRange = getDates(values.date);
     dateRange.forEach((singleDate) => {
-      values.time.forEach((singleTime) => {
         addDoc(collection(db, "tours"), {
           boat: values.boat,
-          date: singleDate,
+          date: `${singleDate} ${values.hours}:${values.minutes}`,
           availableSeats:
             values.boat === "key-boat" || "open-bus"
               ? 120
               : values.boat === "turtle-boat"
               ? 45
               : 38,
-          time: singleTime,
-          daytime_clock:
-            singleTime === "daytime"
-              ? values.daytime_clock
-              : "this is not daytime tour",
-          sunset_clock:
-            singleTime === "sunset"
-              ? values.sunset_clock
-              : "this is not sunset tour",
-          night_clock:
-            singleTime === "night"
-              ? values.night_clock
-              : "this is not night tour",
+          // daytime_clock:
+          //   singleTime === "daytime"
+          //     ? values.daytime_clock
+          //     : "this is not daytime tour",
+          // sunset_clock:
+          //   singleTime === "sunset"
+          //     ? values.sunset_clock
+          //     : "this is not sunset tour",
+          // night_clock:
+          //   singleTime === "night"
+          //     ? values.night_clock
+          //     : "this is not night tour",
 
           reservations: [],
         });
-      });
     });
     tourRef.current.scrollIntoView({ behavior: "smooth" });
     setFreshData(!freshData);
     resetForm();
   };
+  // const hours = []
+  // const minutes = [0, 15, 30, 45]
+  // for(let i =0; i<24;i++){
+  //   hours.push(i)
+  // }
+  
 
   return (
     <div className="div-admin-res">
@@ -123,7 +163,52 @@ const AdminReservationForm = () => {
                 <ErrorMessage name="date" />
               </p>
               <h4>Choose time for tour</h4>
-              <label>
+              <div className="time-picker-div">
+                <div>
+                <button
+                    type="button"
+                    onClick={() => plusHoursCount(setFieldValue, values)}
+                  >
+                    +
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => minusHoursCount(setFieldValue, values)}
+                  >
+                    -
+                    </button>
+                </div>
+                {/* <select name="hours" id="hours" >
+                  {hours.map((e)=> <option value={e}>
+                    {e}
+                  </option>
+                  )}
+                </select> */}
+                <Field type="number" name="hours" placeholder="00" />
+                <p>:</p>
+                <Field type="number" name="minutes" placeholder="00" />
+                <div>
+                <button
+                    type="button"
+                    onClick={() => plusMinutesCount(setFieldValue, values)}
+                  >
+                    +
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => minusMinutesCount(setFieldValue, values)}
+                  >
+                    -
+                    </button>
+                </div>
+              </div>
+                    <p className="error-handle">
+                <ErrorMessage name="hours" />
+              </p>
+                    <p className="error-handle">
+                <ErrorMessage name="minutes" />
+              </p>
+              {/* <label>
                 Daytime
                 <Field type="checkbox" name="time" value="daytime" />
               </label>
@@ -180,7 +265,7 @@ const AdminReservationForm = () => {
               </div>
               <p className="error-handle">
                 <ErrorMessage name="time" />
-              </p>
+              </p> */}
               <button className="submit-btn" type="submit" ref={tourRef}>
                 Create tour
               </button>

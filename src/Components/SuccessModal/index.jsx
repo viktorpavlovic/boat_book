@@ -8,10 +8,10 @@ import {
   View,
   Document,
   StyleSheet,
-  Font
+  // Font
 } from "@react-pdf/renderer";
 import ticketImage from '../../assets/ticket.jpg'
-import Roboto from "typeface-roboto"
+// import Roboto from "typeface-roboto"
 
 const SuccessModal = ({ setSuccess, ticketInfo }) => {
   
