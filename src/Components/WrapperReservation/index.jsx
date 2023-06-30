@@ -55,9 +55,9 @@ const WrapperReservation = () => {
     (e) => e.data.date === selectedDate
   );
   const prices = {
-    adults: selectedRide.data.prices.adults,
-    preteens: selectedRide.data.prices.preteens,
-    children: selectedRide.data.prices.children,
+    adults: selectedRide?.data.prices.adults,
+    preteens: selectedRide?.data.prices.preteens,
+    children: selectedRide?.data.prices.children,
   }
   const formRef = useRef(null);
   const plusPassengerCount = (setFieldValue, values) => {
@@ -305,7 +305,7 @@ const WrapperReservation = () => {
                 <p className="error-handle">
                   <ErrorMessage name="phoneNumber" />
                 </p>
-                
+                <p>{values.numberOfPassengers*prices.adults+values.preteens*prices.preteens+values.children*prices.children} din.</p>
                 <Field component="div" name="isPaid">
                   <label htmlFor="radioOne">
                     Paid
