@@ -169,9 +169,10 @@ const WrapperReservation = () => {
         setSelectedRide={setSelectedRide}
         setSelectedDate={setSelectedDate}
       />
+      {!selectedTour&&
       <h4 className="tour-title">
-        Select a tour to continue <span>*</span>
-      </h4>
+      Select a tour to continue <span>*</span>
+    </h4>}
       <div className="dateWrapper">
         <div className="dateWrapperScroll">
           {(

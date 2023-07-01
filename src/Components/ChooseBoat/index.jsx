@@ -45,12 +45,9 @@ const ChooseBoat = ({ setAvailableDates, setSelectedRide, selectedRide,setSelect
       </div>
 
       <p>
-        Selected Boat:
+        Selected Boat: 
         <span ref={boatRef}>
-          {(selectedRide?.data.name === "turtle-boat" && "Turtle Boat") ||
-            (selectedRide?.data.name === "key-boat" && "Key Boat") ||
-            (selectedRide?.data.name === "nikola-tesla-boat" && "Nikola Tesla Boat") ||
-            (selectedRide?.data.name === "open-bus" && "Open Bus")}
+          {selectedRide?.data.name.split('-').join(' ')}
         </span>
       </p>
     </div>
