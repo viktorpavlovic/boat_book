@@ -13,12 +13,8 @@ import moment from "moment";
 // trebace kontekst ako hocemo da dodajemo gluposti za pdf
 
 const WrapperReservation = () => {
-  const {
-    allDocs,
-    user,
-    freshData,
-    setFreshData,
-  } = useContext(applicationContext);
+  const { allDocs, user, freshData, setFreshData } =
+    useContext(applicationContext);
   const reservationInfo = {
     id: "",
     roomNumber: 0,
@@ -35,8 +31,8 @@ const WrapperReservation = () => {
   });
   const dateFormat = "YYYY-M-D H:m";
   const [availableDates, setAvailableDates] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(null)
-  const [selectedRide, setSelectedRide] = useState(null)
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedRide, setSelectedRide] = useState(null);
   const today = new Date();
   const weekFromNow = new Date();
   weekFromNow.setDate(today.getDate() + 7);
@@ -49,16 +45,16 @@ const WrapperReservation = () => {
   const [success, setSuccess] = useState(false);
   const phoneRegExp =
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
-  const selectedBoat = allDocs?.filter((e) => e.data.boat === selectedRide?.data.name);
-
-  const selectedTour = selectedBoat?.find(
-    (e) => e.data.date === selectedDate
+  const selectedBoat = allDocs?.filter(
+    (e) => e.data.boat === selectedRide?.data.name
   );
+
+  const selectedTour = selectedBoat?.find((e) => e.data.date === selectedDate);
   const prices = {
     adults: selectedRide?.data.prices.adults,
     preteens: selectedRide?.data.prices.preteens,
     children: selectedRide?.data.prices.children,
-  }
+  };
   const formRef = useRef(null);
   const plusPassengerCount = (setFieldValue, values) => {
     setFieldValue("numberOfPassengers", values.numberOfPassengers + 1);
@@ -134,8 +130,11 @@ const WrapperReservation = () => {
       phoneNumber: values.phoneNumber,
       children: values.children,
       preteens: values.preteens,
-      ticketPrice: values.numberOfPassengers*prices.adults+values.preteens*prices.preteens+values.children*prices.children,
-      isPaid:values.isPaid,
+      ticketPrice:
+        values.numberOfPassengers * prices.adults +
+        values.preteens * prices.preteens +
+        values.children * prices.children,
+      isPaid: values.isPaid,
     });
     updateDoc(tourRef, {
       availableSeats:
@@ -150,10 +149,13 @@ const WrapperReservation = () => {
         roomNumber: values.roomNumber,
         phoneNumber: values.phoneNumber,
         isPaid: values.isPaid,
-        ticketPrice: values.numberOfPassengers*prices.adults+values.preteens*prices.preteens+values.children*prices.children
+        ticketPrice:
+          values.numberOfPassengers * prices.adults +
+          values.preteens * prices.preteens +
+          values.children * prices.children,
       }),
     });
-    setSelectedRide(null)
+    setSelectedRide(null);
     resetForm();
     setSuccess(true);
     setFreshData(!freshData);
@@ -161,8 +163,11 @@ const WrapperReservation = () => {
   };
   return (
     <div className="div-WrapperReservation">
-      <ChooseBoat setAvailableDates={setAvailableDates} selectedRide={selectedRide} setSelectedRide={setSelectedRide}
-      setSelectedDate={setSelectedDate}
+      <ChooseBoat
+        setAvailableDates={setAvailableDates}
+        selectedRide={selectedRide}
+        setSelectedRide={setSelectedRide}
+        setSelectedDate={setSelectedDate}
       />
       <h4 className="tour-title">
         Select a tour to continue <span>*</span>
@@ -172,7 +177,8 @@ const WrapperReservation = () => {
           {(
             !selectedRide
               ? null
-              : filteredDates.length === 0 || new Date(filteredDates[0]).getTime() > weekFromNow.getTime()
+              : filteredDates.length === 0 ||
+                new Date(filteredDates[0]).getTime() > weekFromNow.getTime()
           ) ? (
             <>
               <p>There are no tours for this</p>
@@ -194,8 +200,17 @@ const WrapperReservation = () => {
                   }}
                 >
                   <p
-                  style={{backgroundColor: hour >= 19 && hour < 22 ? 'orange' : hour >= 22 || hour < 4 ? 'purple' : 'yellow' }}
-                  >{dayjs(new Date(date)).format("ddd DD-MM HH:mm")}</p>
+                    style={{
+                      backgroundColor:
+                        hour >= 19 && hour < 22
+                          ? "orange"
+                          : hour >= 22 || hour < 4
+                          ? "purple"
+                          : "yellow",
+                    }}
+                  >
+                    {dayjs(new Date(date)).format("ddd DD-MM HH:mm")}
+                  </p>
                 </div>
               );
             })
@@ -308,7 +323,15 @@ const WrapperReservation = () => {
                 <p className="error-handle">
                   <ErrorMessage name="phoneNumber" />
                 </p>
-                <p>{values.numberOfPassengers*prices.adults+values.preteens*prices.preteens+values.children*prices.children} din.</p>
+                <p style={{ fontSize: "0.8em" }}>
+                  {"Total price: " +
+                    parseInt(
+                      values.numberOfPassengers * prices.adults +
+                        values.preteens * prices.preteens +
+                        values.children * prices.children
+                    ) +
+                    " din."}
+                </p>
                 <Field component="div" name="isPaid">
                   <label htmlFor="radioOne">
                     Paid in cash
