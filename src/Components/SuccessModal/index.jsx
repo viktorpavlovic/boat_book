@@ -11,12 +11,15 @@ import {
   // Font
 } from "@react-pdf/renderer";
 import ticketImage from '../../assets/ticket.jpg'
+import dayjs from "dayjs";
 // import Roboto from "typeface-roboto"
 
 const SuccessModal = ({ setSuccess, ticketInfo }) => {
   
 //   Font.register({family:'Roboto', format:'truetype', src: Roboto
 // })
+const tourDate = new Date(ticketInfo.date)
+const meetingTime = dayjs(new Date(tourDate - 1800000)).format("HH:mm")
   const styles = StyleSheet.create({
     page: {
       width: '78%',
@@ -38,7 +41,7 @@ const SuccessModal = ({ setSuccess, ticketInfo }) => {
       },
       fullp:{
         width:'100%',
-        paddingVertical: '20px',
+        paddingVertical: '15px',
         borderTop: '4px solid black',
         display: 'flex',
         flexDirection: 'row'
@@ -78,6 +81,11 @@ const SuccessModal = ({ setSuccess, ticketInfo }) => {
         textTransform:'uppercase',
         paddingBottom: '5px',
         fontSize: '9px'
+      },
+      isPaid:{
+        marginTop: '10px',
+        textTransform:'uppercase',
+        fontSize: '14px'
       }
     });
     const Tiketino =(
@@ -89,13 +97,17 @@ const SuccessModal = ({ setSuccess, ticketInfo }) => {
             <View style={styles.halfp}>
               <Text style={styles.tourTitle}>Meeting point:</Text>
               <Text style={styles.tourText} wrap>Main entrance of Kalemegdan park, Pariska 15</Text>
-              <Text style={styles.tourText}>{ticketInfo.date}</Text>
+              <Text style={styles.tourText}>{'Meeting time: '+meetingTime}</Text>
+              <Text style={styles.tourText}>{'(30 minutes before the tour)'}</Text>
+              <Text style={styles.isPaid}>{ticketInfo.isPaid ? 'Paid in cash' : 'Not paid'}</Text>
             </View>
             <View style={styles.halfp}>
               <Text style={styles.tourTitle}>Tour date/time:</Text>
               <Text style={styles.tourText}>{ticketInfo.date}</Text>
-              <Text style={styles.tourTitle}>Room number:</Text>
-              <Text style={styles.tourText}>{ticketInfo.roomNumber}</Text>
+              <Text style={styles.tourTitle}>Reservation info:</Text>
+              <Text style={styles.tourText}>{'Room number: '+ticketInfo.roomNumber}</Text>
+              <Text style={styles.tourText}>{'Phone number: '+ticketInfo.phoneNumber}</Text>
+              <Text style={styles.tourText}>{'Total price: '+ticketInfo.ticketPrice+' din.'}</Text>
             </View>
             </View>
             <View style={styles.fullp} >

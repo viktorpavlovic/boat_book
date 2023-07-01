@@ -131,9 +131,11 @@ const WrapperReservation = () => {
       date: selectedDate,
       numberOfPassengers: values.numberOfPassengers,
       roomNumber: values.roomNumber,
+      phoneNumber: values.phoneNumber,
       children: values.children,
       preteens: values.preteens,
-      ticketPrice: values.numberOfPassengers*prices.adults+values.preteens*prices.preteens+values.children*prices.children
+      ticketPrice: values.numberOfPassengers*prices.adults+values.preteens*prices.preteens+values.children*prices.children,
+      isPaid:values.isPaid,
     });
     updateDoc(tourRef, {
       availableSeats:

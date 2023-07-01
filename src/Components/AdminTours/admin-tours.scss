@@ -29,7 +29,8 @@
     // display: flex;
     // flex-direction: column;
     // gap: 10px;
-    overflow: scroll;
+    overflow-y: scroll;
+    white-space: nowrap;
     section:first-of-type{
       margin-top: 0;
     }
@@ -42,7 +43,7 @@
       align-items: center;
       text-transform: uppercase;
       padding: 5px 20px;
-      margin: 5px 10px;
+      margin: 5px 0;
       gap: 5px;
       // background: linear-gradient(90deg, rgb(46 40 94), rgb(49, 190, 200));
       background-color: rgb(49 190 200);
