@@ -12,14 +12,13 @@ import "./admin-reservation-form.scss";
 const AdminReservationForm = () => {
   const { setFreshData, freshData, rides } = useContext(applicationContext);
   const tourRef = useRef(null);
+  const d = new Date();
+  d.setHours(16,0,0,0)
   const defaultValue = {
     boat: "",
-    startDate: "",
-    endDate: "",
-    date: "",
+    date: [d],
     available_seats: 50,
     hours: 0,
-    minutes: 0,
   };
   const plusHoursCount = (setFieldValue, values) => {
     if (values.hours === 23) {
@@ -56,14 +55,12 @@ const AdminReservationForm = () => {
     available_seats: yup
       .number()
       .required("Enter available seats")
-      .min(1, "One seat minimum"),
-    hours: yup.number().max(23, "dont be a moron").min(0),
-    minutes: yup.number().max(59, "dont be a moron").min(0),
+      .min(1, "One seat minimum")
   });
   const getDates = (datesArray) => {
     let dates = [];
     datesArray.forEach((date) => {
-      dates.push(dayjs(date).format("YYYY-MM-DD"));
+      dates.push(dayjs(date).format("YYYY-MM-DD HH:mm"));
     });
     return dates;
   };
@@ -74,7 +71,7 @@ const AdminReservationForm = () => {
     dateRange.forEach((singleDate) => {
       addDoc(collection(db, "tours"), {
         boat: values.boat,
-        date: `${singleDate} ${values.hours}:${values.minutes}`,
+        date: `${singleDate}`,
         availableSeats: selectedRide.data.totalSeats,
         reservations: [],
       });
@@ -122,46 +119,7 @@ const AdminReservationForm = () => {
               <p className="error-handle">
                 <ErrorMessage name="date" />
               </p>
-              <h4>Choose time for tour</h4>
-              <div className="time-picker-div">
-                <div>
-                  <button
-                    type="button"
-                    onClick={() => plusHoursCount(setFieldValue, values)}
-                  >
-                    +
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => minusHoursCount(setFieldValue, values)}
-                  >
-                    -
-                  </button>
-                </div>
-                {/* <select name="hours" id="hours" >
-                  {hours.map((e)=> <option value={e}>
-                    {e}
-                  </option>
-                  )}
-                </select> */}
-                <Field type="number" name="hours" placeholder="00" />
-                <p>:</p>
-                <Field type="number" name="minutes" placeholder="00" />
-                <div>
-                  <button
-                    type="button"
-                    onClick={() => plusMinutesCount(setFieldValue, values)}
-                  >
-                    +
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => minusMinutesCount(setFieldValue, values)}
-                  >
-                    -
-                  </button>
-                </div>
-              </div>
+
               <p className="error-handle">
                 <ErrorMessage name="hours" />
               </p>

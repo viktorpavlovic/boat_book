@@ -9,7 +9,7 @@ import "./admin-tours.scss";
 const AdminTours = ({ handleOpen }) => {
   const { allDocs, freshData, setFreshData } = useContext(applicationContext);
   const boats = ["Turtle Boat", "Key Boat", "Nikola Tesla Boat", "Open Bus"];
-  const dateFormat = "YYYY-M-D H:m";
+  const dateFormat = "YYYY-M-D HH:mm";
   const [selectedBoat, setSelectedBoat] = useState(boats[0]);
   const [pastTours, setPastTours] = useState(false);
   const handleDelete = async (e) => {
