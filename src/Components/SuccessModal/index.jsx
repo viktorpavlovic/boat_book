@@ -99,7 +99,7 @@ const meetingTime = dayjs(new Date(tourDate - 1800000)).format("HH:mm")
               <Text style={styles.tourText} wrap>Main entrance of Kalemegdan park, Pariska 15</Text>
               <Text style={styles.tourText}>{'Meeting time: '+meetingTime}</Text>
               <Text style={styles.tourText}>{'(30 minutes before the tour)'}</Text>
-              <Text style={styles.isPaid}>{ticketInfo.isPaid ? 'Paid in cash' : 'Not paid'}</Text>
+              <Text style={styles.isPaid}>{JSON.parse(ticketInfo.isPaid) ? 'Paid in cash' : 'Not paid'}</Text>
             </View>
             <View style={styles.halfp}>
               <Text style={styles.tourTitle}>Tour date/time:</Text>
