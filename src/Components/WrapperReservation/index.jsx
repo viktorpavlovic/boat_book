@@ -210,6 +210,14 @@ const WrapperReservation = () => {
                           : "yellow",
                     }}
                   >
+                  {/* <p
+                    style={{
+                      backgroundColor:
+                       selected.type == "sunset" ? "orange" :  
+                       type == "daytime" ? "yellow" :  "purple"
+            }}
+                  ></p> */}
+                    {console.log(date)}
                     {dayjs(new Date(date)).format("ddd DD-MM HH:mm")}
                   </p>
                 </div>

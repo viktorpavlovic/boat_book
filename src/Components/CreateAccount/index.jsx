@@ -4,10 +4,13 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../../firebase";
 import { doc, setDoc } from "firebase/firestore";
 import * as yup from "yup";
+import { useCollapse } from 'react-collapsed'
 import "./create-account.scss";
 
 const CreateAccount = () => {
   const [message, setMessage] = useState("");
+  const { getCollapseProps, getToggleProps, isExpanded } = useCollapse()
+
   const defaultLoginValue = {
     email: "",
     password: "",
@@ -42,7 +45,10 @@ const CreateAccount = () => {
   };
   return (
     <div className="div-create-account">
-      <Formik
+      <button {...getToggleProps()}>
+        {isExpanded ? 'Collapse, nigga' : 'DO YOU WANT TO CREATE ACCOUNT, NIGGA?'}
+      </button>
+      <section {...getCollapseProps()}>      <Formik
         initialValues={defaultLoginValue}
         validationSchema={validationSchema}
         onSubmit={createAccount}
@@ -84,7 +90,8 @@ const CreateAccount = () => {
             {message}
           </p>
         </section>
-      </Formik>
+      </Formik></section>
+
     </div>
   );
 };

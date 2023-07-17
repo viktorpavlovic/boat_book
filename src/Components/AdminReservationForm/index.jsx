@@ -20,34 +20,6 @@ const AdminReservationForm = () => {
     available_seats: 50,
     hours: 0,
   };
-  const plusHoursCount = (setFieldValue, values) => {
-    if (values.hours === 23) {
-      setFieldValue("hours", (values.hours = 0));
-    } else {
-      setFieldValue("hours", values.hours + 1);
-    }
-  };
-  const minusHoursCount = (setFieldValue, values) => {
-    if (values.hours === 0) {
-      setFieldValue("hours", (values.hours = 23));
-    } else {
-      setFieldValue("hours", values.hours - 1);
-    }
-  };
-  const plusMinutesCount = (setFieldValue, values) => {
-    if (values.minutes >= 45) {
-      setFieldValue("minutes", (values.minutes = 0));
-    } else {
-      setFieldValue("minutes", values.minutes + 15);
-    }
-  };
-  const minusMinutesCount = (setFieldValue, values) => {
-    if (values.minutes <= 15) {
-      setFieldValue("minutes", (values.minutes = 45));
-    } else {
-      setFieldValue("minutes", values.minutes - 15);
-    }
-  };
 
   const validationSchema = yup.object().shape({
     boat: yup.string().required("Select a boat"),
@@ -74,6 +46,7 @@ const AdminReservationForm = () => {
         date: `${singleDate}`,
         availableSeats: selectedRide.data.totalSeats,
         reservations: [],
+        type: values.type
       });
     });
     tourRef.current.scrollIntoView({ behavior: "smooth" });
@@ -116,6 +89,17 @@ const AdminReservationForm = () => {
                 value={values.date}
                 onChange={setFieldValue}
               />
+              <h4>Type:</h4>
+              {["daytime", "sunset", "nigga"].map((type, i) => (
+                <label key={i}>
+                  <p>{type}</p>
+                  <Field
+                    type="radio"
+                    name="type"
+                    value={type}
+                  />
+                </label>
+              ))}
               <p className="error-handle">
                 <ErrorMessage name="date" />
               </p>

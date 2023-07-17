@@ -8,7 +8,7 @@ const Header = () => {
   const path = useLocation().pathname;
   return (
     <div className="div-header">
-        <h3>Cruise Belgrade</h3>
+        <h3>Penélope Cruz</h3>
         {(path === '/admin_page' || path === '/reservation') && <Link><button className="log-out" onClick={logOut}>
           Log Out
         </button></Link>}
