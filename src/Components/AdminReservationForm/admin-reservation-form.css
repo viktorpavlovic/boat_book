@@ -1,0 +1,121 @@
+.div-admin-res {
+  height: 100%;
+  background: linear-gradient(90deg, rgb(46, 40, 94), rgb(49, 190, 200));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+}
+.div-admin-res h3 {
+  padding: 10px 0;
+}
+.div-admin-res section {
+  width: 100%;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  background: rgb(176, 227, 231);
+  background: linear-gradient(90deg, rgb(0, 0, 0) 100%, rgb(49, 190, 200) 100%);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+.div-admin-res section span {
+  color: red;
+}
+.div-admin-res section h4 {
+  padding: 10px 0;
+}
+.div-admin-res section label {
+  display: flex;
+  justify-content: space-between;
+  background-color: #fff;
+  color: #000000;
+  margin-top: 5px;
+  padding: 5px;
+  text-transform: uppercase;
+  font-size: 15px;
+  cursor: pointer;
+}
+.div-admin-res section label input[type=radio] {
+  accent-color: #03222e;
+}
+
+.form-field {
+  padding: 2px;
+}
+
+.error-handle {
+  font-size: 12px;
+  color: red;
+}
+
+.submit-btn {
+  margin-top: 10px;
+  background: linear-gradient(90deg, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 50%, rgb(31, 30, 142) 100%);
+  color: #fff;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.joke {
+  display: flex;
+  flex-direction: column;
+  padding: 0 !important;
+  margin-top: 0 !important;
+  background: linear-gradient(90deg, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 50%, rgb(0, 0, 0) 100%);
+}
+
+.plus-minus {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 5px;
+}
+.plus-minus button {
+  width: 30px;
+  font-size: 20px;
+}
+
+.time-picker-div {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.time-picker-div div {
+  display: flex;
+  flex-direction: column;
+}
+.time-picker-div div button {
+  padding: 2px 5px;
+  margin-bottom: 2px;
+}
+.time-picker-div p {
+  color: white;
+}
+.time-picker-div input {
+  text-align: center;
+  width: 25px;
+  font-size: 16px;
+}
+
+.clock-inputs {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  gap: 10px;
+}
+.clock-inputs label {
+  background-color: #000000;
+  color: #fff;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}/*# sourceMappingURL=admin-reservation-form.css.map */

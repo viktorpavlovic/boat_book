@@ -1,0 +1,18 @@
+.successModal {
+  min-width: 100vw;
+  min-height: 100vh;
+  position: fixed;
+  top: 0;
+  display: flex;
+  background-color: rgba(0, 0, 0, 0.5);
+  align-items: center;
+  justify-content: center;
+}
+.successModal div {
+  width: 60%;
+  background-color: rgb(4, 187, 4);
+  border-radius: 10px;
+  padding: 10px;
+  font-weight: 600;
+  color: blue;
+}/*# sourceMappingURL=successModal.css.map */

@@ -27,7 +27,7 @@ const TourModal = ({ handleClose, clickedTour }) => {
     (a, b) => a + b.children,
     0
   );
-  console.log(children);
+  // console.log(children);
   return (
     <div className="div-modal-tour" onClick={handleOverlayClick}>
       <div className="modal-container">

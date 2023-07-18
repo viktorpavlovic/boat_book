@@ -1,0 +1,65 @@
+:root {
+  --height:50px;
+}
+
+.boat-toggle-div, .past-toggle-div {
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.boat-toggle-div button, .past-toggle-div button {
+  border: none;
+  padding: 5px;
+  color: rgb(46, 40, 94);
+  background-color: rgb(49, 190, 200);
+}
+.boat-toggle-div button.selected, .past-toggle-div button.selected {
+  background-color: white;
+  box-shadow: 0 0 10px 0 white;
+  color: rgb(46, 40, 94);
+}
+
+.div-admin-tours {
+  color: #fff;
+}
+.div-admin-tours main {
+  margin-inline: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-height: calc((var(--height) + 10px) * 5);
+  overflow-y: scroll;
+  white-space: nowrap;
+}
+.div-admin-tours main section:first-of-type {
+  margin-top: 0;
+}
+.div-admin-tours main section {
+  width: 100%;
+  min-height: var(--height);
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-transform: uppercase;
+  padding: 5px 20px;
+  margin: 5px 0;
+  gap: 5px;
+  background-color: rgb(49, 190, 200);
+  color: rgb(46, 40, 94);
+}
+.div-admin-tours main section p {
+  font-size: 0.9em;
+}
+.div-admin-tours main section button {
+  padding: 5px;
+  background-color: rgb(46, 40, 94);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.div-admin-tours main section .del {
+  background-color: #721717;
+}/*# sourceMappingURL=admin-tours.css.map */

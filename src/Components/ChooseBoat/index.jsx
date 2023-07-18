@@ -9,14 +9,14 @@ import turtleImg from "../../assets/turtle.jpeg";
 import "./choose-boat.scss";
 
 const ChooseBoat = ({ setAvailableDates, setSelectedRide, selectedRide,setSelectedDate }) => {
+  
   const { allDocs, rides } = useContext(applicationContext);
   const boatRef = useRef(null);
   const handleImageClick = (selectedBoat) => {
-    const dates = allDocs
-      ?.filter((e) => e.data.boat === selectedBoat)
+    const dates = allDocs?.filter((e) => e.data.boat === selectedBoat)
       .map((e) => e.data.date);
     setAvailableDates(dates);
-    setSelectedDate(null)
+    // setSelectedDate(null)
     setSelectedRide(()=>rides.find((e)=>selectedBoat === e.data.name))
     setTimeout(() => {
       boatRef.current.scrollIntoView({ behavior: "smooth" });

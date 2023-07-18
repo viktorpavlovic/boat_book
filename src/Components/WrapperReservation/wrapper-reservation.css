@@ -1,0 +1,114 @@
+.div-WrapperReservation {
+  flex-grow: 1;
+  background: linear-gradient(90deg, rgb(46, 40, 94), rgb(49, 190, 200));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+}
+.div-WrapperReservation h3 {
+  padding: 10px 0;
+}
+.div-WrapperReservation .tour-title {
+  padding: 10px 0;
+}
+.div-WrapperReservation .tour-title span {
+  color: red;
+}
+.div-WrapperReservation section {
+  width: 70%;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  background: rgb(176, 227, 231);
+  background: linear-gradient(90deg, rgb(0, 0, 0) 100%, rgb(49, 190, 200) 100%);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+.div-WrapperReservation section span {
+  color: red;
+}
+.div-WrapperReservation section h4 {
+  padding: 10px 0;
+}
+.div-WrapperReservation section h6 {
+  padding: 5px 0;
+}
+.div-WrapperReservation section label {
+  display: flex;
+  justify-content: space-between;
+  background-color: #fff;
+  color: #000000;
+  margin-top: 5px;
+  padding: 5px;
+  cursor: pointer;
+}
+.div-WrapperReservation section label input[type=radio] {
+  accent-color: #03222e;
+}
+
+.form-field {
+  padding: 2px;
+}
+
+.error-handle {
+  font-size: 12px;
+  color: red;
+}
+
+.submit-btn {
+  margin-top: 10px;
+  background: linear-gradient(90deg, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 50%, rgb(31, 30, 142) 100%);
+  color: #fff;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.joke {
+  display: flex;
+  flex-direction: column;
+  padding: 0 !important;
+  margin-top: 0 !important;
+  background: linear-gradient(90deg, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 50%, rgb(0, 0, 0) 100%);
+}
+
+.dateWrapper {
+  overflow: hidden;
+  width: 100%;
+  padding-inline: 20%;
+}
+.dateWrapper > div {
+  margin: 0 auto;
+  padding: 7px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.dateWrapper > div div {
+  width: 80%;
+  margin-block: 2px;
+  text-transform: uppercase;
+  border: 1px solid;
+  color: #000000;
+  cursor: pointer;
+}
+.dateWrapper > div .selected {
+  font-weight: bold;
+  color: #fff;
+}
+.dateWrapper > div p {
+  text-align: center;
+  font-size: 1.2em;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}/*# sourceMappingURL=wrapper-reservation.css.map */

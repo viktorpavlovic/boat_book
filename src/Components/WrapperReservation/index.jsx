@@ -33,6 +33,7 @@ const WrapperReservation = () => {
   const [availableDates, setAvailableDates] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedRide, setSelectedRide] = useState(null);
+  console.log(selectedDate);
   const today = new Date();
   const weekFromNow = new Date();
   weekFromNow.setDate(today.getDate() + 7);
@@ -155,11 +156,11 @@ const WrapperReservation = () => {
           values.children * prices.children,
       }),
     });
-    setSelectedRide(null);
+    // setSelectedRide(null);
     resetForm();
     setSuccess(true);
     setFreshData(!freshData);
-    setSelectedDate(null);
+    // setSelectedDate(null);
   };
   return (
     <div className="div-WrapperReservation">
@@ -169,7 +170,7 @@ const WrapperReservation = () => {
         setSelectedRide={setSelectedRide}
         setSelectedDate={setSelectedDate}
       />
-      {!selectedTour&&
+      {!selectedTour &&
       <h4 className="tour-title">
       Select a tour to continue <span>*</span>
     </h4>}
@@ -217,7 +218,7 @@ const WrapperReservation = () => {
                        type == "daytime" ? "yellow" :  "purple"
             }}
                   ></p> */}
-                    {console.log(date)}
+                    {/* {console.log(date)} */}
                     {dayjs(new Date(date)).format("ddd DD-MM HH:mm")}
                   </p>
                 </div>
@@ -371,7 +372,7 @@ const WrapperReservation = () => {
         </Formik>
       )}
       {success && (
-        <SuccessModal setSuccess={setSuccess} ticketInfo={ticketInfo} />
+        <SuccessModal setSuccess={setSuccess} ticketInfo={ticketInfo} selectedRide={selectedRide} selectedDate={selectedDate} />
       )}
     </div>
   );

@@ -10,136 +10,157 @@ import {
   StyleSheet,
   // Font
 } from "@react-pdf/renderer";
-import ticketImage from '../../assets/ticket.jpg'
+import qrCode from "../../assets/qr-code.jpg";
 import dayjs from "dayjs";
 // import Roboto from "typeface-roboto"
 
-const SuccessModal = ({ setSuccess, ticketInfo }) => {
+const SuccessModal = ({ setSuccess, ticketInfo, selectedRide }) => {
+  console.log(ticketInfo);
+  // setTimeout (() => {console.log(selectedRide)}, 1000)
   
-//   Font.register({family:'Roboto', format:'truetype', src: Roboto
-// })
-const tourDate = new Date(ticketInfo.date)
-const meetingTime = dayjs(new Date(tourDate - 1800000)).format("HH:mm")
+  //   Font.register({family:'Roboto', format:'truetype', src: Roboto
+  // })
+  const tourDate = dayjs(new Date(ticketInfo.date)).format("ddd DD-MM HH:mm");
+  const meetingTime = dayjs(new Date(tourDate - 1800000)).format("HH:mm");
   const styles = StyleSheet.create({
     page: {
-      width: '78%',
-      margin: '0 35px 0 65px',
-      paddingTop: '200px',
+      width: "88%",
+      margin: "0 0 0 20px",
+      paddingTop: "200px",
       justifyContent: "center",
       alignItems: "center",
-      
     },
-    pageBackground: {
-      position: 'absolute',
-        top: 0,
-        left: 0,
-        minWidth: '100%',
-        minHeight: '100%',
-        display: 'block',
-        height: '100%',
-        width: '100%',
-      },
-      fullp:{
-        width:'100%',
-        paddingVertical: '15px',
-        borderTop: '4px solid black',
-        display: 'flex',
-        flexDirection: 'row'
-      },
-      halfp:{
-        width: '40%',
-        margin: '10px',
-      },
-      tourText:{
-        paddingBottom: '5px',
-        fontSize: '9px'
-      },
-      tourTitle:{
-        // fontFamily: 'Roboto',
-        textTransform: 'uppercase',
-        textDecoration: 'underline',
-        paddingBottom: '10px',
-        fontSize: '12px',        
-      },
-      passengersTitleBig:{
-        paddingBottom: '10px',
-        textTransform:'uppercase',
-        fontSize: '16px'        
-      },
-      passengersTextBig:{
-        paddingBottom: '5px',
-        textTransform:'uppercase',
-        fontSize: '9px'
-      },
-      passengersTitleSmall:{
-        // fontFamily: 'Roboto',
-        paddingBottom: '10px',
-        textTransform:'uppercase',
-        fontSize: '12px'        
-      },
-      passengersTextSmall:{
-        textTransform:'uppercase',
-        paddingBottom: '5px',
-        fontSize: '9px'
-      },
-      isPaid:{
-        marginTop: '10px',
-        textTransform:'uppercase',
-        fontSize: '14px'
-      }
-    });
-    const Tiketino =(
-      <Document>
-        <Page size="B6" >
-            <Image src={ticketImage} style={styles.pageBackground}/>
-          <View style={styles.page}>
-            <View style={styles.fullp} >
+    qrCode: {
+      position: "absolute",
+      top: 20,
+      right: 20,
+      width: "35%",
+    },
+    fullp: {
+      width: "100%",
+      paddingVertical: "15px",
+      borderTop: "2px solid black",
+      display: "flex",
+      flexDirection: "column",
+    },
+    fullBottom: {
+      width: "100%",
+      paddingVertical: "15px",
+      borderTop: "2px solid black",
+      display: "flex",
+      flexDirection: "row",
+    },
+    halfp: {
+      width: "100%",
+      // margin: "10px",
+    },
+    // middle: {
+    //   width: "100%"
+    // },
+    meetTitle: {
+      paddingBottom: "10px",
+      fontWeight: "extrabold",
+      fontSize: "16px",
+      position: "absolute",
+      top: 20,
+      left: 0,
+      color: "blue",
+    },
+    meetAddress: {
+      fontSize: "13px",
+      position: "absolute",
+      top: 50,
+      left: 0,
+      width: "50%",
+      textAlign: "center",
+      color: "blue",
+    },
+    meetPointTime: {
+      fontSize: "16px",
+      textDecoration: "underline",
+      position: "absolute",
+      top: 150,
+      left: 0,
+    },
+    tourText: {
+      paddingBottom: '5px',
+      fontSize: '15px'
+    },
+    passengersTitle: {
+      paddingBottom: "10px",
+      textTransform: "uppercase",
+      fontSize: "13px",
+    },
+    passengersText: {
+      paddingBottom: "20px",
+      textTransform: "uppercase",
+      fontSize: "12px",
+    },
+    isPaid: {
+      textTransform: "uppercase",
+      fontSize: "14px",
+      color: 'red',
+    },
+  });
+  const Tiketino = (
+    <Document>
+      <Page size="B6">
+        <View style={styles.page}>
+          <Text style={styles.meetTitle}>Meeting point address:</Text>
+          <Text style={styles.meetAddress} wrap>Main entrance of Kalemegdan park from Knez Mihailova street Pariska 15, Belgrade</Text>
+          <Text style={styles.meetPointTime}>{"Meeting point time: " + meetingTime}</Text>
+          <Image src={qrCode} style={styles.qrCode} />
+          <View style={styles.fullp}>
+
             <View style={styles.halfp}>
-              <Text style={styles.tourTitle}>Meeting point:</Text>
-              <Text style={styles.tourText} wrap>Main entrance of Kalemegdan park, Pariska 15</Text>
-              <Text style={styles.tourText}>{'Meeting time: '+meetingTime}</Text>
-              <Text style={styles.tourText}>{'(30 minutes before the tour)'}</Text>
-              <Text style={styles.isPaid}>{JSON.parse(ticketInfo.isPaid) ? 'Paid in cash' : 'Not paid'}</Text>
+              <Text style={styles.tourText}>{"Tour: " + selectedRide?.data.name}</Text>
+              <Text style={styles.tourText}>{"Room or name: " + ticketInfo.roomNumber}</Text>
+              <Text style={styles.tourText}>{"Day/Date/departure time: " + tourDate}</Text>
             </View>
+            
+          </View>
+          <View style={styles.fullBottom}>
             <View style={styles.halfp}>
-              <Text style={styles.tourTitle}>Tour date/time:</Text>
-              <Text style={styles.tourText}>{ticketInfo.date}</Text>
-              <Text style={styles.tourTitle}>Reservation info:</Text>
-              <Text style={styles.tourText}>{'Room number: '+ticketInfo.roomNumber}</Text>
-              <Text style={styles.tourText}>{'Phone number: '+ticketInfo.phoneNumber}</Text>
-              <Text style={styles.tourText}>{'Total price: '+ticketInfo.ticketPrice+' din.'}</Text>
+              <Text style={styles.passengersTitle}>Adults:</Text>
+              <Text style={styles.passengersText}>{ticketInfo.numberOfPassengers} passengers</Text>
+              <Text style={styles.isPaid}>{JSON.parse(ticketInfo.isPaid) ? "Paid in cash:" : "Not paid:"}</Text> 
+              <Text style={styles.isPaid}>{ticketInfo.ticketPrice + " dinars"}</Text>
             </View>
-            </View>
-            <View style={styles.fullp} >
-              <View style={styles.halfp}>
-                 <Text style={styles.passengersTitleBig}>Adults:</Text>
-                 <Text style={styles.passengersTextBig}>{ticketInfo.numberOfPassengers} passengers</Text>
-              </View>
-              <View style={styles.halfp}>
-                 <Text style={styles.passengersTitleSmall}>Kids 8-12 years:</Text>
-                 <Text style={styles.passengersTextSmall}>{ticketInfo.preteens} passengers</Text>
-                 <Text style={styles.passengersTitleSmall}>Kids 0-7 years:</Text>
-                 <Text style={styles.passengersTextSmall}>{ticketInfo.children} passengers</Text>
-              </View>
+
+            <View style={styles.halfp}>
+              <Text style={styles.passengersTitle}>Kids 8-12 years:</Text>
+              <Text style={styles.passengersText}>
+                {ticketInfo.preteens} passengers
+              </Text>
+              <Text style={styles.passengersTitle}>Kids 0-7 years:</Text>
+              <Text style={styles.passengersText}>
+                {ticketInfo.children} passengers
+              </Text>
             </View>
           </View>
-        </Page>
-      </Document>
-    );
+        </View>
+      </Page>
+    </Document>
+  );
   return (
     <div className="successModal" onClick={() => setSuccess(false)}>
       <div onClick={(e) => e.stopPropagation()}>
         <BlobProvider document={Tiketino}>
-      {({ blob, url, loading, error }) => {
-        return <div>
-          <p>bravo majmune!</p>
-          <a href={url} download='ticket' >download</a><br />
-          <button onClick={() => window.open(url, "_blank")}>
-            open in new tab
-          </button>
-        </div>
-      }}
-    </BlobProvider>
+          {({ blob, url, loading, error }) => {
+            return (
+              <div>
+                <p>bravo majmune!</p>
+                <a href={url} download="ticket">
+                  download
+                </a>
+                <br />
+                <button onClick={() => window.open(url, "_blank")}>
+                  open in new tab
+                </button>
+              </div>
+            );
+          }}
+        </BlobProvider>
       </div>
     </div>
   );

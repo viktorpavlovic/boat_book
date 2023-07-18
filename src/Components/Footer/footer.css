@@ -1,0 +1,18 @@
+.div-footer {
+  background: linear-gradient(90deg, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 50%, rgb(31, 30, 142) 100%);
+  color: #fff;
+  display: flex;
+  height: 8vh;
+  justify-content: center;
+  align-items: center;
+}
+.div-footer a {
+  background-color: transparent;
+  color: white;
+  text-decoration: none;
+  margin-left: 5px;
+}
+.div-footer a:hover {
+  color: yellow;
+  cursor: pointer;
+}/*# sourceMappingURL=footer.css.map */

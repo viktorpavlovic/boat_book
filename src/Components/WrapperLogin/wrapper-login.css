@@ -1,0 +1,28 @@
+.div-wrapper-login {
+  flex-grow: 1;
+  background: linear-gradient(90deg, rgb(46, 40, 94), rgb(49, 190, 200));
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.div-wrapper-login section {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.div-wrapper-login section button {
+  width: 100%;
+  display: block;
+  margin: 0 auto;
+  margin-top: 10px;
+}
+.div-wrapper-login section input {
+  margin-top: 15px;
+  padding: 5px;
+}
+.div-wrapper-login section h1 {
+  color: #fff;
+  text-align: center;
+}/*# sourceMappingURL=wrapper-login.css.map */
